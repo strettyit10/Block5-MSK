@@ -1,0 +1,300 @@
+<title>The Apothecary Keep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one dark arena. Title → boss map grid → battle (boss bar, player bar, question) → result.
+   Deliberately single dark theme, every color set explicitly. */
+:root{
+  --bg:#0d1016; --bg2:#151a23; --surface:#1b212c; --line:#2d3644; --ink:#e9edf2; --muted:#9aa5b3;
+  --acc:#7fc8a9; --acc2:#2f6f58; --gold:#e3b95c; --hp:#e2574c; --you:#5cc98a; --ok:#5cc98a; --ok-bg:#15301f; --bad:#f07b72; --bad-bg:#3a1a18;
+  --f-disp:"Cinzel", "Trajan Pro", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:radial-gradient(1200px 600px at 50% -10%, color-mix(in srgb, var(--acc2) 35%, transparent), transparent 70%), var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-disp);margin:0;letter-spacing:.04em;text-wrap:balance;line-height:1.15}
+.meta{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.btn{font:700 .9rem var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 16px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.btn.primary{background:var(--acc);color:#0d1016;border-color:var(--acc)}
+.btn.gold{background:var(--gold);color:#1a1405;border-color:var(--gold)}
+.btn:focus-visible,.opt:focus-visible,.boss:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* title */
+.hero{display:grid;gap:14px;text-align:center;justify-items:center;padding-block:28px 8px}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;color:var(--acc);text-shadow:0 0 24px color-mix(in srgb, var(--acc) 40%, transparent)}
+.hero p{max-width:60ch;color:var(--muted);margin:0}
+.counts{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.counts b{display:block;font:800 1.8rem var(--f-disp);color:var(--ink)}
+.counts span{font:500 .7rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;width:100%;max-width:640px}
+.mode{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;text-align:left;cursor:pointer;color:var(--ink);font:inherit}
+.mode:hover{border-color:var(--acc)}
+.mode h3{font-size:1.1rem;color:var(--acc)}
+.mode p{margin:0;color:var(--muted);font-size:.88rem}
+.coop{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;max-width:420px;width:100%;text-align:left}
+.coop label{display:grid;gap:4px;font-size:.85rem;color:var(--muted)}
+.coop input{font:inherit;background:var(--bg2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.legend-types{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:.82rem;color:var(--muted)}
+
+/* map */
+.maphead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:10px}
+.maphead h2{font-size:1.6rem;color:var(--acc)}
+.prog{height:8px;background:var(--bg2);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc))}
+.bossgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.boss{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:56px 1fr;gap:10px 12px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;position:relative}
+.boss:hover:not([disabled]){border-color:var(--acc)}
+.boss[disabled]{opacity:.5;cursor:not-allowed}
+.boss .sig{grid-row:1/3;width:56px;height:56px}
+.boss h3{font-size:.98rem}
+.boss .ep{font-size:.78rem;color:var(--muted);line-height:1.3}
+.boss .lo{grid-column:1/3;font:500 .7rem var(--f-mono);color:var(--acc);letter-spacing:.04em}
+.boss .hpmini{grid-column:1/3;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.boss .hpmini i{display:block;height:100%;background:var(--hp)}
+.boss.dead{border-color:var(--gold)}
+.boss.dead .hpmini i{background:var(--gold)}
+.boss .slain{position:absolute;top:-10px;right:12px;background:var(--bg);padding:1px 8px;border:1px solid var(--gold);border-radius:999px;font:700 .68rem var(--f-mono);letter-spacing:.08em;color:var(--gold)}
+.boss.final{grid-column:1/-1;border-color:color-mix(in srgb, var(--gold) 60%, var(--line))}
+.maptools{display:flex;gap:8px;flex-wrap:wrap}
+
+/* battle */
+.arena{display:grid;gap:12px}
+.bars{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+@media (max-width:640px){ .bars{grid-template-columns:1fr} .vs{display:none} }
+.fighter{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;min-width:0}
+.fighter .sig{width:64px;height:64px}
+.fighter h3{font-size:1.05rem}
+.fighter .ep{font-size:.78rem;color:var(--muted)}
+.hpbar{height:12px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
+.hpbar i{display:block;height:100%;transition:width .35s ease}
+.hpbar.bh i{background:linear-gradient(90deg,#9b2d25,var(--hp))}
+.hpbar.you i{background:linear-gradient(90deg,#2a7a4d,var(--you))}
+.hptxt{font:500 .72rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.vs{font:800 1.2rem var(--f-disp);color:var(--gold)}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px;position:relative;overflow:hidden}
+.qtop{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.tag.t2{color:var(--gold);border-color:color-mix(in srgb, var(--gold) 50%, var(--line))}
+.tag.s1{color:var(--acc);border-color:color-mix(in srgb, var(--acc) 50%, var(--line))}
+.combo{font:800 .95rem var(--f-disp);color:var(--gold)}
+.turn{font:600 .85rem var(--f-body);color:var(--acc)}
+.stem{font:600 1.05rem/1.55 var(--f-body);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg2);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt .k{font:700 .8rem var(--f-mono);color:var(--acc);min-width:1.2em}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt[disabled]{cursor:default}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg);border:1px solid color-mix(in srgb, var(--ok) 40%, transparent)}
+.fb.bad{background:var(--bad-bg);border:1px solid color-mix(in srgb, var(--bad) 40%, transparent)}
+.fb .v{font:800 1rem var(--f-disp);letter-spacing:.05em}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.flash{position:absolute;inset:0;pointer-events:none;display:grid;place-items:center;font:800 3rem var(--f-disp);letter-spacing:.1em;opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  .shake{animation:shake .35s}
+  @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+  .flash.go{animation:fl .7s ease-out}
+  @keyframes fl{0%{opacity:0;transform:scale(.8)}25%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.15)}}
+}
+
+/* result */
+.result{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px}
+.result h2{font-size:2rem}
+.result.win h2{color:var(--gold)} .result.lose h2{color:var(--bad)}
+.review{display:grid;gap:10px}
+.review article{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:6px}
+.review .ans{color:var(--ok);font-weight:600}
+.scores{display:flex;gap:20px;flex-wrap:wrap}
+.scores b{display:block;font:800 1.4rem var(--f-disp)}
+.scores span{font:500 .7rem var(--f-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+</style>
+
+<div class="wrap">
+  <section id="scrTitle" class="hero">
+    <p class="meta">HoyaDocs · MSK Block 5 · <span id="lecName"></span></p>
+    <h1 id="gTitle"></h1>
+    <p id="gTag"></p>
+    <div class="counts">
+      <div><b id="cQ">0</b><span>Questions</span></div>
+      <div><b id="cB">0</b><span>Bosses</span></div>
+      <div><b id="cL">0</b><span>Learning objectives</span></div>
+    </div>
+    <div class="legend-types"><span class="tag t2">2nd order</span> multi-step reasoning <span class="tag s1">Step 1</span> clinical vignette</div>
+    <div class="modes">
+      <button class="mode" type="button" id="soloBtn"><h3>Solo campaign</h3><p>Your HP, your record. Wrong answers return later in the fight.</p></button>
+      <button class="mode" type="button" id="coopBtn"><h3>Two-player co-op</h3><p>Alternate questions on one boss with a shared HP pool.</p></button>
+    </div>
+    <form class="coop" id="coopForm" hidden>
+      <p class="meta">Name your party</p>
+      <label for="p1">Player 1<input id="p1" value="Player 1" maxlength="20"></label>
+      <label for="p2">Player 2<input id="p2" value="Player 2" maxlength="20"></label>
+      <div class="row"><button class="btn" type="button" id="coopBack">Back</button><button class="btn primary" type="submit">Enter the fight</button></div>
+    </form>
+  </section>
+
+  <section id="scrMap" hidden>
+    <div class="maphead">
+      <div><p class="meta" id="mapMode">Solo campaign</p><h2>Boss map</h2><p class="hint" id="mapProg"></p></div>
+      <div class="maptools"><button class="btn" type="button" id="modeBtn">Change mode</button><button class="btn" type="button" id="resetBtn">Reset progress</button></div>
+    </div>
+    <div class="prog" style="margin:10px 0 16px"><i id="progBar" style="width:0%"></i></div>
+    <div class="bossgrid" id="bossGrid"></div>
+    <p class="hint" style="margin-top:12px">Progress is saved in this browser only. A boss is defeated only when every one of its questions has been answered correctly. The final boss unlocks when all others fall.</p>
+  </section>
+
+  <section id="scrBattle" class="arena" hidden>
+    <div class="row"><button class="btn" type="button" id="retreatBtn">← Retreat to map</button><span class="combo" id="combo"></span></div>
+    <div class="bars">
+      <div class="fighter"><div id="bSig"></div><div style="min-width:0"><h3 id="bName"></h3><div class="ep" id="bEp"></div><div class="hpbar bh"><i id="bHp"></i></div><div class="hptxt" id="bHpT"></div></div></div>
+      <div class="vs">VS</div>
+      <div class="fighter"><div id="ySig"></div><div style="min-width:0"><h3 id="yName">You</h3><div class="ep" id="yEp"></div><div class="hpbar you"><i id="yHp"></i></div><div class="hptxt" id="yHpT"></div></div></div>
+    </div>
+    <div class="qcard" id="qcard">
+      <div class="flash" id="flash"></div>
+      <div class="qtop"><div class="tags" id="qTags"></div><span class="turn" id="turn"></span></div>
+      <p class="stem" id="stem"></p>
+      <div class="opts" id="opts"></div>
+      <div id="fb"></div>
+      <div class="row"><span class="hint">Keys A–E or 1–5 · Enter for next</span><button class="btn primary" type="button" id="nextBtn" hidden>Next strike →</button></div>
+    </div>
+  </section>
+
+  <section id="scrResult" hidden></section>
+
+  <footer>HoyaDocs · <span id="fTitle"></span> · Updated September 29, 2026 · Revision 1.0. Questions are written from the in-house learning objectives; Step 1 vignettes may reach slightly past the lecture.</footer>
+</div>
+
+<script>
+var G = {"key": "ph", "title": "The Apothecary Keep", "lecture": "MSK Pharmacology · MSK12 · MSK22 · MSK24", "accent": "#7fc8a9", "accent2": "#2f6f58", "tagline": "Fourteen bosses guard the fourteen pharmacology learning objectives. Each falls only when every question it holds is answered correctly.", "final": {"name": "The Grand Formulary", "epithet": "Every drug, every dose, every danger", "n": 15}, "bosses": [{"lo": "12.1", "name": "The Remodeling Warden", "epithet": "Keeper of the RANKL gate", "los": "Bone remodeling and where drugs act", "q": [["2", "RANKL made by osteoblasts binds RANK on osteoclast precursors. Which molecule acts as the natural decoy that blocks it?", ["Sclerostin", "Osteoprotegerin (OPG)", "Wnt", "Calcitonin", "PTHrP"], 1, "OPG binds RANKL and prevents RANK activation. Estrogen raises OPG and lowers RANKL."], ["2", "Which cell makes sclerostin, and what does sclerostin do?", ["Osteoclast; stimulates resorption", "Osteocyte; inhibits Wnt signaling and brakes bone formation", "Osteoblast; activates RANK", "Chondrocyte; mineralizes matrix", "Parathyroid chief cell; raises calcium"], 1, "Osteocyte-derived sclerostin inhibits Wnt → less bone formation. Romosozumab blocks it."], ["S1", "A 66-year-old woman has a T-score of −2.7 at the hip. Serum calcium, phosphate, PTH and alkaline phosphatase are all normal. Which process best explains her disease?", ["Defective mineralization of osteoid", "Resorption exceeding formation in remodeling units", "Excess PTH-driven osteoclast activity", "Disorganized woven bone from osteoclast overactivity", "Deficient type I collagen synthesis"], 1, "Osteoporosis = remodeling imbalance (resorption > formation) with normal labs. Osteomalacia has abnormal Ca/phosphate/ALP; Paget has ↑ ALP."], ["2", "What is the clinical goal of osteoporosis therapy?", ["Normalize the T-score", "Raise serum calcium", "Prevent fractures", "Lower alkaline phosphatase", "Increase cortical thickness on X-ray"], 2, "Raising BMD matters, but the goal is fewer fractures."], ["2", "Which non-drug foundation is recommended for every patient?", ["Bed rest and calcium 3000 mg/day", "Resistance and balance training, vitamin D ≥1000 IU, total calcium ~1200 mg, adequate protein", "Vitamin A supplements and low protein", "High-dose vitamin D only", "Avoid all weight-bearing exercise"], 1, "Strength ≥2 days/week, daily balance, calcium 1200 mg, vitamin D ≥1000 IU, protein 1–1.5 g/kg → fewer falls and fractures."]]}, {"lo": "12.2", "name": "The Mechanism Hydra", "epithet": "Two heads: resorb and rebuild", "los": "Classify osteoporosis drugs by mechanism", "q": [["2", "Nitrogen-containing bisphosphonates such as alendronate inhibit which enzyme in osteoclasts?", ["HMG-CoA reductase", "Farnesyl pyrophosphate synthase", "Dihydrofolate reductase", "Carbonic anhydrase", "Cathepsin K"], 1, "N-BPs block FPPS in the mevalonate pathway → impaired cytoskeleton → osteoclast apoptosis."], ["2", "Denosumab is best described as:", ["A PTHrP analog", "A fully human monoclonal antibody against RANKL", "An anti-sclerostin antibody", "A soluble RANK decoy", "A calcitonin analog"], 1, "Denosumab binds RANKL → blocks osteoclast formation, function and survival. SC every 6 months."], ["S1", "A patient receives daily subcutaneous injections of a drug that builds bone even though chronic hyperparathyroidism causes bone loss. Why does this drug build bone?", ["It blocks RANKL", "Intermittent PTH-receptor stimulation preferentially activates osteoblasts", "It inhibits sclerostin", "It is an estrogen agonist in bone", "It lowers serum calcium"], 1, "PTH paradox: continuous = catabolic; intermittent (teriparatide, abaloparatide) = anabolic."], ["2", "Which anabolic drug both increases bone formation AND decreases resorption?", ["Teriparatide", "Abaloparatide", "Romosozumab", "Raloxifene", "Zoledronic acid"], 2, "Romosozumab (anti-sclerostin) has a dual effect. PTH analogs raise both formation and resorption."], ["2", "Which statement about antiresorptive vs anabolic agents is correct?", ["Antiresorptives restore trabecular microarchitecture", "Only anabolic agents rebuild microarchitecture", "Anabolics lower BMD at first", "Bisphosphonates are anabolic", "Raloxifene is anabolic in bone"], 1, "Antiresorptives stabilize or modestly raise BMD; only anabolics restore structure."]]}, {"lo": "12.3", "name": "The Warning Wraith", "epithet": "Jaw, thigh, clot and heart", "los": "Indications, contraindications and adverse effects", "q": [["S1", "A 70-year-old on hemodialysis receives her first denosumab injection. Two weeks later she has perioral numbness and carpopedal spasm. Cause?", ["Hypercalcemia", "Severe hypocalcemia", "Hypokalemia", "Osteonecrosis of the jaw", "Acute-phase reaction"], 1, "Denosumab in advanced CKD carries a boxed warning for severe hypocalcemia."], ["S1", "A woman takes alendronate each morning lying back down with a cup of coffee. She develops retrosternal pain on swallowing. Best explanation?", ["Esophageal candidiasis", "Pill esophagitis from improper administration", "Achalasia", "Osteonecrosis of the jaw", "Acute-phase reaction"], 1, "Oral BPs are taken with 8 oz plain water on an empty stomach while staying upright."], ["S1", "A 58-year-old starts a daily oral osteoporosis drug that also lowers her risk of ER+ breast cancer. Three months later she has a swollen, painful calf. Which drug?", ["Alendronate", "Raloxifene", "Denosumab", "Teriparatide", "Calcitonin"], 1, "Raloxifene: VTE, hot flashes, leg cramps; reduces invasive breast cancer; protects the spine only."], ["2", "Which drug carries a boxed warning for MI, stroke and cardiovascular death?", ["Teriparatide", "Romosozumab", "Denosumab", "Ibandronate", "Estrogen/bazedoxifene"], 1, "Avoid romosozumab within 1 year of MI or stroke."], ["2", "Why is teriparatide avoided in Paget disease, open epiphyses and prior skeletal radiation?", ["Risk of osteonecrosis of the jaw", "Theoretical osteosarcoma risk", "Risk of severe hypocalcemia", "Risk of VTE", "Risk of atypical femoral fracture"], 1, "Osteosarcoma in rats → avoid in any condition with higher osteosarcoma risk (including unexplained ↑ ALP)."], ["2", "The rare serious pair shared by potent antiresorptives (bisphosphonates, denosumab) is:", ["VTE and stroke", "Osteonecrosis of the jaw and atypical femoral fracture", "Hypercalcemia and kidney stones", "Osteosarcoma and hypercalcemia", "MI and CV death"], 1, "\"Jaw and thigh.\""]]}, {"lo": "12.4", "name": "The Risk Stratifier", "epithet": "Judge of T-scores and fractures", "los": "Choosing initial therapy by fracture risk", "q": [["S1", "A 52-year-old woman 1 year past her last period has frequent hot flashes. Spine T-score is −1.8; no fractures, no VTE or breast cancer history. Best option to prevent bone loss?", ["Zoledronic acid", "Estrogen therapy", "Romosozumab", "Teriparatide", "Denosumab"], 1, "Estrogen prevents rapid early-menopausal loss, especially with vasomotor symptoms."], ["S1", "A 74-year-old woman had a vertebral fracture 4 months ago; T-score is −3.4. She had an MI 5 months ago. Best initial therapy?", ["Romosozumab", "Alendronate alone", "Teriparatide followed by an antiresorptive", "Raloxifene", "Observation"], 2, "Very high risk → anabolic first; romosozumab is avoided within 1 year of MI → PTH analog, then antiresorptive."], ["S1", "A 68-year-old uninsured woman has a T-score of −2.6 and no fractures. Normal kidneys and calcium. Best initial therapy?", ["Romosozumab", "Oral alendronate", "Ibandronate", "Teriparatide", "Calcitonin"], 1, "High risk → oral bisphosphonate (generic, cheap). Ibandronate is vertebral-only → not first line."], ["2", "Which finding places a patient in the VERY HIGH risk group?", ["T-score −1.5 with no fracture", "A hip fracture 6 years ago only", "A vertebral fracture within the past year", "Age 55 with early menopause", "T-score −2.0 with low FRAX"], 2, "Recent fracture (1–2 yr), multiple fractures, T < −3.0, or fracture on therapy = very high → anabolic first."], ["2", "What is the single strongest predictor of a future fracture?", ["Low calcium intake", "Prior fragility fracture", "Female sex", "Low body weight", "Smoking"], 1, "Fractures beget fractures; age is next."], ["S1", "A woman on an aromatase inhibitor for breast cancer has osteoporosis and cannot tolerate oral bisphosphonates. Calcium and kidney function are normal. Which drug fits best?", ["Raloxifene", "Estrogen", "Denosumab", "Teriparatide", "Calcitonin"], 2, "Denosumab is used with aromatase inhibitors and androgen deprivation; estrogen is contraindicated after breast cancer."]]}, {"lo": "12.5", "name": "The Rebound Revenant", "epithet": "It returns when the dose is missed", "los": "Why sequencing matters", "q": [["S1", "A woman on denosumab for 6 years stops without further treatment. Ten months later she has several new vertebral fractures. What should have been done?", ["Nothing; any drug does this", "A drug holiday was appropriate", "Follow-on bisphosphonate therapy", "Switch to teriparatide immediately", "Add calcitonin"], 2, "Stopping denosumab → RANKL rebound → multiple vertebral fractures. Always follow with a bisphosphonate."], ["2", "A patient completes 2 years of teriparatide. What must come next?", ["Nothing; gains are permanent", "An antiresorptive agent", "Romosozumab", "A drug holiday", "Another 2 years of teriparatide"], 1, "Anabolic gains are lost unless consolidated by an antiresorptive."], ["2", "For which drug class is a planned \"drug holiday\" appropriate?", ["Denosumab", "Bisphosphonates", "Estrogen", "Romosozumab", "PTH analogs"], 1, "Only bisphosphonates, thanks to skeletal retention and slow offset."], ["2", "What happens if a patient switches from denosumab directly to teriparatide?", ["Larger BMD gains than either alone", "Transient bone loss, especially at the hip", "Severe hypercalcemia", "No change in effect", "Osteonecrosis of the jaw"], 1, "Denosumab → PTH analog causes delayed/attenuated effect or bone loss at cortical sites."], ["2", "Why give the anabolic FIRST in a very-high-risk patient?", ["It is cheaper", "An anabolic given after an antiresorptive has a weaker effect", "Antiresorptives cause hypercalcemia", "Anabolics have holidays", "Antiresorptives are contraindicated after fracture"], 1, "Build first, then protect."]]}, {"lo": "12.6", "name": "The Chronic Keeper", "epithet": "The disease that never retires", "los": "Osteoporosis as a lifelong, tailored disease", "q": [["S1", "A 67-year-old on alendronate for 5 years now has a T-score of −2.0 and no fractures. Next step?", ["Continue indefinitely", "Consider a drug holiday with reassessment", "Switch to ibandronate", "Add denosumab", "Stop all therapy permanently"], 1, "After 3–5 years at lower risk, a temporary holiday — a holiday, not retirement."], ["2", "After treatment raises a T-score from −2.8 to −2.2, the diagnosis should be:", ["Changed to osteopenia", "Kept as osteoporosis", "Removed", "Changed to osteomalacia", "Reclassified as normal"], 1, "Keeping the diagnosis avoids false security, stopping therapy and losing coverage."], ["2", "How do BMD trends differ between bisphosphonates and denosumab over time?", ["Both plateau at 1 year", "BPs plateau after ~4–5 years; denosumab keeps rising up to 10 years", "Denosumab plateaus; BPs keep rising", "Both fall after 3 years", "Neither changes BMD"], 1, "Denosumab: no plateau for up to 10 years."], ["2", "Osteoporosis is best compared with which disease in management style?", ["Strep pharyngitis", "Hypertension", "Appendicitis", "Influenza", "Ankle sprain"], 1, "Chronic, lifelong, treated not cured; normal numbers on therapy do not mean the disease is gone."], ["2", "Which factor does NOT belong in tailoring an osteoporosis plan?", ["Baseline fracture risk", "Comorbidities such as CKD or prior VTE", "Patient preference", "Blood type", "Menopausal stage"], 3, "Tailor to risk, fracture history, comorbidities, age/menopause and preference."]]}, {"lo": "22.1", "name": "The Disease Modifier", "epithet": "Slows the erosion, not just the pain", "los": "Why DMARDs and biologics are used", "q": [["2", "Why add a DMARD rather than relying on NSAIDs or steroids in RA?", ["DMARDs work faster", "DMARDs slow joint damage; NSAIDs/steroids only relieve symptoms", "DMARDs have no toxicity", "NSAIDs are contraindicated in RA", "Steroids worsen erosions immediately"], 1, "Disease-modifying = prevents erosions and deformity."], ["2", "What distinguishes a biologic from a conventional DMARD?", ["Biologics are oral", "Biologics are proteins from living material that block one cytokine or receptor and must be injected", "Biologics inhibit purine synthesis", "Biologics are cheaper", "Biologics never cause infection"], 1, "Biologics: injected, expensive, targeted, immunogenic."], ["2", "The suffix \"-ximab\" (e.g., infliximab, rituximab) indicates:", ["Human mAb", "Humanized mAb", "Chimeric mouse/human mAb", "Fusion receptor", "Receptor antagonist"], 2, "xi = mixed. -zumab humanized, -umab human, -cept fusion receptor, -ra receptor antagonist."], ["2", "About what fraction of RA patients are controlled with oral DMARDs alone?", ["10%", "25%", "50%", "90%", "100%"], 2, "About half; biologics fill in the rest. Methotrexate is the cornerstone."], ["S1", "A 45-year-old woman has symmetric MCP and wrist swelling with 2 hours of morning stiffness despite naproxen. Anti-CCP is positive. Best next drug?", ["Long-term high-dose prednisone", "Low-dose weekly methotrexate", "Allopurinol", "Colchicine", "Etanercept as monotherapy before any DMARD"], 1, "Methotrexate is first-line DMARD in RA; add a biologic if still active."]]}, {"lo": "22.2", "name": "The Target Keeper", "epithet": "Measure, adjust, measure again", "los": "Treat to target in RA", "q": [["2", "What does \"treat to target\" mean in RA?", ["Treat until symptoms vanish once, then stop", "Measure disease activity and adjust therapy until low activity or remission with low toxicity", "Use the most potent drug first", "Treat only abnormal labs", "Use steroids until ESR is normal"], 1, "Like a thermostat: measure (DAS28), adjust, re-measure."], ["2", "Which RA activity score uses only patient-reported function, pain and global health (no joint count)?", ["DAS28", "ACR20", "RAPID3", "CASPAR", "FRAX"], 2, "RAPID3 is patient-reported; DAS28 uses tender/swollen joints + ESR/CRP + global."], ["2", "An ACR20 response means:", ["20% of joints are swollen", "≥20% improvement in tender and swollen joints plus 3 of 5 other measures", "ESR fell by 20 mm", "20 weeks of remission", "A 20-point DAS28 drop"], 1, "ACR50/70 are the same at 50%/70%."], ["S1", "A patient's RA never improved on 6 months of an anti-TNF agent at full dose. Best approach?", ["Increase the anti-TNF dose", "Switch to another anti-TNF", "Choose a different drug class and review the diagnosis", "Stop all therapy", "Add a second anti-TNF"], 2, "Primary failure → new class + recheck diagnosis."], ["S1", "A patient's RA responded well to infliximab for 2 years, then flared despite adherence. Most likely cause?", ["Wrong diagnosis", "Anti-drug antibodies (secondary failure)", "TB reactivation", "Drug-induced lupus", "Primary failure"], 1, "Secondary failure → ↑ dose/shorten interval, switch within class or change target."]]}, {"lo": "22.3", "name": "The Antibody Eater", "epithet": "It learns the drug and devours it", "los": "Anti-drug antibodies", "q": [["2", "Which dosing pattern most raises the risk of anti-drug antibodies?", ["Continuous scheduled dosing", "Intermittent stop-start dosing", "Co-therapy with methotrexate", "Higher doses", "PEGylated formulation"], 1, "Stop-start dosing, low doses, chimeric structure and no immunosuppressant raise ADAb risk."], ["2", "Which anti-TNF is most immunogenic?", ["Etanercept", "Adalimumab", "Infliximab", "Certolizumab pegol", "Golimumab"], 2, "Infliximab is a chimeric IV mAb (ADAb in 6–61%)."], ["2", "What is the best way to reduce anti-drug antibodies against a biologic?", ["Give it only during flares", "Co-prescribe methotrexate or azathioprine and dose regularly", "Lower the dose", "Switch to a chimeric antibody", "Add NSAIDs"], 1, "Give the biologic a \"bodyguard.\""], ["S1", "A man with tophaceous gout refractory to allopurinol receives IV pegloticase. After an early dramatic drop, his serum urate climbs back up. What happened?", ["Tumor lysis", "Neutralizing anti-drug antibodies", "Renal failure", "Xanthine oxidase induction", "Dietary purine excess"], 1, "About 50% form antibodies; monitor uric acid — if it is not low, the drug is not working."], ["2", "Anti-drug antibodies usually cause which failure pattern?", ["Primary failure", "Secondary failure", "Toxicity failure", "Immediate anaphylaxis only", "No change in efficacy"], 1, "Worked, then stopped working."]]}, {"lo": "22.4", "name": "The Toxicity Titan", "epithet": "Liver, retina, marrow and TB", "los": "Key toxicities of DMARDs and biologics", "q": [["S1", "Before starting adalimumab for RA, which test is mandatory?", ["Ophthalmologic exam", "TB screening (PPD or IGRA)", "Pulmonary function tests", "TPMT activity", "Urinalysis"], 1, "Anti-TNF → TB reactivation (and HBV). Screen first."], ["2", "Hydroxychloroquine requires periodic monitoring of:", ["Liver enzymes", "The retina", "Pulmonary function", "Serum uric acid", "Hearing"], 1, "Retinal toxicity → regular eye exams."], ["S1", "A patient on leflunomide wants to become pregnant. Liver enzymes are mildly elevated. What is used to eliminate the drug quickly?", ["Leucovorin", "Cholestyramine", "Mesna", "N-acetylcysteine", "Folic acid"], 1, "Leflunomide (DHODH inhibitor) has a very long half-life from enterohepatic recycling → cholestyramine washout."], ["S1", "After rituximab for RA, a patient develops progressive hemiparesis and cognitive decline; MRI shows multifocal white-matter lesions. Cause?", ["Multiple sclerosis", "PML from JC virus", "Hepatitis B reactivation", "Drug-induced lupus", "Stroke from hypertension"], 1, "Rituximab (anti-CD20): PML, HBV reactivation, infusion reactions."], ["2", "Which drug is a CTLA4-Ig fusion protein that binds CD80/86 and blocks CD28 co-stimulation?", ["Tocilizumab", "Abatacept", "Anakinra", "Belimumab", "Rituximab"], 1, "Abatacept: slow onset, well tolerated, moderately effective in RA."], ["2", "Methotrexate should be avoided in which setting?", ["Hypertension", "Renal insufficiency", "Glaucoma", "Hypothyroidism", "Gout"], 1, "Renally cleared → toxicity; also hepatotoxicity, cytopenias, pneumonitis; give folate."], ["2", "Which anti-TNF does NOT treat Crohn disease or uveitis?", ["Infliximab", "Adalimumab", "Etanercept", "Certolizumab", "Golimumab"], 2, "Only monoclonal antibodies work for IBD and uveitis; etanercept is a fusion receptor."]]}, {"lo": "24.1", "name": "The Mimic Queen", "epithet": "A thousand faces of inflammation", "los": "Presentations of prototypic inflammatory diseases", "q": [["S1", "A 64-year-old man has bilateral dull great-toe pain worse with walking, better with rest, without redness or warmth. Uric acid is 8.4. Most likely cause?", ["Acute gout", "Osteoarthritis", "Septic arthritis", "Pseudogout", "Rheumatoid arthritis"], 1, "Mechanical pattern = OA; hyperuricemia alone does not make it gout."], ["S1", "A 24-year-old has a violaceous eyelid rash, nailfold changes, trouble climbing stairs, a nasal voice and CPK 2000. Diagnosis?", ["SLE", "Dermatomyositis", "Polymyalgia rheumatica", "Myasthenia gravis", "Hypothyroid myopathy"], 1, "Heliotrope rash + proximal weakness + ↑ CPK. Over 50 → screen for cancer."], ["S1", "A 68-year-old has 3 months of bilateral shoulder and hip girdle pain and stiffness, worse in the morning. ESR 60, RF and ANA negative, CPK normal. Diagnosis?", ["Polymyositis", "Polymyalgia rheumatica", "Rheumatoid arthritis", "Fibromyalgia", "Osteoarthritis"], 1, "PMR: >50, girdle pain, ↑ ESR, normal CPK; ask about GCA symptoms."], ["S1", "A 55-year-old has recurrent sinusitis, a saddle-nose deformity, lacrimal gland swelling and hematuria with RBC casts. Which antibody is expected?", ["Anti-SSA/SSB", "c-ANCA (anti-PR3)", "Anti-dsDNA", "Anti-CCP", "Anti-Jo-1"], 1, "GPA: upper airway + lung + kidney, c-ANCA/PR3."], ["S1", "A 40-year-old has bilateral uveitis with synechiae, a purple raised facial rash, PIP swelling, mild hypercalcemia and bilateral hilar adenopathy. Diagnosis?", ["SLE", "Sarcoidosis", "GPA", "Psoriatic arthritis", "Tuberculosis"], 1, "Non-caseating granulomas; lupus pernio; ↑ 1α-hydroxylase → hypercalcemia."], ["S1", "A 35-year-old has non-healing \"toenail fungus,\" scalp and gluteal-cleft plaques, sausage-shaped toes and RF-negative DIP arthritis. Diagnosis?", ["Rheumatoid arthritis", "Psoriatic arthritis", "Gout", "Reactive arthritis", "Osteoarthritis"], 1, "Nail pitting/onycholysis + dactylitis + DIP = psoriatic arthritis."]]}, {"lo": "24.2", "name": "The Alkylator", "epithet": "Cystitis, cancer, can't conceive", "los": "Mechanisms of rheumatologic therapies", "q": [["2", "Which drug protects the bladder during cyclophosphamide therapy?", ["Leucovorin", "Mesna", "Allopurinol", "Folic acid", "Amifostine"], 1, "Mesna binds acrolein → less hemorrhagic cystitis and bladder cancer."], ["2", "Mycophenolate mofetil inhibits which enzyme?", ["Dihydrofolate reductase", "Inosine monophosphate dehydrogenase", "Dihydroorotate dehydrogenase", "Xanthine oxidase", "Calcineurin"], 1, "IMPDH → ↓ de novo guanosine; lymphocytes rely on it."], ["S1", "A patient on azathioprine for lupus maintenance is started on allopurinol for gout and develops severe pancytopenia. Why?", ["Allopurinol is marrow-toxic alone", "Xanthine oxidase inhibition raises 6-MP levels", "Azathioprine induces TPMT", "Drug-induced lupus", "Folate deficiency"], 1, "Xanthine oxidase metabolizes 6-MP; blocking it → toxic levels. Check TPMT too."], ["S1", "A 30-year-old treated with prednisone for 18 months for lupus nephritis now has groin pain; MRI shows femoral head necrosis. Principal cause?", ["Lupus vasculitis", "Genetics", "Monoclonal antibody therapy", "Corticosteroid therapy", "Caloric excess"], 3, "Long-term glucocorticoids → avascular necrosis of the hip."], ["2", "Which lupus drug blocks the type I interferon receptor?", ["Belimumab", "Anifrolumab", "Voclosporin", "Rituximab", "Hydroxychloroquine"], 1, "Anifrolumab helps skin and joints; belimumab targets BLyS/BAFF."], ["2", "Which glucocorticoid toxicity is NOT expected with long-term use?", ["Cataracts", "Osteoporosis", "Hyperglycemia", "Avascular necrosis", "Hypoglycemia"], 4, "Steroids cause hyperglycemia, not hypoglycemia."]]}, {"lo": "24.3", "name": "The Modulator", "epithet": "The right drug for each disease", "los": "DMARDs and biologics in systemic inflammatory illness", "q": [["S1", "A 20-year-old woman has Raynaud, a photosensitive rash, arthralgia and ANA 1:1280 with normal kidneys. Best first therapy?", ["Cyclophosphamide", "Hydroxychloroquine", "Etanercept", "Allopurinol", "Rituximab"], 1, "Mild SLE → hydroxychloroquine, maintained in almost all lupus patients."], ["S1", "A 22-year-old with lupus develops proteinuria, RBC casts, low complement and high anti-dsDNA. Best therapy?", ["Hydroxychloroquine alone", "Prednisone plus mycophenolate mofetil", "Propranolol", "NSAIDs", "Anti-TNF"], 1, "Lupus nephritis → steroids + MMF or cyclophosphamide; continue HCQ."], ["S1", "A 55-year-old with GPA and RBC casts needs induction therapy. Best regimen?", ["Hydroxychloroquine", "Glucocorticoids plus rituximab", "NSAIDs alone", "Allopurinol", "Etanercept alone"], 1, "Steroids + rituximab or cyclophosphamide; PCP prophylaxis."], ["2", "Why is anti-TNF therapy usually avoided in SLE?", ["It causes hypercalcemia", "It can induce lupus", "It is nephrotoxic", "It lowers complement", "It causes retinal toxicity"], 1, "Anti-TNF can cause drug-induced lupus."], ["S1", "A young man with axial spondyloarthritis has persistent inflammatory back pain despite two NSAIDs. He also has recurrent anterior uveitis. Best next drug?", ["Etanercept", "Adalimumab", "Methotrexate", "Hydroxychloroquine", "Prednisone long-term"], 1, "Monoclonal anti-TNF treats SpA and also uveitis/IBD; etanercept does not help uveitis."], ["2", "Which biologic is used for giant cell arteritis associated with PMR?", ["Anakinra", "Tocilizumab", "Belimumab", "Abatacept", "Pegloticase"], 1, "Anti-IL-6 receptor."]]}, {"lo": "24.4", "name": "The Case Conference", "epithet": "Diagnose, treat, then watch", "los": "Therapeutic approach to clinical cases", "q": [["S1", "A 29-year-old hypermobile dancer with sacroiliitis on MRI stops adalimumab and weeks later develops bloody diarrhea with neutrophilic colitis. Best explanation?", ["Infectious colitis from the drug", "IBD associated with spondyloarthritis, previously treated by anti-TNF", "C. difficile from NSAIDs", "Ischemic colitis", "Drug-induced lupus"], 1, "SpA is associated with IBD; the monoclonal anti-TNF had been controlling it."], ["S1", "The same hypermobile dancer had a NORMAL Schober test despite inflammatory back pain. Why?", ["Schober is only abnormal in OA", "Hypermobility masked the loss of lumbar flexion", "She had mechanical back pain", "Sacroiliitis never limits motion", "The test was done at night"], 1, "A normal Schober does not exclude axial SpA in hypermobile patients."], ["2", "Which sequence best describes the approach to each conference case?", ["Treat empirically, then diagnose", "Pattern recognition → differential → confirm → treat → measure success and toxicity", "Order every antibody first", "Start steroids for all", "Refer before examining"], 1, "Always ask: is it working, and is it hurting?"], ["S1", "A 59-year-old with 15–30 minutes of morning stiffness has thumb-base, PIP and DIP pain worse with knitting. Best management?", ["Methotrexate", "Analgesics, exercise and joint protection", "Rituximab", "Hydroxychloroquine", "High-dose prednisone"], 1, "Osteoarthritis has no true disease-modifying drug."], ["S1", "A lupus patient on IV cyclophosphamide is 26 years old and wants children later. Which toxicity is the key counseling point?", ["Retinal toxicity", "Premature ovarian failure", "Hypercalcemia", "Pancreatitis", "Ototoxicity"], 1, "Cyclophosphamide → ovarian failure; low-dose \"Euro-Lupus\" IV protocols are preferred."]]}]};
+(function(){
+"use strict";
+var KEY="hd-boss-"+G.key+"-v1", L="ABCDE";
+var P={dead:{},best:{},mode:"solo",names:["Player 1","Player 2"]};
+try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.dead)P=Object.assign(P,j);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(P));}catch(e){}}
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function show(id){["scrTitle","scrMap","scrBattle","scrResult"].forEach(function(s){$(s).hidden=(s!==id);});window.scrollTo(0,0);}
+
+/* ids */
+var QS=[];G.bosses.forEach(function(b,bi){b.id="b"+bi;b.q.forEach(function(q,qi){QS.push({id:b.id+"."+qi,boss:b,lo:q[5]||b.lo,k:q[0],stem:q[1],o:q[2],a:q[3],e:q[4]});});b.qs=QS.filter(function(x){return x.boss===b;});});
+var FINAL={id:"final",name:G.final.name,epithet:G.final.epithet,lo:"all",los:"Every learning objective in this lecture",final:true};
+var losSet={};G.bosses.forEach(function(b){losSet[b.lo]=1;});
+
+/* sigil: deterministic SVG emblem per boss */
+function sigil(seed,size,col){var s=0;for(var i=0;i<seed.length;i++)s=(s*31+seed.charCodeAt(i))>>>0;
+  function r(){s=(s*1103515245+12345)>>>0;return s/4294967296;}
+  var n=3+Math.floor(r()*5),rot=r()*360,parts='';
+  for(var k=0;k<3;k++){var rad=44-k*12,pts=[];for(var i=0;i<n;i++){var a=(rot+k*17+i*360/n)*Math.PI/180;pts.push((50+rad*Math.cos(a)).toFixed(1)+","+(50+rad*Math.sin(a)).toFixed(1));}
+    parts+='<polygon points="'+pts.join(" ")+'" fill="'+(k===2?col:"none")+'" fill-opacity="'+(k===2?".35":"0")+'" stroke="'+col+'" stroke-width="'+(3-k*.6)+'" stroke-opacity="'+(1-k*.25)+'"/>';}
+  parts+='<circle cx="50" cy="50" r="'+(6+r()*6).toFixed(1)+'" fill="'+col+'"/>';
+  return '<svg class="sig" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#0d1016" stroke="#2d3644"/>'+parts+'</svg>';}
+
+/* title */
+$("lecName").textContent=G.lecture;$("gTitle").textContent=G.title;$("gTag").textContent=G.tagline;$("fTitle").textContent=G.title;
+$("cQ").textContent=QS.length;$("cB").textContent=G.bosses.length+1;$("cL").textContent=Object.keys(losSet).filter(function(k){return k.slice(-1)!=="X";}).length;
+$("soloBtn").onclick=function(){P.mode="solo";save();openMap();};
+$("coopBtn").onclick=function(){$("coopForm").hidden=false;$("p1").value=P.names[0];$("p2").value=P.names[1];$("p1").focus();};
+$("coopBack").onclick=function(){$("coopForm").hidden=true;};
+$("coopForm").onsubmit=function(e){e.preventDefault();P.mode="coop";P.names=[$("p1").value.trim()||"Player 1",$("p2").value.trim()||"Player 2"];save();openMap();};
+$("modeBtn").onclick=function(){show("scrTitle");};
+$("resetBtn").onclick=function(){var b=this;if(b.dataset.c){P.dead={};P.best={};save();delete b.dataset.c;b.textContent="Reset progress";openMap();return;}
+  b.dataset.c="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.c){delete b.dataset.c;b.textContent="Reset progress";}},3000);};
+
+/* map */
+function openMap(){
+  $("mapMode").textContent=P.mode==="coop"?"Co-op · "+P.names.join(" & "):"Solo campaign";
+  var dead=G.bosses.filter(function(b){return P.dead[b.id];}).length,conq=G.bosses.filter(function(b){return P.dead[b.id];}).reduce(function(s,b){return s+b.qs.length;},0);
+  $("mapProg").textContent=dead+" of "+G.bosses.length+" bosses defeated · "+conq+" of "+QS.length+" questions conquered"+(P.dead.final?" · Final boss slain":"");
+  $("progBar").style.width=Math.round(100*(dead+(P.dead.final?1:0))/(G.bosses.length+1))+"%";
+  var h="";G.bosses.forEach(function(b){var d=P.dead[b.id];
+    h+='<button type="button" class="boss'+(d?" dead":"")+'" data-b="'+b.id+'">'+sigil(b.name,56,d?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim())+
+      '<h3>'+esc(b.name)+'</h3><span class="ep">'+esc(b.epithet)+'</span>'+(d?'<span class="slain">SLAIN</span>':'')+
+      '<span class="lo">'+(b.lo.slice(-1)==="X"?"EXTRA":"LO "+b.lo)+' · '+esc(b.los)+' · '+b.qs.length+' Q</span><span class="hpmini"><i style="width:'+(d?100:100)+'%"></i></span></button>';});
+  var allDead=G.bosses.every(function(b){return P.dead[b.id];});
+  h+='<button type="button" class="boss final'+(P.dead.final?" dead":"")+'" data-b="final"'+(allDead?'':' disabled')+'>'+sigil(FINAL.name,56,"#e3b95c")+
+    '<h3>Final boss · '+esc(FINAL.name)+'</h3><span class="ep">'+esc(FINAL.epithet)+(allDead?'':' — unlocks when every other boss falls')+'</span>'+(P.dead.final?'<span class="slain">SLAIN</span>':'')+
+    '<span class="lo">ALL LOs · '+G.final.n+' random questions from every boss</span><span class="hpmini"><i style="width:100%"></i></span></button>';
+  $("bossGrid").innerHTML=h;
+  $("bossGrid").querySelectorAll(".boss").forEach(function(el){el.onclick=function(){if(el.disabled)return;start(el.dataset.b==="final"?FINAL:G.bosses.filter(function(b){return b.id===el.dataset.b;})[0]);};});
+  show("scrMap");
+}
+
+/* battle */
+var B=null;
+function start(boss){
+  var pool=boss.final?shuffle(QS).slice(0,G.final.n):shuffle(boss.qs);
+  B={boss:boss,queue:pool.slice(),total:pool.length,left:pool.length,hp:100,combo:0,score:0,pscore:[0,0],turn:0,missed:[],cur:null,done:false,right:0,tries:0};
+  $("bSig").innerHTML=sigil(boss.name,64,boss.final?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim());
+  $("ySig").innerHTML=sigil(P.mode==="coop"?P.names.join("&"):"you",64,"#5cc98a");
+  $("bName").textContent=boss.name;$("bEp").textContent=(boss.final?"Final boss · ":"")+boss.epithet;
+  $("yName").textContent=P.mode==="coop"?P.names.join(" & "):"You";$("yEp").textContent=P.mode==="coop"?"Shared HP":"Solo";
+  show("scrBattle");nextQ();
+}
+function bars(){
+  $("bHp").style.width=(100*B.left/B.total)+"%";$("bHpT").textContent=B.left+" / "+B.total+" questions standing";
+  $("yHp").style.width=B.hp+"%";$("yHpT").textContent=B.hp+" / 100 HP";
+  $("combo").textContent=B.combo>=3?"×2 combo · streak "+B.combo:(B.combo?"Streak "+B.combo:"");
+}
+function nextQ(){
+  bars();B.cur=B.queue.shift();var q=B.cur;
+  q._ord=shuffle([0,1,2,3,4]);
+  $("qTags").innerHTML='<span class="tag '+(q.k==="S1"?"s1":"t2")+'">'+(q.k==="S1"?"Step 1":"2nd order")+'</span><span class="tag">'+(q.lo.slice(-1)==="X"?"Extra":"LO "+q.lo)+'</span>'+(B.boss.final?'<span class="tag">'+esc(q.boss.name)+'</span>':'');
+  $("turn").textContent=P.mode==="coop"?P.names[B.turn]+"'s turn":"";
+  $("stem").textContent=q.stem;
+  $("opts").innerHTML=q._ord.map(function(oi,i){return '<button type="button" class="opt" data-oi="'+oi+'"><span class="k">'+L[i]+'</span><span>'+esc(q.o[oi])+'</span></button>';}).join("");
+  $("fb").innerHTML="";$("nextBtn").hidden=true;B.answered=false;
+  $("opts").querySelectorAll(".opt").forEach(function(b){b.onclick=function(){answer(+b.dataset.oi);};});
+  var first=$("opts").querySelector(".opt");if(first)first.focus({preventScroll:true});
+}
+function flash(txt,col){var f=$("flash");f.textContent=txt;f.style.color=col;f.classList.remove("go");void f.offsetWidth;f.classList.add("go");}
+function answer(oi){
+  if(B.answered)return;B.answered=true;var q=B.cur,ok=oi===q.a;B.tries++;
+  $("opts").querySelectorAll(".opt").forEach(function(b){var x=+b.dataset.oi;b.disabled=true;if(x===q.a)b.classList.add("right");else if(x===oi)b.classList.add("wrong");});
+  if(ok){B.left--;B.right++;B.combo++;var pts=(B.combo>=3?20:10);B.score+=pts;B.pscore[B.turn]+=pts;flash(B.combo>=3?"CRITICAL":"HIT","#e3b95c");$("bSig").classList.remove("shake");void $("bSig").offsetWidth;$("bSig").classList.add("shake");}
+  else{B.combo=0;B.hp=Math.max(0,B.hp-25);B.queue.push(q);if(B.missed.indexOf(q)<0)B.missed.push(q);flash("OUCH","#f07b72");$("qcard").classList.remove("shake");void $("qcard").offsetWidth;$("qcard").classList.add("shake");}
+  var right=q.o[q.a],letter=L[q._ord.indexOf(q.a)];
+  $("fb").innerHTML='<div class="fb '+(ok?"ok":"bad")+'"><span class="v">'+(ok?"Direct hit":"The boss strikes back · −25 HP")+'</span>'+(ok?'':'<span>Answer: <b>'+letter+'. '+esc(right)+'</b>. This question will return.</span>')+'<span>'+esc(q.e)+'</span></div>';
+  bars();
+  var nb=$("nextBtn");nb.hidden=false;
+  if(B.left===0){nb.textContent="Claim victory →";}else if(B.hp===0){nb.textContent="You have fallen →";}else nb.textContent="Next strike →";
+  nb.focus({preventScroll:true});
+}
+$("nextBtn").onclick=function(){
+  if(B.left===0)return end(true);if(B.hp===0)return end(false);
+  if(P.mode==="coop")B.turn=1-B.turn;nextQ();};
+$("retreatBtn").onclick=openMap;
+
+function end(win){
+  var bo=B.boss;if(win){P.dead[bo.id]=true;P.best[bo.id]=Math.max(P.best[bo.id]||0,B.score);save();}
+  var acc=Math.round(100*B.right/Math.max(1,B.tries));
+  var h='<div class="result '+(win?"win":"lose")+'"><p class="meta">'+esc(bo.final?"Final boss":"LO "+bo.lo)+'</p><h2>'+(win?"Victory — "+esc(bo.name)+" is slain":"You have fallen to "+esc(bo.name))+'</h2>'+
+    '<div class="scores"><div><b>'+B.score+'</b><span>Score</span></div><div><b>'+acc+'%</b><span>First-strike accuracy</span></div><div><b>'+B.hp+'</b><span>HP left</span></div>'+
+    (P.mode==="coop"?'<div><b>'+B.pscore[0]+' · '+B.pscore[1]+'</b><span>'+esc(P.names[0])+' · '+esc(P.names[1])+'</span></div>':'')+'</div>';
+  if(!win)h+='<p class="hint">Four wrong answers end the fight. The boss heals fully; review the questions below and try again.</p>';
+  if(B.missed.length){h+='<h3 style="font-size:1.1rem;color:var(--gold)">Worth a second look</h3><div class="review">'+B.missed.map(function(q){return '<article><p class="meta">'+(q.k==="S1"?"Step 1":"2nd order")+' · LO '+esc(q.lo)+'</p><p style="margin:0;font-weight:600">'+esc(q.stem)+'</p><p class="ans" style="margin:0">'+esc(q.o[q.a])+'</p><p style="margin:0;color:var(--muted)">'+esc(q.e)+'</p></article>';}).join("")+'</div>';}
+  else if(win)h+='<p>Flawless — no misses.</p>';
+  h+='<div class="row"><button class="btn" type="button" id="againBtn">'+(win?"Fight again":"Retry")+'</button><button class="btn '+(win?"gold":"primary")+'" type="button" id="mapBtn">Return to map</button></div></div>';
+  $("scrResult").innerHTML=h;show("scrResult");
+  $("againBtn").onclick=function(){start(bo);};$("mapBtn").onclick=openMap;$("mapBtn").focus();
+}
+
+document.addEventListener("keydown",function(ev){
+  if($("scrBattle").hidden||ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){if(!$("nextBtn").hidden){ev.preventDefault();$("nextBtn").click();}return;}
+  var k=ev.key.toUpperCase(),i=L.indexOf(k);if(i<0){var n=parseInt(ev.key,10);if(n>=1&&n<=5)i=n-1;}
+  if(i>=0&&!B.answered){var b=$("opts").querySelectorAll(".opt")[i];if(b)b.click();}
+});
+})();
+</script>

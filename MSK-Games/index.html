@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MSK Games</title>
+<meta name="description" content="HoyaDocs Block 5 MSK — review games: structure builder, boss gauntlet and creature-battle campaign.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Extra+Condensed:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ground:#EEF3F0; --panel:#FFFFFF; --sunk:#E2EAE6; --line:#C9D6D0;
+  --ink:#13201D; --muted:#566963;
+  --p1:#E3AE12; --p1-ink:#7A5B00; --p1-soft:#FBF1CF;
+  --p2:#2E86C8; --p2-ink:#155987; --p2-soft:#DDEDF8;
+  --arena:#3B2F6E; --arena-soft:#E8E3F7; --arena-ink:#332766;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --plate:#0E1413; --plate-ink:#EEF3F0;
+  --emb:#C4631B; --emb-ink:#8A3F0A; --emb-soft:#FBE7D6;
+  --his:#C2407A; --his-ink:#8C1F55; --his-soft:#F8DDEA;
+  --neu:#6A55C9; --neu-ink:#3F2E91; --neu-soft:#E8E3F7;
+  --pha:#1F8A70; --pha-ink:#0F5E4B; --pha-soft:#D7F0E8;
+  --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --plate:#080C0B; --plate-ink:#DDE7E3;
+    --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
+    --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
+    --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
+    --pha:#4CC3A0; --pha-ink:#7AD6BA; --pha-soft:#12302A;
+  }
+}
+:root[data-theme="dark"]{
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --plate:#080C0B; --plate-ink:#DDE7E3;
+    --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
+    --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
+    --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
+    --pha:#4CC3A0; --pha-ink:#7AD6BA; --pha-soft:#12302A;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:15px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:18px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--p2);outline-offset:3px}
+
+/* masthead */
+.mast{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
+.brand{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:.02em;text-transform:uppercase;line-height:1;text-decoration:none}
+.brand b{color:var(--p1-ink)}
+.tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mastright{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.themebtn{background:var(--sunk);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px}
+.themebtn:hover{color:var(--ink);border-color:var(--muted)}
+
+/* site tabs */
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-top:-14px;border-bottom:1px solid var(--line)}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:none;text-decoration:none;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:17px;letter-spacing:.04em;color:var(--muted);padding:9px 14px 8px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs a:hover{color:var(--ink)}
+.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--p1)}
+
+.foot{border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* hero */
+.hero{background:var(--plate);color:var(--plate-ink);border-radius:10px;padding:clamp(26px,4.5vw,52px) clamp(22px,4vw,52px);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -80px -160px auto;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle at 30% 30%, var(--glow), transparent 62%);pointer-events:none}
+.back{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8FA39D;text-decoration:none;margin-bottom:18px;position:relative;z-index:1}
+.back:hover{color:var(--plate-ink)}
+.back svg{width:13px;height:13px}
+.hero .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--kick);margin-bottom:12px}
+.hero h1{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(46px,8.4vw,108px);line-height:.86;margin:0;letter-spacing:.005em;text-wrap:balance;position:relative;z-index:1}
+.hero p{max-width:62ch;color:#B6C4BF;margin:18px 0 0;font-size:16px;position:relative;z-index:1}
+.stats{display:flex;flex-wrap:wrap;gap:clamp(18px,4vw,44px);margin-top:26px;position:relative;z-index:1}
+.stats div{display:flex;flex-direction:column}
+.stats b{font-family:var(--display);font-weight:800;font-size:clamp(34px,5vw,48px);line-height:.9;color:var(--plate-ink)}
+.stats small{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8FA39D}
+
+/* how-to strip */
+.every{display:grid;grid-template-columns:repeat(var(--cols,3),1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.every > div{background:var(--panel);padding:16px 18px}
+.every .n{font-family:var(--mono);font-size:11px;color:var(--p2-ink);letter-spacing:.08em}
+.every h3{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:22px;line-height:1;margin:4px 0 6px;letter-spacing:.02em}
+.every p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.45}
+.every .hy{background:var(--hy-bg);box-shadow:inset 0 0 0 1px var(--hy-line)}
+.every .hy .n,.every .hy h3,.every .hy p{color:var(--hy-ink)}
+
+/* toolbar */
+.bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:16px;letter-spacing:.04em;color:var(--muted);display:inline-flex;align-items:center;gap:7px}
+.filters button i{width:9px;height:9px;border-radius:50%;background:var(--dot,var(--muted))}
+.filters button:hover{color:var(--ink);border-color:var(--muted)}
+.filters button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.search{position:relative;flex:0 1 320px;min-width:220px}
+.search input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:9px 12px 9px 34px;font-size:14px}
+.search input:focus{outline:none;border-color:var(--p2)}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted)}
+
+/* discipline sections */
+.disc{--a:var(--emb);--a-ink:var(--emb-ink);--a-soft:var(--emb-soft);display:flex;flex-direction:column;gap:16px}
+.disc.his{--a:var(--his);--a-ink:var(--his-ink);--a-soft:var(--his-soft)}
+.disc.neu{--a:var(--neu);--a-ink:var(--neu-ink);--a-soft:var(--neu-soft)}
+.dhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:3px solid var(--a);padding-bottom:10px}
+.dhead .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--a-ink)}
+.dhead h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(34px,5vw,48px);line-height:.9;margin:2px 0 0;letter-spacing:.01em}
+.lecs{display:flex;flex-wrap:wrap;gap:6px}
+.lecs span{font-size:12px;background:var(--a-soft);color:var(--a-ink);border-radius:999px;padding:3px 11px;font-weight:500}
+.lecs span b{font-family:var(--mono);font-weight:600;font-size:11px;margin-right:5px}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--a);border-radius:10px;text-decoration:none;color:var(--ink);overflow:hidden;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+a.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:var(--a)}
+.card .top{display:flex;gap:16px;align-items:flex-start;padding:18px 20px 12px}
+.badge{flex:none;width:62px;height:62px;border-radius:8px;background:var(--a-soft);color:var(--a-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;text-align:center}
+.badge small{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
+.badge b{font-family:var(--display);font-weight:800;font-size:30px}
+.badge svg{width:30px;height:30px}
+.card .sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--a-ink)}
+.card h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:30px;line-height:.92;margin:3px 0 6px;letter-spacing:.01em}
+.card p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.45}
+.nums{display:flex;gap:0;margin:0 20px 16px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.nums div{flex:1;padding:7px 10px;border-right:1px solid var(--line);display:flex;flex-direction:column}
+.nums div:last-child{border-right:0}
+.nums b{font-family:var(--display);font-weight:800;font-size:24px;line-height:1}
+.nums small{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 20px 16px}
+.chips span{font-size:12px;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.card .foot2{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding:11px 20px;background:var(--sunk)}
+.card .foot2 .tag{font-size:10.5px}
+.go{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--a-ink);display:inline-flex;align-items:center;gap:7px}
+.go svg{width:15px;height:15px;transition:transform .12s}
+a.card:hover .go svg{transform:translateX(4px)}
+.card.soon{border-style:dashed;border-top-width:1px;background:transparent}
+.card.soon .badge{background:var(--sunk);color:var(--muted)}
+.card.soon .sub,.card.soon h3{color:var(--muted)}
+.card.soon .foot2{background:transparent;border-top-style:dashed}
+.pill{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--p1-ink);background:var(--p1-soft);border:1px solid var(--p1);border-radius:999px;padding:2px 10px}
+.empty{display:none;color:var(--muted);padding:26px;text-align:center;border:1px dashed var(--line);border-radius:10px}
+
+/* featured band (HY) */
+.one{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(14px,3vw,26px);background:var(--hy-bg);border:1px solid var(--hy-line);border-left:6px solid var(--hy-line);border-radius:10px;padding:clamp(18px,3vw,26px) clamp(18px,3vw,30px);color:var(--hy-ink);text-decoration:none;transition:transform .12s ease,box-shadow .12s ease}
+.one:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.one .ico{width:56px;height:56px;border-radius:8px;background:var(--hy-line);color:#1A1400;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:26px;line-height:1}
+.one .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:3px}
+.one h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(28px,4.2vw,40px);line-height:.92;margin:0;letter-spacing:.01em}
+.one p{margin:7px 0 0;font-size:14px;max-width:70ch;opacity:.9}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;padding:8px 16px 7px;border-radius:5px;white-space:nowrap;background:var(--hy-line);color:#1A1400}
+.btn svg{width:15px;height:15px}
+
+@media (max-width:820px){ .every{grid-template-columns:1fr 1fr} }
+@media (max-width:700px){
+  .one{grid-template-columns:auto 1fr}
+  .one .btn{grid-column:1 / -1;justify-self:start}
+}
+@media (max-width:480px){
+  .every{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  .card h3{font-size:26px}
+  .search{flex-basis:100%}
+}
+
+.disc.pat{--a:var(--emb);--a-ink:var(--emb-ink);--a-soft:var(--emb-soft)}
+.disc.pha{--a:var(--pha);--a-ink:var(--pha-ink);--a-soft:var(--pha-soft)}
+.one .acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn.ghost{background:transparent;border:1.5px solid var(--hy-line);color:var(--hy-ink)}
+@media (max-width:700px){ .one .acts{grid-column:1 / -1} }
+.hero{--glow:rgba(76,195,160,.26);--kick:#7AD6BA}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <a class="brand" href="../index.html">HoyaDocs <b>&middot;</b> Block 5</a>
+    <div class="mastright">
+      <div class="tag">MSK &middot; Rev 2 &middot; Updated Sep 30, 2026</div>
+      <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="MSK sections">
+    <a href="../index.html">MSK Home</a>
+    <a href="../MSK-Games/index.html" aria-current="page">MSK Games</a>
+    <a href="../MSK-Study-Guides/index.html">MSK Study Guides</a>
+  </nav>
+
+  <section class="hero">
+    <a class="back" href="../index.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 8H3M7 4 3 8l4 4"/></svg>MSK Home</a>
+    <div class="kicker">Pharmacology &middot; Histology &middot; Pathology</div>
+    <h1>MSK Games</h1>
+    <p>Three ways to play every learning objective. Build the drug classes, fight through the boss gauntlet, then run the full campaign as mixed review.</p>
+    <div class="stats">
+      <div><b>3</b><small>Games</small></div>
+      <div><b>77</b><small>Boss questions</small></div>
+      <div><b>57</b><small>Pharmomon</small></div>
+      <div><b>14</b><small>LOs</small></div>
+    </div>
+  </section>
+
+  <section class="every" aria-label="How to use the games" style="--cols:3">
+    <div><div class="n">01 &middot; LEARN</div><h3>Structure Builder</h3><p>Fill in each drug class box by box. Drill mode brings back only what you've missed; the LO map shows what's mastered.</p></div>
+    <div class="hy"><div class="n">02 &middot; TEST &middot; STEP 1 STYLE</div><h3>Boss Gauntlet</h3><p>Second-order clinical vignettes, one boss per LO; wrong answers come back later in the fight. Play solo or 2-player co-op.</p></div>
+    <div><div class="n">03 &middot; REVIEW</div><h3>Creature Campaign</h3><p>Pharmomon mixes all three lectures into one RPG run. Best in the days before the exam.</p></div>
+  </section>
+
+  <div class="bar">
+    <div class="filters" role="group" aria-label="Filter by discipline">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="his" aria-pressed="false" style="--dot:var(--his)"><i></i>Histology</button>
+      <button type="button" data-f="pat" aria-pressed="false" style="--dot:var(--emb)"><i></i>Pathology</button>
+      <button type="button" data-f="pha" aria-pressed="false" style="--dot:var(--pha)"><i></i>Pharmacology</button>
+    </div>
+    <label class="search">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="4.8"/><path d="m10.6 10.6 3.6 3.6"/></svg>
+      <input id="q" type="search" placeholder="Find a game or topic: DMARDs, osteoporosis…" aria-label="Filter games by topic">
+    </label>
+  </div>
+
+  <section class="disc pha" data-d="pha" id="pharmacology">
+    <div class="dhead">
+      <div>
+        <div class="k">Osteoporosis drugs, DMARDs, biologics &amp; immunosuppressants</div>
+        <h2>Pharmacology Games</h2>
+      </div>
+      <div class="lecs"><span><b>MSK12</b>Treatment of Osteoporosis</span><span><b>MSK22</b>DMARDs &amp; Biologics</span><span><b>MSK24</b>Inflammation Conference</span></div>
+    </div>
+    <div class="grid">
+      <a class="card" href="HoyaDocs_MSK_Pharm_Builder.html">
+        <div class="top">
+          <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5" stroke-dasharray="2.5 2"/></svg></div>
+          <div>
+            <div class="sub">Structure Builder &middot; MSK12 &middot; 22 &middot; 24</div>
+            <h3>MSK Pharm Builder</h3>
+            <p>Build each drug class and disease box by box, or switch to Drill to hit only what you've missed. Mechanisms, toxicities, sequencing and disease → therapy.</p>
+          </div>
+        </div>
+        <div class="nums"><div><b>14</b><small>LOs tracked</small></div><div><b>3</b><small>Lectures</small></div><div><b>2</b><small>Modes</small></div></div><div class="chips"><span>Osteoporosis</span><span>DMARDs</span><span>Conference</span></div>
+        <div class="foot2"><span class="tag">Build &middot; Drill &middot; LO mastery map</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+      <a class="card" href="HoyaDocs_MSK_Pharm_Boss_Battle_Apothecary_Keep.html">
+        <div class="top">
+          <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v5.5c0 4.6 3.4 8.4 8 9.5 4.6-1.1 8-4.9 8-9.5V6z"/><path d="m9 11 2 2 4-4"/></svg></div>
+          <div>
+            <div class="sub">Boss Gauntlet &middot; MSK12 &middot; 22 &middot; 24</div>
+            <h3>The Apothecary Keep</h3>
+            <p>Fourteen bosses guard the fourteen pharmacology LOs. Each falls only when every question it holds is answered correctly.</p>
+          </div>
+        </div>
+        <div class="nums"><div><b>77</b><small>Questions</small></div><div><b>15</b><small>Bosses</small></div><div><b>14</b><small>LOs</small></div></div>
+        <div class="foot2"><span class="tag">Solo or 2-player co-op</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+      <a class="card" href="HoyaDocs_MSK_Pharmomon.html">
+        <div class="top">
+          <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h6M15 12h6"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <div>
+            <div class="sub">Creature Battle RPG &middot; All 3 lectures</div>
+            <h3>Pharmomon</h3>
+            <p>Catch all 57 drugs, toxicities and diseases across Remodeling Reef, DMARD Delta and Conference Canyon. Earn three badges to face the Champion.</p>
+          </div>
+        </div>
+        <div class="nums"><div><b>57</b><small>To catch</small></div><div><b>3</b><small>Badges</small></div><div><b>3</b><small>Zones</small></div></div>
+        <div class="foot2"><span class="tag">Mixed review &middot; save progress</span><span class="go">Play<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="disc his" data-d="his" id="histology">
+    <div class="dhead">
+      <div>
+        <div class="k">Cartilage, bone &amp; joints under the microscope</div>
+        <h2>Histology Games</h2>
+      </div>
+      <div class="lecs"><span class="pill">Coming soon</span></div>
+    </div>
+    <div class="grid">
+      <div class="card soon" aria-disabled="true">
+        <div class="top">
+          <div class="badge"><small>MSK</small><b>04·07</b></div>
+          <div>
+            <div class="sub">Cartilage &middot; Bone</div>
+            <h3>Histology Games</h3>
+            <p>Builder, boss gauntlet and campaign for cartilage, bone development and joints.</p>
+          </div>
+        </div>
+        <div class="foot2"><span class="tag">Games in progress</span><span class="pill">Coming soon</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="disc pat" data-d="pat" id="pathology">
+    <div class="dhead">
+      <div>
+        <div class="k">Bone, joint, soft tissue, nerve &amp; muscle disease</div>
+        <h2>Pathology Games</h2>
+      </div>
+      <div class="lecs"><span class="pill">Coming soon</span></div>
+    </div>
+    <div class="grid">
+      <div class="card soon" aria-disabled="true">
+        <div class="top">
+          <div class="badge"><small>MSK</small><b>10–19</b></div>
+          <div>
+            <div class="sub">Bone &middot; Joint &middot; Soft Tissue</div>
+            <h3>Pathology Games</h3>
+            <p>Builder, boss gauntlet and campaign for the six pathology lectures.</p>
+          </div>
+        </div>
+        <div class="foot2"><span class="tag">Games in progress</span><span class="pill">Coming soon</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="empty" id="empty">No game matches that. Try a broader word, such as "drug" or "MSK22".</div>
+
+  <footer class="foot">
+    <div class="tag">HoyaDocs &middot; Block 5 &middot; MSK &middot; MSK Games</div>
+    <div class="tag">Rev 2 &middot; Updated Sep 30, 2026</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var btn = document.getElementById('theme');
+  var root = document.documentElement;
+  try{
+    var saved = localStorage.getItem('hoyadocs-theme');
+    if(saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  }catch(e){}
+  btn.addEventListener('click', function(){
+    var isDark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.hasAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = isDark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('hoyadocs-theme', next); }catch(e){}
+  });
+})();
+(function(){
+  var q = document.getElementById('q');
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.filters button'));
+  var secs = Array.prototype.slice.call(document.querySelectorAll('.disc'));
+  var empty = document.getElementById('empty');
+  var disc = 'all';
+  function apply(){
+    var term = q.value.trim().toLowerCase();
+    var total = 0;
+    secs.forEach(function(s){
+      var inDisc = disc === 'all' || s.getAttribute('data-d') === disc;
+      var shown = 0;
+      s.querySelectorAll('.card, .one').forEach(function(c){
+        var hit = inDisc && (!term || c.textContent.toLowerCase().indexOf(term) !== -1);
+        c.style.display = hit ? '' : 'none';
+        if(hit) shown++;
+      });
+      s.style.display = shown ? '' : 'none';
+      total += shown;
+    });
+    empty.style.display = total ? 'none' : 'block';
+  }
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      disc = b.getAttribute('data-f');
+      btns.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      apply();
+    });
+  });
+  q.addEventListener('input', apply);
+})();
+</script>
+</body>
+</html>

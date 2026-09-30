@@ -1,0 +1,463 @@
+<title>MSK Pharm Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: toolbar + stats on top; structure list | question card | LO mastery map. Stacks to one column on phones. */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --ink:#18212b; --muted:#5a6570; --line:#dbe0e5; --chip:#eceff2;
+  --arch:#0f6b6b; --face:#7a3b69; --eye:#2c55a0; --accent:#0f6b6b;
+  --ok:#1d7a3e; --ok-bg:#e3f4e8; --bad:#b3261e; --bad-bg:#fbe7e5; --once:#b7791f; --once-bg:#fdf1dc;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --f-display:"Source Serif 4", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#11161c; --surface:#19212a; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642; --chip:#232c36;
+  --arch:#5cc2c0; --face:#d59bc6; --eye:#8fb1f0; --accent:#5cc2c0;
+  --ok:#6fd08f; --ok-bg:#16301f; --bad:#f28b82; --bad-bg:#3a1b19; --once:#f0c070; --once-bg:#3a2e12;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.2}
+.meta{font:500 .74rem var(--f-mono);letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0}
+header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:12px}
+header h1{font-size:1.9rem}
+header p.lede{margin:4px 0 0;color:var(--muted);max-width:62ch}
+.btn{font:600 .85rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+.btn:focus-visible,.opt:focus-visible,.seg button:focus-visible,.ent:focus-visible,.lo-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.btn[disabled]{opacity:.45;cursor:default}
+.hdr-actions{display:flex;gap:8px}
+
+.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.seg{display:inline-flex;background:var(--chip);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{font:600 .82rem var(--f-body);border:0;background:transparent;color:var(--ink);padding:6px 11px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.seg .lab{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:center;padding:0 6px}
+.stats{display:flex;gap:18px;flex-wrap:wrap}
+.stat b{display:block;font:700 1.15rem var(--f-body);font-variant-numeric:tabular-nums}
+.stat span{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+.main{display:grid;grid-template-columns:250px minmax(0,1fr) 270px;gap:16px;align-items:start}
+@media (max-width:1000px){ .main{grid-template-columns:minmax(0,1fr)} .side{order:2} .map{order:3} }
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px;min-width:0}
+.panel h2{font-size:1rem}
+.lec-h{font:700 .72rem var(--f-body);letter-spacing:.07em;text-transform:uppercase;margin-top:6px}
+.ent{display:grid;grid-template-columns:1fr auto;gap:2px 8px;text-align:left;width:100%;background:transparent;border:1px solid transparent;border-radius:8px;padding:7px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.ent:hover{background:var(--chip)}
+.ent[aria-current="true"]{border-color:var(--lc);background:var(--chip)}
+.ent .n{font-weight:600;font-size:.9rem}
+.ent .s{grid-column:1;font-size:.75rem;color:var(--muted)}
+.ent .pct{grid-row:1/3;grid-column:2;align-self:center;font:500 .75rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.ent .mini{grid-column:1/3;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.ent .mini i{display:block;height:100%;background:var(--lc)}
+.l03{--lc:var(--arch)} .l04{--lc:var(--face)} .l18{--lc:var(--eye)}
+.l09{--lc:var(--eye)} .l12{--lc:var(--face)} .l07{--lc:var(--arch)} .l08{--lc:var(--face)} .l17{--lc:var(--eye)} .l11{--lc:var(--eye)} .l15{--lc:var(--face)} .l16{--lc:var(--arch)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--lc);border-radius:12px;padding:18px;display:grid;gap:14px;min-width:0}
+.card-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline}
+.card-top h2{font-size:1.35rem}
+.tag{font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.tag.lo{color:var(--lc)}
+.tag.hy{background:var(--hy-bg);color:var(--hy-ink);border:1px solid var(--hy-line)}
+.boxes{display:flex;gap:4px;flex-wrap:wrap}
+.boxes i{width:18px;height:6px;border-radius:3px;background:var(--line)}
+.boxes i.done-ok{background:var(--ok)} .boxes i.done-bad{background:var(--bad)} .boxes i.cur{background:var(--lc)}
+.q{font:600 1.08rem/1.45 var(--f-body);margin:0}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--lc)}
+.opt .k{font:500 .75rem var(--f-mono);color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-top:1px}
+.opt.sel{border-color:var(--lc);background:var(--chip)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.missed{border-color:var(--ok);border-style:dashed}
+.opt[disabled]{cursor:default}
+.ordered{display:grid;gap:6px;counter-reset:ord;padding:0;margin:0;list-style:none;min-height:44px;border:1.5px dashed var(--line);border-radius:10px;padding:8px}
+.ordered li{counter-increment:ord;display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:center;background:var(--chip);border-radius:8px;padding:7px 10px;cursor:pointer}
+.ordered li::before{content:counter(ord);font:500 .78rem var(--f-mono);color:var(--lc)}
+.ordered li.right{background:var(--ok-bg)} .ordered li.wrong{background:var(--bad-bg)}
+.ordered .empty{color:var(--muted);font-size:.85rem;padding:4px}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg)} .fb.bad{background:var(--bad-bg)}
+.fb .v{font-weight:700}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.fb ol{margin:0;padding-left:1.2em}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.timer{font:500 .8rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.done{display:grid;gap:10px;text-align:left}
+
+.lo-grid{display:grid;gap:6px}
+.lo-tile{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;width:100%;background:transparent;border:1px solid var(--line);border-radius:8px;padding:6px 8px;cursor:pointer;color:var(--ink);font:inherit}
+.lo-tile:hover{border-color:var(--lc)}
+.lo-tile .id{font:500 .72rem var(--f-mono);color:var(--lc);white-space:nowrap}
+.lo-tile .t{font-size:.78rem;line-height:1.3}
+.lo-tile .dot{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.dot.s-o{background:var(--once)} .dot.s-m{background:var(--bad)} .dot.s-M{background:var(--ok)}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.72rem;color:var(--muted)}
+.legend span{display:inline-flex;gap:5px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block;background:var(--line)}
+.legend i.o{background:var(--once)} .legend i.m{background:var(--bad)} .legend i.M{background:var(--ok)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+@media (prefers-reduced-motion: no-preference){ .opt,.ent,.lo-tile{transition:border-color .12s, background .12s} }
+.l12{--lc:var(--face)} .l22{--lc:var(--arch)} .l24{--lc:var(--eye)}
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <p class="meta">HoyaDocs · MSK Block 5 · MSK12 · MSK22 · MSK24</p>
+    <h1>MSK Pharm Builder</h1>
+    <p class="lede">Build each drug class and disease box by box, or drill everything you have missed. Every box is tied to a learning objective, and the map on the right tracks all 14. Mechanisms, toxicities, sequencing and disease → therapy are the focus.</p>
+  </div>
+  <div class="hdr-actions">
+    <button class="btn" id="themeBtn" type="button">Theme: auto</button>
+    <button class="btn" id="resetBtn" type="button">Reset progress</button>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="seg" role="group" aria-label="Mode">
+    <span class="lab">Mode</span>
+    <button type="button" data-mode="build" aria-pressed="true">Build</button>
+    <button type="button" data-mode="drill" aria-pressed="false">Drill</button>
+  </div>
+  <div class="seg" role="group" aria-label="Lecture scope" id="scopeSeg">
+    <span class="lab">Scope</span>
+    <button type="button" data-scope="all" aria-pressed="true">All</button>
+    <button type="button" data-scope="12" aria-pressed="false">MSK12</button><button type="button" data-scope="22" aria-pressed="false">MSK22</button><button type="button" data-scope="24" aria-pressed="false">MSK24</button>
+  </div>
+  <div class="stats" aria-live="polite">
+    <div class="stat"><b id="sScore">0</b><span>Score</span></div>
+    <div class="stat"><b id="sStreak">0</b><span>Streak</span></div>
+    <div class="stat"><b id="sAcc">—</b><span>Accuracy</span></div>
+    <div class="stat"><b id="sBoxes">0</b><span>Boxes mastered</span></div>
+    <div class="stat"><b id="sLos">—</b><span>LOs mastered</span></div>
+  </div>
+</div>
+
+<div class="main">
+  <aside class="panel side" aria-label="Structures">
+    <h2>Drugs &amp; diseases</h2>
+    <div id="entList"></div>
+  </aside>
+  <section class="card" id="card" aria-live="polite"></section>
+  <aside class="panel map" aria-label="Learning objective mastery map">
+    <h2>LO mastery map</h2>
+    <div class="legend"><span><i></i>untested</span><span><i class="m"></i>missed</span><span><i class="o"></i>got it once</span><span><i class="M"></i>mastered</span></div>
+    <p class="hint">Tap an LO to drill just that objective. Mastered = right twice in a row.</p>
+    <div class="lo-grid" id="loGrid"></div>
+  </aside>
+</div>
+
+<footer>HoyaDocs · MSK Pharm Builder · Updated September 29, 2026 · Revision 1.0. Yellow "HY" tags mark high-yield points, including Step 1.</footer>
+</div>
+
+<script>
+var LOS = {
+ "12.1":"Bone remodeling and how osteoporosis drugs alter it",
+ "12.2":"Classify osteoporosis drugs by mechanism",
+ "12.3":"Indications, contraindications and adverse effects",
+ "12.4":"Initial therapy by fracture risk and patient factors",
+ "12.5":"Sequencing: anabolics and denosumab",
+ "12.6":"Osteoporosis as a chronic, tailored disease",
+ "22.1":"Why we use DMARDs and biologics",
+ "22.2":"Treat to target in RA",
+ "22.3":"Anti-drug antibodies",
+ "22.4":"Key toxicities of DMARDs and biologics",
+ "24.1":"Presentations of prototypic inflammatory diseases",
+ "24.2":"Mechanisms of rheumatologic therapies",
+ "24.3":"DMARDs and biologics in systemic inflammatory illness",
+ "24.4":"Therapeutic approach to clinical cases"
+};
+var LECS = [ {k:"12", n:"Osteoporosis Treatment"}, {k:"22", n:"DMARDs & Biologics"}, {k:"24", n:"Inflammation Conference"} ];
+var E = [
+{id:"remodel", lec:"12", name:"Bone remodeling", sub:"RANKL, OPG, sclerostin", b:[
+ {t:"o", lo:"12.1", q:"Order the RANKL pathway from signal to effect.", a:["Osteoblast/stromal cell releases RANKL","RANKL binds RANK on osteoclast precursor","Osteoclast forms and activates","Bone resorption"], w:"OPG is the decoy that intercepts RANKL before it reaches RANK."},
+ {lo:"12.1", q:"Which molecule is the natural decoy receptor for RANKL?", a:"Osteoprotegerin (OPG)", o:["Sclerostin","Wnt","Calcitonin"], w:"Estrogen ↓ RANKL and ↑ OPG — that is how it protects bone.", hy:1},
+ {lo:"12.1", q:"Sclerostin is made by which cell?", a:"Osteocyte", o:["Osteoclast","Osteoblast","Chondrocyte"], w:"It brakes formation by inhibiting Wnt; romosozumab removes the brake."},
+ {lo:"12.1", q:"Osteoporosis labs (Ca²⁺, phosphate, PTH, ALP) are typically…", a:"Normal", o:["↑ ALP","↓ Calcium","↑ PTH"], w:"Abnormal labs point to osteomalacia, hyperparathyroidism or Paget.", hy:1},
+ {t:"m", lo:"12.1", q:"Select every non-drug measure recommended for all patients.", a:["Resistance training ≥2 days/week","Daily balance training","Vitamin D ≥1000 IU/day","Total calcium ~1200 mg/day"], o:["Strict bed rest","Low-protein diet"], w:"Protein 1–1.5 g/kg/day too. Fewer falls → fewer fractures."},
+ {lo:"12.1", q:"The clinical goal of osteoporosis therapy is…", a:"Fracture prevention", o:["Normal T-score","Normal serum calcium","Lower ALP"], w:"BMD is a surrogate; fractures are the outcome."}
+]},
+{id:"bp", lec:"12", name:"Bisphosphonates", sub:"Alendronate · risedronate · ibandronate · zoledronic acid", b:[
+ {lo:"12.2", q:"Nitrogen-containing bisphosphonates inhibit which osteoclast enzyme?", a:"Farnesyl pyrophosphate synthase", o:["HMG-CoA reductase","Cathepsin K","Carbonic anhydrase"], w:"Mevalonate pathway → impaired cytoskeleton → osteoclast apoptosis.", hy:1},
+ {t:"o", lo:"12.2", q:"Order the bisphosphonate mechanism.", a:["Binds hydroxyapatite","Osteoclast takes it up during resorption","FPPS inhibited","Osteoclast dysfunction and apoptosis"], w:"'-dronate' = drown the osteoclast."},
+ {lo:"12.3", q:"How should oral alendronate be taken?", a:"Empty stomach, 8 oz plain water, stay upright", o:["With breakfast and milk","At bedtime lying down","With calcium supplements"], w:"Poor absorption + pill esophagitis risk.", hy:1},
+ {lo:"12.3", q:"Flu-like fever and myalgias after the first dose point to which drug?", a:"IV zoledronic acid", o:["Oral alendronate","Denosumab","Raloxifene"], w:"Acute-phase reaction; zoledronic acid is also the most nephrotoxic BP."},
+ {t:"m", lo:"12.3", q:"Select the contraindications to bisphosphonates.", a:["Hypocalcemia","CrCl < 30–35","Unable to stay upright (oral)"], o:["Prior VTE","Recent MI","Breast cancer history"], w:"VTE → avoid estrogen/raloxifene; MI → avoid romosozumab."},
+ {lo:"12.4", q:"Why is ibandronate not first line?", a:"Proven only for vertebral fractures", o:["Too expensive","Causes VTE","Only IV"], w:"Alendronate, risedronate and zoledronic acid cover vertebral, non-vertebral and hip."},
+ {lo:"12.5", q:"Which class is the ONLY one eligible for a drug holiday?", a:"Bisphosphonates", o:["Denosumab","Romosozumab","Estrogen"], w:"Skeletal retention → slow offset. Reassess at 3–5 years.", hy:1}
+]},
+{id:"dmab", lec:"12", name:"Denosumab", sub:"Anti-RANKL mAb", b:[
+ {lo:"12.2", q:"Denosumab's target is…", a:"RANKL", o:["RANK","Sclerostin","PTH receptor"], w:"Fully human mAb; SC every 6 months."},
+ {lo:"12.3", q:"Boxed warning in advanced CKD / dialysis?", a:"Severe hypocalcemia", o:["Hypercalcemia","Osteosarcoma","VTE"], w:"Not renally cleared, but CKD patients crash their calcium.", hy:1},
+ {t:"m", lo:"12.3", q:"Select adverse effects of denosumab.", a:["Cellulitis","Eczema","Osteonecrosis of the jaw","Atypical femoral fracture"], o:["Kidney stones","Hot flashes"], w:"Kidney stones → PTH analogs; hot flashes → raloxifene."},
+ {t:"o", lo:"12.5", q:"Order what happens when denosumab is stopped with no follow-up.", a:["Last dose wears off","RANKL rebound","Rapid resorption and BMD loss","Multiple vertebral fractures"], w:"As early as 7 months, average 19 months.", hy:1},
+ {lo:"12.5", q:"What must follow denosumab if it is stopped?", a:"A bisphosphonate", o:["A drug holiday","Teriparatide","Nothing"], w:"Denosumab → PTH analog causes bone loss at the hip."},
+ {lo:"12.6", q:"Denosumab BMD over time:", a:"Keeps rising up to 10 years", o:["Plateaus at 4–5 years","Falls after 3 years","Peaks at 1 year"], w:"Bisphosphonates plateau at 4–5 years."},
+ {lo:"12.4", q:"Patient on an aromatase inhibitor who can't take oral BPs — best fit?", a:"Denosumab", o:["Estrogen","Raloxifene","Calcitonin"], w:"Also used with androgen deprivation therapy."}
+]},
+{id:"serm", lec:"12", name:"Estrogen & raloxifene", sub:"Estrogen receptor drugs", b:[
+ {lo:"12.2", q:"Raloxifene acts in bone as an…", a:"Estrogen agonist", o:["Estrogen antagonist","RANKL antibody","Anabolic PTH analog"], w:"Agonist in bone, antagonist in breast, neutral in uterus."},
+ {t:"m", lo:"12.3", q:"Select contraindications to estrogen therapy.", a:["Breast cancer","Prior VTE or stroke","Migraine with aura","Pregnancy"], o:["Hot flashes","Osteopenia"], w:"Hot flashes are an indication, not a contraindication."},
+ {lo:"12.3", q:"Raloxifene's key adverse effect?", a:"Venous thromboembolism", o:["Endometrial cancer","Osteonecrosis of the jaw","Hypercalcemia"], w:"Unlike tamoxifen, no endometrial cancer risk.", hy:1},
+ {lo:"12.4", q:"52 y/o, 1 year post-menopause, bad hot flashes, T −1.8, no VTE/breast cancer — best?", a:"Estrogen", o:["Romosozumab","Zoledronic acid","Teriparatide"], w:"Prevents rapid early-menopausal loss."},
+ {lo:"12.4", q:"58 y/o, strong family history of breast cancer, T −2.3, no clots — best?", a:"Raloxifene", o:["Estrogen","Ibandronate","Calcitonin"], w:"Lowers vertebral fracture and ER+ breast cancer risk."},
+ {lo:"12.5", q:"When estrogen is stopped, follow with…", a:"A bisphosphonate", o:["Nothing","Raloxifene holiday","Calcitonin"], w:"Stopping estrogen mimics menopause → rapid BMD loss."}
+]},
+{id:"anab", lec:"12", name:"Anabolic agents", sub:"Teriparatide · abaloparatide · romosozumab", b:[
+ {lo:"12.2", q:"Why does teriparatide build bone when hyperparathyroidism destroys it?", a:"Intermittent PTH-R stimulation favors osteoblasts", o:["It blocks RANKL","It is given continuously","It inhibits sclerostin"], w:"PTH paradox: intermittent = anabolic; continuous = catabolic.", hy:1},
+ {lo:"12.2", q:"Which anabolic ↑ formation AND ↓ resorption?", a:"Romosozumab", o:["Teriparatide","Abaloparatide","Denosumab"], w:"Dual effect (anti-sclerostin); PTH analogs ↑ both."},
+ {lo:"12.2", q:"Abaloparatide is an analog of…", a:"PTHrP", o:["PTH 1-34","Calcitonin","Sclerostin"], w:"Favors the R0 conformation → less resorption."},
+ {t:"m", lo:"12.3", q:"Select conditions where teriparatide is avoided (osteosarcoma risk).", a:["Paget disease of bone","Open epiphyses","Prior skeletal radiation","Unexplained ↑ ALP"], o:["Recent MI","Prior VTE"], w:"Recent MI → avoid romosozumab instead.", hy:1},
+ {lo:"12.3", q:"Romosozumab's boxed warning?", a:"MI, stroke and CV death", o:["Osteosarcoma","Severe hypocalcemia","VTE"], w:"Avoid within 1 year of MI/stroke."},
+ {lo:"12.5", q:"After an anabolic course, the next step is…", a:"An antiresorptive", o:["A drug holiday","Another anabolic","Nothing"], w:"Consolidates gains; otherwise they are lost.", hy:1}
+]},
+{id:"risk", lec:"12", name:"Risk tiers & sequencing", sub:"Choosing and ordering therapy", b:[
+ {t:"o", lo:"12.4", q:"Order the risk tiers from lowest to highest.", a:["Low: no fracture, T > −1","Moderate: T −1 to −2.5","High: T ≤ −2.5 or old fracture","Very high: recent/multiple fracture or T < −3"], w:"Very high → anabolic first."},
+ {lo:"12.4", q:"Strongest predictor of a future fracture?", a:"Prior fragility fracture", o:["Low calcium intake","Female sex","Smoking"], w:"Fractures beget fractures; age is next.", hy:1},
+ {lo:"12.4", q:"Recent vertebral fracture, T −3.4, MI 5 months ago — first drug?", a:"Teriparatide, then antiresorptive", o:["Romosozumab","Alendronate alone","Raloxifene"], w:"Very high risk → anabolic; no romosozumab within a year of MI."},
+ {lo:"12.4", q:"Very high risk + Paget disease — best anabolic?", a:"Romosozumab", o:["Teriparatide","Abaloparatide","Estrogen"], w:"PTH analogs are avoided in Paget (osteosarcoma)."},
+ {t:"o", lo:"12.5", q:"Order the ideal sequence for a very-high-risk patient.", a:["Anabolic agent","Potent antiresorptive","Reassess over time"], w:"Anabolic after antiresorptive = weaker effect."},
+ {lo:"12.6", q:"Once treatment raises the T-score to −2.2, the diagnosis is…", a:"Still osteoporosis", o:["Now osteopenia","Resolved","Osteomalacia"], w:"Keeps therapy, coverage and testing appropriate."},
+ {t:"m", lo:"12.6", q:"Select the factors used to tailor long-term osteoporosis care.", a:["Fracture risk","Comorbidities (CKD, CV disease, VTE)","Patient preference","Age / menopause stage"], o:["Blood type","Hair color"], w:"Shared decision-making for a lifelong disease."}
+]},
+{id:"cdmard", lec:"22", name:"Conventional DMARDs", sub:"MTX · HCQ · SSZ · leflunomide · minocycline", b:[
+ {lo:"22.1", q:"Why use a DMARD instead of NSAIDs/steroids alone in RA?", a:"DMARDs slow joint damage", o:["DMARDs act faster","DMARDs have no toxicity","NSAIDs are contraindicated"], w:"NSAIDs and steroids only relieve symptoms."},
+ {lo:"22.4", q:"Methotrexate inhibits…", a:"Dihydrofolate reductase", o:["Dihydroorotate dehydrogenase","IMP dehydrogenase","Thymidylate kinase"], w:"Weekly dose + folic acid; avoid in renal insufficiency.", hy:1},
+ {t:"m", lo:"22.4", q:"Select methotrexate toxicities.", a:["Hepatotoxicity","Cytopenias","Pneumonitis","Teratogenicity"], o:["Retinal toxicity","Hemorrhagic cystitis"], w:"Retina → HCQ; cystitis → cyclophosphamide."},
+ {lo:"22.4", q:"Hydroxychloroquine needs periodic…", a:"Eye exams (retina)", o:["LFTs","PFTs","Uric acid"], w:"Retinal toxicity.", hy:1},
+ {lo:"22.4", q:"Leflunomide inhibits…", a:"Dihydroorotate dehydrogenase", o:["Dihydrofolate reductase","IMP dehydrogenase","Xanthine oxidase"], w:"↓ Pyrimidines; long half-life → cholestyramine washout."},
+ {lo:"22.4", q:"Minocycline's rare autoimmune adverse effect?", a:"Drug-induced lupus", o:["Myasthenia","Pemphigus","Graves disease"], w:"Also vestibular toxicity and hepatitis."},
+ {lo:"22.4", q:"Sulfasalazine's most common problem?", a:"Sulfa allergy and GI upset", o:["Retinopathy","PML","Hyperkalemia"], w:"Rarely agranulocytosis."}
+]},
+{id:"antitnf", lec:"22", name:"Anti-TNF agents", sub:"Infliximab · adalimumab · etanercept · others", b:[
+ {lo:"22.4", q:"Screen before any anti-TNF for…", a:"Latent TB (PPD or IGRA)", o:["TPMT","G6PD","HLA-B*5801"], w:"Also check hepatitis B.", hy:1},
+ {lo:"22.4", q:"Which anti-TNF does NOT treat Crohn disease or uveitis?", a:"Etanercept", o:["Infliximab","Adalimumab","Certolizumab"], w:"Etanercept is a fusion receptor (-cept); only mAbs work in IBD/uveitis.", hy:1},
+ {lo:"22.1", q:"Etanercept is a…", a:"TNF receptor–Fc fusion protein", o:["Chimeric mAb","Humanized mAb","Receptor antagonist"], w:"-cept = reCEPTor."},
+ {lo:"22.3", q:"Most immunogenic anti-TNF?", a:"Infliximab", o:["Etanercept","Adalimumab","Golimumab"], w:"Chimeric IV mAb; ADAb in 6–61%."},
+ {lo:"22.2", q:"Anti-TNF response rates in RA: ACR20 ≈", a:"70%", o:["20%","40%","95%"], w:"ACR50 ≈ 50%, ACR70 ≈ 25%."},
+ {lo:"22.2", q:"Etanercept + methotrexate vs either alone:", a:"Combination is better", o:["Etanercept alone is better","MTX alone is better","No difference"], w:"Combo also reduces anti-drug antibodies."}
+]},
+{id:"otherbio", lec:"22", name:"Other biologics", sub:"Rituximab · abatacept · tocilizumab · anakinra · belimumab · JAKi", b:[
+ {lo:"22.4", q:"Rituximab's target?", a:"CD20", o:["CD80/86","IL-6 receptor","BLyS"], w:"B-cell depletion ≥6 months."},
+ {t:"m", lo:"22.4", q:"Select rituximab toxicities.", a:["PML (JC virus)","Hepatitis B reactivation","Infusion reactions"], o:["Retinal toxicity","Hypercalcemia"], w:"Check HBcAb before starting.", hy:1},
+ {lo:"22.4", q:"Abatacept is…", a:"CTLA4-Ig binding CD80/86", o:["Anti-CD28 antibody","Anti-CTLA4 antibody","Anti-IL-6R antibody"], w:"Blocks CD28 co-stimulation; well tolerated.", hy:1},
+ {lo:"22.4", q:"Tocilizumab blocks…", a:"IL-6 receptor", o:["IL-1 receptor","TNF-α","IL-17"], w:"Used in GCA; ↑ BP, ↑ LFTs, infections."},
+ {lo:"22.4", q:"Painful injection-site welts and neutropenia — which drug?", a:"Anakinra", o:["Belimumab","Abatacept","Rituximab"], w:"IL-1R antagonist; great for CAPS, Still, gout."},
+ {lo:"22.4", q:"Belimumab targets…", a:"BLyS/BAFF", o:["CD20","Type I IFN receptor","JAK"], w:"Approved for lupus."},
+ {lo:"22.4", q:"Tofacitinib adverse effects?", a:"Infection (zoster) and ↑ cholesterol", o:["PML","Hemorrhagic cystitis","Retinopathy"], w:"Small-molecule JAK inhibitor, not a biologic."}
+]},
+{id:"t2t", lec:"22", name:"Treat to target & ADAb", sub:"Measure, adjust, prevent antibodies", b:[
+ {t:"o", lo:"22.2", q:"Order the treat-to-target loop.", a:["Confirm the diagnosis","Start a DMARD (MTX)","Measure activity (DAS28 / ACR / RAPID3)","Add or switch if not at target"], w:"Then re-measure."},
+ {lo:"22.2", q:"Which score has no joint count?", a:"RAPID3", o:["DAS28","ACR20","CDAI"], w:"Patient-reported function, pain, global."},
+ {lo:"22.2", q:"Primary failure (never worked) → ", a:"New class; review the diagnosis", o:["Increase the dose","Same-class switch","Shorten the interval"], w:"Secondary failure is the one treated by dose/interval changes."},
+ {lo:"22.3", q:"Secondary failure after 2 good years is usually due to…", a:"Anti-drug antibodies", o:["Wrong diagnosis","TB reactivation","Non-adherence to NSAIDs"], w:"↑ Dose, shorten interval, switch in class or target.", hy:1},
+ {t:"m", lo:"22.3", q:"Select factors that RAISE anti-drug antibody risk.", a:["Stop-start dosing","Low doses","Chimeric antibody","No concomitant immunosuppressant"], o:["Regular dosing","Methotrexate co-therapy"], w:"Give the biologic a bodyguard (MTX)."},
+ {lo:"22.3", q:"Pegloticase failure is detected by…", a:"Rising serum uric acid", o:["Rising ESR","Falling creatinine","New rash"], w:"About 50% form neutralizing antibodies."}
+]},
+{id:"ddx", lec:"24", name:"Conference DDx", sub:"Recognize the disease", b:[
+ {lo:"24.1", q:"Stiffness < 30 min, CMC/PIP/DIP pain worse with use:", a:"Osteoarthritis", o:["Rheumatoid arthritis","Psoriatic arthritis","SLE"], w:"Mechanical pattern."},
+ {lo:"24.1", q:"Bilateral toe pain with activity, no warmth, uric acid 8.4:", a:"Mechanical (OA), not gout", o:["Acute gout","Septic arthritis","Pseudogout"], w:"Hyperuricemia alone does not make gout."},
+ {lo:"24.1", q:"Heliotrope rash, proximal weakness, nasal voice, CPK 2000:", a:"Dermatomyositis", o:["SLE","PMR","Myasthenia gravis"], w:"Over 50 → screen for cancer.", hy:1},
+ {lo:"24.1", q:">50, shoulder and hip girdle pain, ESR 60, RF/ANA negative:", a:"Polymyalgia rheumatica", o:["Polymyositis","RA","Fibromyalgia"], w:"Ask about headache/jaw claudication (GCA)."},
+ {lo:"24.1", q:"Saddle nose, sinusitis, lacrimal swelling, RBC casts:", a:"GPA (c-ANCA/PR3)", o:["Sjögren","Sarcoidosis","SLE"], w:"Sjögren lacks destructive nose, lung, kidney disease."},
+ {lo:"24.1", q:"Uveitis with synechiae, purple facial rash, ↑ Ca²⁺, hilar nodes:", a:"Sarcoidosis", o:["GPA","SLE","TB"], w:"Non-caseating granulomas."},
+ {lo:"24.1", q:"Nail pitting, scalp/gluteal plaques, dactylitis, RF negative:", a:"Psoriatic arthritis", o:["RA","Gout","Reactive arthritis"], w:"CASPAR ≥3."},
+ {t:"o", lo:"24.1", q:"Order the approach to joint pain.", a:["Decide the category (mechanical, inflammatory, crystalline, infectious)","Build a differential","Confirm with tests","Treat"], w:"Category first in every case."}
+]},
+{id:"immuno", lec:"24", name:"Immunosuppressants", sub:"Steroids · CYC · MMF · AZA · lupus add-ons", b:[
+ {t:"m", lo:"24.2", q:"Select long-term glucocorticoid toxicities.", a:["Avascular necrosis","Cataracts","Osteoporosis","Hyperglycemia"], o:["Hypoglycemia","Retinal toxicity"], w:"AVN of the femoral head is the classic case twist.", hy:1},
+ {t:"m", lo:"24.2", q:"Select cyclophosphamide toxicities.", a:["Hemorrhagic cystitis","Bladder cancer","Premature ovarian failure","Infection"], o:["Retinopathy","Hypercalcemia"], w:"Cystitis, Cancer, Can't conceive — protect with mesna."},
+ {lo:"24.2", q:"Mesna protects against…", a:"Acrolein bladder toxicity", o:["Methotrexate liver toxicity","Steroid AVN","Azathioprine marrow toxicity"], w:"Given with cyclophosphamide."},
+ {lo:"24.2", q:"Mycophenolate inhibits…", a:"IMP dehydrogenase", o:["Dihydrofolate reductase","Calcineurin","Xanthine oxidase"], w:"↓ De novo guanosine in lymphocytes."},
+ {lo:"24.2", q:"Azathioprine + allopurinol → ", a:"Toxic 6-MP and pancytopenia", o:["Gout flare","Hepatic failure only","Hyperkalemia"], w:"Xanthine oxidase clears 6-MP; check TPMT.", hy:1},
+ {lo:"24.2", q:"Anifrolumab blocks…", a:"Type I interferon receptor", o:["BLyS","CD20","Calcineurin"], w:"Lupus skin and joints."}
+]},
+{id:"dztx", lec:"24", name:"Disease → therapy", sub:"First line and escalation", b:[
+ {lo:"24.3", q:"Mild SLE (rash, arthralgia, normal kidneys):", a:"Hydroxychloroquine", o:["Cyclophosphamide","Etanercept","Rituximab"], w:"Maintained in almost all lupus patients."},
+ {lo:"24.3", q:"Lupus nephritis induction:", a:"Steroids + MMF or cyclophosphamide", o:["HCQ alone","NSAIDs","Anti-TNF"], w:"Maintain with MMF/AZA; keep HCQ.", hy:1},
+ {lo:"24.3", q:"GPA induction:", a:"Steroids + rituximab or cyclophosphamide", o:["HCQ","NSAIDs alone","Etanercept"], w:"PCP prophylaxis; maintain with RTX/MTX/AZA."},
+ {lo:"24.3", q:"Axial SpA refractory to NSAIDs:", a:"Anti-TNF or IL-17 inhibitor", o:["Methotrexate","HCQ","Long-term prednisone"], w:"mAb anti-TNF also treats uveitis and IBD."},
+ {lo:"24.3", q:"PMR first line:", a:"Prednisone 10–20 mg", o:["Methotrexate","Rituximab","High-dose pulse steroids"], w:"Dramatic response; tocilizumab if GCA."},
+ {lo:"24.3", q:"Why avoid anti-TNF in SLE?", a:"It can induce lupus", o:["It causes hypercalcemia","It is nephrotoxic","It causes retinopathy"], w:"Drug-induced lupus."},
+ {lo:"24.3", q:"Sarcoidosis steroid-sparing agent:", a:"Methotrexate", o:["Allopurinol","Cyclophosphamide","Etanercept"], w:"Steroids first."}
+]},
+{id:"cases", lec:"24", name:"Case conference", sub:"Diagnose → treat → watch", b:[
+ {t:"o", lo:"24.4", q:"Order the approach to each case.", a:["Pattern recognition","Differential diagnosis","Confirmatory testing","Treatment","Measure success and toxicity"], w:"Is it working? Is it hurting?"},
+ {lo:"24.4", q:"Lupus nephritis patient on prednisone develops groin pain; MRI: femoral head necrosis. Cause?", a:"Corticosteroid therapy", o:["Lupus vasculitis","Genetics","Mycophenolate"], w:"Steroid-induced AVN.", hy:1},
+ {lo:"24.4", q:"Hypermobile dancer with sacroiliitis has a NORMAL Schober test. Why?", a:"Hypermobility masked reduced flexion", o:["It is mechanical back pain","Sacroiliitis never limits flexion","Schober is only abnormal in OA"], w:"Still axial SpA → anti-TNF."},
+ {lo:"24.4", q:"After stopping adalimumab, the dancer has bloody diarrhea with neutrophilic colitis:", a:"IBD associated with SpA", o:["C. difficile","Ischemic colitis","Drug-induced lupus"], w:"The mAb anti-TNF had been treating it."},
+ {lo:"24.4", q:"OA of the hands — disease-modifying drug?", a:"None; analgesics, exercise, joint protection", o:["Methotrexate","Hydroxychloroquine","Rituximab"], w:"Measure function and pain."},
+ {lo:"24.4", q:"Young woman needs IV cyclophosphamide and wants children later — key counseling?", a:"Premature ovarian failure", o:["Retinal toxicity","Hypercalcemia","Ototoxicity"], w:"Low-dose Euro-Lupus protocols preferred."}
+]}
+];
+
+(function(){
+"use strict";
+var KEY="hd-msk-pharm-builder-v1";
+var S={box:{},score:0,streak:0,best:0,tot:0,right:0,theme:"auto"};
+function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.box)S=Object.assign(S,j);}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+load();
+
+var ALL=[]; E.forEach(function(e){e.b.forEach(function(b,i){b.id=e.id+"."+i;b.ent=e;ALL.push(b);});});
+function st(b){var r=S.box[b.id];return r?r.s:"u";}
+var mode="build", scope="all", loFilter=null, curEnt=null, idx=0, cur=null, answered=false, results={}, lastId=null, t0=0, tick=null;
+
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function inScope(b){return (scope==="all"||b.ent.lec===scope)&&(!loFilter||b.lo===loFilter);}
+
+/* ---------- theme ---------- */
+var themeBtn=document.getElementById("themeBtn");
+function applyTheme(){var r=document.documentElement;if(S.theme==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",S.theme);themeBtn.textContent="Theme: "+S.theme;}
+themeBtn.onclick=function(){S.theme={auto:"light",light:"dark",dark:"auto"}[S.theme];applyTheme();save();};
+applyTheme();
+document.getElementById("resetBtn").onclick=function(){
+  var b=this; if(b.dataset.confirm){S.box={};S.score=S.streak=S.tot=S.right=0;save();b.textContent="Reset progress";delete b.dataset.confirm;renderAll();next();return;}
+  b.dataset.confirm="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.confirm){delete b.dataset.confirm;b.textContent="Reset progress";}},3000);
+};
+
+/* ---------- stats / side / map ---------- */
+function loStatus(lo){var bs=ALL.filter(function(b){return b.lo===lo;});var ss=bs.map(st);
+  var m=ss.filter(function(x){return x==="M";}).length;
+  if(m===bs.length)return{s:"M",m:m,n:bs.length};
+  if(ss.indexOf("m")>=0)return{s:"m",m:m,n:bs.length};
+  if(ss.some(function(x){return x!=="u";}))return{s:"o",m:m,n:bs.length};
+  return{s:"u",m:m,n:bs.length};}
+function renderStats(){
+  document.getElementById("sScore").textContent=S.score;
+  document.getElementById("sStreak").textContent=S.streak;
+  document.getElementById("sAcc").textContent=S.tot?Math.round(100*S.right/S.tot)+"%":"—";
+  document.getElementById("sBoxes").textContent=ALL.filter(function(b){return st(b)==="M";}).length+"/"+ALL.length;
+  var los=Object.keys(LOS);document.getElementById("sLos").textContent=los.filter(function(l){return loStatus(l).s==="M";}).length+"/"+los.length;
+}
+function renderSide(){
+  var h="";LECS.forEach(function(L){if(scope!=="all"&&scope!==L.k)return;
+    h+='<p class="lec-h l'+L.k+'" style="color:var(--lc)">MSK'+L.k+' · '+esc(L.n)+'</p>';
+    E.filter(function(e){return e.lec===L.k;}).forEach(function(e){
+      var m=e.b.filter(function(b){return st(b)==="M";}).length,p=Math.round(100*m/e.b.length);
+      h+='<button type="button" class="ent l'+e.lec+'" data-ent="'+e.id+'"'+(curEnt===e&&mode==="build"?' aria-current="true"':'')+'><span class="n">'+esc(e.name)+'</span><span class="pct">'+m+'/'+e.b.length+'</span><span class="s">'+esc(e.sub)+'</span><span class="mini"><i style="width:'+p+'%"></i></span></button>';
+    });});
+  var el=document.getElementById("entList");el.innerHTML=h;
+  el.querySelectorAll(".ent").forEach(function(b){b.onclick=function(){setMode("build");startEnt(E.filter(function(e){return e.id===b.dataset.ent;})[0]);};});
+}
+function renderMap(){
+  var h="";Object.keys(LOS).forEach(function(lo){var lec=lo.split(".")[0];if(scope!=="all"&&scope!==lec)return;var s=loStatus(lo);
+    h+='<button type="button" class="lo-tile l'+lec+'" data-lo="'+lo+'"'+(loFilter===lo?' style="border-color:var(--lc)"':'')+'><span class="id">'+(lo.slice(-1)==="X"?"Extra":"LO "+lo)+'</span><span class="t">'+esc(LOS[lo])+'</span><span class="dot s-'+s.s+'" title="'+s.m+'/'+s.n+' mastered"></span></button>';});
+  var g=document.getElementById("loGrid");g.innerHTML=h;
+  g.querySelectorAll(".lo-tile").forEach(function(b){b.onclick=function(){loFilter=(loFilter===b.dataset.lo?null:b.dataset.lo);setMode("drill");};});
+}
+function renderAll(){renderStats();renderSide();renderMap();}
+
+/* ---------- flow ---------- */
+function setMode(m){mode=m;document.querySelectorAll("[data-mode]").forEach(function(b){b.setAttribute("aria-pressed",String(b.dataset.mode===m));});
+  if(m==="build"){loFilter=null;renderAll();if(!curEnt||!inScope(curEnt.b[0]))startEnt(firstEnt());else show();}
+  else{renderAll();next();}}
+function firstEnt(){var es=E.filter(function(e){return scope==="all"||e.lec===scope;});
+  for(var i=0;i<es.length;i++){if(es[i].b.some(function(b){return st(b)!=="M";}))return es[i];}return es[0];}
+document.querySelectorAll("[data-mode]").forEach(function(b){b.onclick=function(){setMode(b.dataset.mode);};});
+document.querySelectorAll("[data-scope]").forEach(function(b){b.onclick=function(){scope=b.dataset.scope;loFilter=null;
+  document.querySelectorAll("[data-scope]").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+  if(mode==="build"){curEnt=null;setMode("build");}else setMode("drill");};});
+
+function startEnt(e){curEnt=e;idx=0;results={};renderSide();cur=e.b[0];show();}
+function next(){
+  if(mode==="build"){idx++;if(idx>=curEnt.b.length){finishEnt();return;}cur=curEnt.b[idx];show();return;}
+  var pool=ALL.filter(inScope);if(!pool.length){cur=null;show();return;}
+  var rank={m:0,u:1,o:2,M:3};
+  pool=shuffle(pool).sort(function(a,b){return rank[st(a)]-rank[st(b)];});
+  var best=rank[st(pool[0])];var top=pool.filter(function(b){return rank[st(b)]===best&&b.id!==lastId;});
+  if(best===3)top=pool.filter(function(b){return b.id!==lastId;});
+  cur=(top.length?top:pool)[0];show();
+}
+function finishEnt(){
+  var ok=Object.keys(results).filter(function(k){return results[k];}).length,n=curEnt.b.length;
+  var i=E.indexOf(curEnt),nxt=null;for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){nxt=c;break;}}
+  var card=document.getElementById("card");card.className="card l"+curEnt.lec;
+  card.innerHTML='<div class="done"><p class="meta">Topic complete</p><h2>'+esc(curEnt.name)+': '+ok+' / '+n+' first try</h2>'+
+   '<p class="hint">'+(ok===n?"Clean build. It will count as mastered after one more clean pass.":"Missed boxes are queued first in Drill mode.")+'</p>'+
+   '<div class="actions"><button class="btn" type="button" id="again">Rebuild '+esc(curEnt.name)+'</button>'+(nxt?'<button class="btn primary" type="button" id="nextEnt">Next: '+esc(nxt.name)+' →</button>':'')+'</div></div>';
+  document.getElementById("again").onclick=function(){startEnt(curEnt);};
+  if(nxt)document.getElementById("nextEnt").onclick=function(){startEnt(nxt);};
+  var ne=document.getElementById("nextEnt");if(ne)ne.focus();
+}
+
+var picks=[];
+function show(){
+  answered=false;picks=[];clearInterval(tick);
+  var card=document.getElementById("card");
+  if(!cur){card.className="card";card.innerHTML='<p class="q">Nothing in this scope yet.</p>';return;}
+  var b=cur,e=b.ent;card.className="card l"+e.lec;
+  var head='<div class="card-top"><div><p class="meta">'+(mode==="build"?"Build · box "+(idx+1)+" of "+e.b.length:"Drill"+(loFilter?" · LO "+loFilter:""))+'</p><h2>'+esc(e.name)+'</h2></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag lo">'+(b.lo.slice(-1)==="X"?"Extra":"LO "+b.lo)+'</span>'+(b.hy?'<span class="tag hy">HY</span>':'')+'<span class="timer" id="timer">0.0s</span></div></div>';
+  if(mode==="build"){head+='<div class="boxes" aria-hidden="true">'+e.b.map(function(x,i){var c=i===idx?"cur":(x.id in results?(results[x.id]?"done-ok":"done-bad"):"");return '<i class="'+c+'"></i>';}).join("")+'</div>';}
+  var body='<p class="q">'+esc(b.q)+'</p>';
+  if(!b.t){b._opts=shuffle([b.a].concat(b.o));
+    body+='<div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else if(b.t==="m"){b._opts=shuffle(b.a.concat(b.o));
+    body+='<p class="hint">Select all that apply, then check.</p><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" aria-pressed="false" data-i="'+i+'"><span class="k">'+(i+1)+'</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  else{b._opts=shuffle(b.a);
+    body+='<p class="hint">Tap items in order. Tap a placed item to remove it.</p><ol class="ordered" id="ordList"><li class="empty" style="cursor:default">Your order appears here</li></ol><div class="opts">'+b._opts.map(function(o,i){return '<button type="button" class="opt" data-i="'+i+'"><span class="k">+</span><span>'+esc(o)+'</span></button>';}).join("")+'</div>';}
+  var act='<div id="fb"></div><div class="actions"><span class="hint">'+(b.t?"Enter to check":"Keys 1–"+b._opts.length+" to answer")+'</span><div style="display:flex;gap:8px">'+
+    (mode==="build"?'<button class="btn" type="button" id="skipBtn">Skip topic</button>':'')+
+    (b.t?'<button class="btn primary" type="button" id="checkBtn"'+(b.t==="o"?" disabled":"")+'>Check</button>':'')+
+    '<button class="btn primary" type="button" id="nextBtn" hidden>Next box →</button></div></div>';
+  card.innerHTML=head+body+act;
+  t0=Date.now();tick=setInterval(function(){var t=document.getElementById("timer");if(t)t.textContent=((Date.now()-t0)/1000).toFixed(1)+"s";},100);
+  var opts=card.querySelectorAll(".opt");
+  if(!b.t)opts.forEach(function(o){o.onclick=function(){if(!answered)grade([+o.dataset.i]);};});
+  else if(b.t==="m")opts.forEach(function(o){o.onclick=function(){if(answered)return;var on=o.getAttribute("aria-pressed")!=="true";o.setAttribute("aria-pressed",String(on));o.classList.toggle("sel",on);};});
+  else opts.forEach(function(o){o.onclick=function(){if(answered||o.disabled)return;picks.push(+o.dataset.i);o.disabled=true;o.style.opacity=".4";drawOrd();};});
+  var cb=document.getElementById("checkBtn");if(cb)cb.onclick=function(){if(answered)return;
+    if(b.t==="m"){var sel=[];opts.forEach(function(o){if(o.getAttribute("aria-pressed")==="true")sel.push(+o.dataset.i);});grade(sel);}else grade(picks);};
+  var sk=document.getElementById("skipBtn");if(sk)sk.onclick=function(){var i=E.indexOf(curEnt);for(var j=1;j<=E.length;j++){var c=E[(i+j)%E.length];if(scope==="all"||c.lec===scope){startEnt(c);return;}}};
+  document.getElementById("nextBtn").onclick=function(){lastId=cur.id;next();};
+}
+function drawOrd(){var b=cur,ol=document.getElementById("ordList");
+  ol.innerHTML=picks.length?picks.map(function(i,k){return '<li data-k="'+k+'">'+esc(b._opts[i])+'</li>';}).join(""):'<li class="empty" style="cursor:default">Your order appears here</li>';
+  ol.querySelectorAll("li[data-k]").forEach(function(li){li.onclick=function(){if(answered)return;var k=+li.dataset.k,i=picks[k];picks.splice(k,1);
+    var o=document.querySelector('.opt[data-i="'+i+'"]');o.disabled=false;o.style.opacity="";drawOrd();};});
+  document.getElementById("checkBtn").disabled=picks.length!==b.a.length;}
+
+function grade(sel){
+  answered=true;clearInterval(tick);var b=cur,ok,card=document.getElementById("card"),opts=card.querySelectorAll(".opt");
+  if(!b.t){ok=b._opts[sel[0]]===b.a;opts.forEach(function(o){var t=b._opts[+o.dataset.i];o.disabled=true;if(t===b.a)o.classList.add("right");else if(+o.dataset.i===sel[0])o.classList.add("wrong");});}
+  else if(b.t==="m"){var chosen=sel.map(function(i){return b._opts[i];});ok=chosen.length===b.a.length&&chosen.every(function(c){return b.a.indexOf(c)>=0;});
+    opts.forEach(function(o){var t=b._opts[+o.dataset.i],isA=b.a.indexOf(t)>=0,isS=chosen.indexOf(t)>=0;o.disabled=true;o.classList.remove("sel");
+      if(isA&&isS)o.classList.add("right");else if(isA)o.classList.add("missed");else if(isS)o.classList.add("wrong");});}
+  else{var got=sel.map(function(i){return b._opts[i];});ok=got.every(function(g,k){return g===b.a[k];});
+    document.querySelectorAll("#ordList li[data-k]").forEach(function(li,k){li.classList.add(got[k]===b.a[k]?"right":"wrong");});
+    opts.forEach(function(o){o.disabled=true;});}
+  var r=S.box[b.id]||{n:0,c:0,s:"u"};r.n++;
+  if(ok){r.c++;r.s=r.c>=2?"M":"o";S.streak++;S.best=Math.max(S.best,S.streak);S.right++;S.score+=10+Math.min(S.streak,10);}
+  else{r.c=0;r.s="m";S.streak=0;}
+  S.tot++;S.box[b.id]=r;if(!(b.id in results))results[b.id]=ok;save();
+  var fb='<div class="fb '+(ok?"ok":"bad")+'"><span class="v">'+(ok?"Correct":"Not quite")+'</span>';
+  if(!ok){if(!b.t)fb+='<span>Answer: <b>'+esc(b.a)+'</b></span>';else if(b.t==="m")fb+='<span>Answer: <b>'+b.a.map(esc).join(" · ")+'</b></span>';else fb+='<span>Correct order:</span><ol>'+b.a.map(function(x){return "<li>"+esc(x)+"</li>";}).join("")+'</ol>';}
+  fb+='<span>'+esc(b.w)+'</span></div>';
+  document.getElementById("fb").innerHTML=fb;
+  var cb=document.getElementById("checkBtn");if(cb)cb.hidden=true;
+  var nb=document.getElementById("nextBtn");nb.hidden=false;nb.textContent=(mode==="build"&&idx===curEnt.b.length-1)?"Finish topic →":"Next box →";nb.focus();
+  renderAll();
+}
+document.addEventListener("keydown",function(ev){
+  if(ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){var nb=document.getElementById("nextBtn"),cb=document.getElementById("checkBtn");
+    if(nb&&!nb.hidden){ev.preventDefault();nb.click();}else if(cb&&!cb.hidden&&!cb.disabled){ev.preventDefault();cb.click();}return;}
+  var n=parseInt(ev.key,10);if(!cur||answered||isNaN(n))return;var o=document.querySelector('.opt[data-i="'+(n-1)+'"]');if(o&&!o.disabled)o.click();
+});
+
+renderAll();startEnt(firstEnt());
+})();
+</script>

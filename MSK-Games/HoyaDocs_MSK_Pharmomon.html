@@ -1,0 +1,790 @@
+<title>Pharmomon · MSK Pharmacology</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Press+Start+2P&display=swap">
+<style>
+/* Single deliberate look: a handheld console. Painted explicitly so it holds on light or dark hosts. */
+:root{
+  color-scheme: dark;
+  --shell:#1E2440; --shell2:#262E52; --shell-line:#3A4470; --shell-ink:#E9ECF7; --shell-mute:#A3AACB;
+  --screen:#F3F7EE; --ink:#1B2033; --mute:#5B6280; --line:#1B2033;
+  --sky:#D6ECDF; --sky2:#BFE0CE; --grass:#8CC06A; --grass2:#6FA553; --pad:#B9D89A; --pad2:#9BC47C;
+  --gold:#E3AE12; --gold-ink:#7A5B00;
+  --good:#1E8A57; --good-soft:#DCF2E6; --bad:#C2412F; --bad-soft:#F8E1DC; --trap:#96313B; --trap-soft:#F8E8E9;
+  --hp-hi:#38B26A; --hp-mid:#E3AE12; --hp-lo:#D9442F; --xp:#3E8FE0;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --pixel:"Press Start 2P","Courier New",monospace;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{background:var(--shell);color:var(--shell-ink)}
+body{font:15px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:14px 40px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.px{font-family:var(--pixel);letter-spacing:.02em}
+.mast{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--pixel);font-size:11px;color:var(--shell-mute);line-height:1.8}
+.brand b{color:var(--gold)}
+.brand a{color:var(--shell-mute)}
+.hud{display:flex;gap:6px;flex-wrap:wrap}
+.hbtn{background:var(--shell2);border:2px solid var(--shell-line);border-radius:6px;padding:7px 10px;font-family:var(--pixel);font-size:9px;color:var(--shell-ink);line-height:1.4}
+.hbtn:hover{border-color:var(--gold)}
+.hbtn b{color:var(--gold)}
+.screen{background:var(--screen);color:var(--ink);border:4px solid #0F1326;border-radius:14px;box-shadow:0 0 0 4px var(--shell-line),0 16px 40px #0008;overflow:hidden}
+.foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:var(--pixel);font-size:8.5px;color:var(--shell-mute);line-height:1.8}
+
+/* ---------- generic in-screen UI ---------- */
+.pane{padding:18px;display:flex;flex-direction:column;gap:14px}
+.h1{font-family:var(--pixel);font-size:clamp(18px,4vw,28px);line-height:1.3;margin:0;text-wrap:balance}
+.h2{font-family:var(--pixel);font-size:13px;line-height:1.5;margin:0}
+.lede{margin:0;color:var(--mute);max-width:62ch}
+.box{border:3px solid var(--line);border-radius:8px;background:#fff;box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 5px #C9CFE0;padding:14px 16px}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:6px;padding:11px 16px;font-family:var(--pixel);font-size:10px;line-height:1.4;box-shadow:0 3px 0 #000}
+.btn:hover{background:#2E3659}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #000}
+.btn.gold{background:var(--gold);color:#241A00}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink),0 3px 0 var(--ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tchip{display:inline-block;font-family:var(--pixel);font-size:8px;line-height:1;padding:4px 6px;border-radius:3px;color:#fff;vertical-align:middle}
+.small{font-size:13px;color:var(--mute)}
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:6px;padding:10px 12px;color:var(--hy-ink);font-size:14px}
+.hy b{display:block;font-family:var(--pixel);font-size:8.5px;letter-spacing:.04em;margin-bottom:6px}
+.trapbox{background:var(--trap-soft);border:2px solid var(--trap);border-radius:6px;padding:10px 12px;font-size:14px;color:#4A1419}
+.trapbox b.lab{display:block;font-family:var(--pixel);font-size:8.5px;color:var(--trap);margin-bottom:6px}
+
+/* ---------- title ---------- */
+.title{background:linear-gradient(180deg,var(--sky) 0 58%,var(--grass) 58% 100%);position:relative}
+.title .pane{gap:16px}
+.logo{font-family:var(--pixel);font-size:clamp(26px,7vw,52px);line-height:1.05;color:var(--ink);text-shadow:3px 3px 0 var(--gold);margin:0}
+.logo small{display:block;font-size:.3em;margin-top:10px;text-shadow:none;color:var(--mute)}
+.starters{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.starter{background:#fff;border:3px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;text-align:left}
+.starter:hover,.starter[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold)}
+.starter .spr{width:96px;height:108px;align-self:center}
+.starter h3{font-family:var(--pixel);font-size:11px;margin:0}
+.starter p{margin:0;font-size:13px;color:var(--mute)}
+.namefield{display:flex;flex-direction:column;gap:6px;max-width:320px}
+.namefield label{font-family:var(--pixel);font-size:9px}
+.namefield input{font:inherit;border:3px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff;color:var(--ink)}
+
+/* ---------- map ---------- */
+.map{position:relative;aspect-ratio:100/62;max-width:100%;background:
+  radial-gradient(circle at 20% 30%,#9ACB76 0 6%,transparent 6.5%),
+  radial-gradient(circle at 70% 80%,#9ACB76 0 5%,transparent 5.5%),
+  repeating-linear-gradient(0deg,transparent 0 11px,#0000000a 11px 12px),
+  repeating-linear-gradient(90deg,transparent 0 11px,#0000000a 11px 12px),var(--grass);
+  border-bottom:4px solid var(--line)}
+.map svg.paths{position:absolute;inset:0;width:100%;height:100%}
+.pond{position:absolute;left:66%;top:6%;width:14%;height:20%;background:#6FB6DC;border:3px solid #3E7FA6;border-radius:48% 52% 45% 55%}
+.tree{position:absolute;width:3.2%;aspect-ratio:1;background:#3F7F3A;border:2px solid #1F4A22;border-radius:50% 50% 45% 45%}
+.loc{position:absolute;transform:translate(-50%,-60%);display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0}
+.loc .ico{width:clamp(38px,8vw,64px);aspect-ratio:1}
+.loc .lbl{font-family:var(--pixel);font-size:clamp(6.5px,1.4vw,9px);background:#fff;border:2px solid var(--line);border-radius:4px;padding:3px 5px;white-space:nowrap;line-height:1.3}
+.loc .lbl em{display:block;font-style:normal;color:var(--mute);font-size:.85em}
+.loc[disabled]{cursor:not-allowed;filter:grayscale(.9);opacity:.75}
+.loc:hover .lbl{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.avatar{position:absolute;width:clamp(20px,4vw,34px);transform:translate(-50%,-100%);transition:left .55s steps(6),top .55s steps(6);pointer-events:none;z-index:3}
+@media (max-width:600px){.map{aspect-ratio:100/100}}
+.mapfoot{padding:14px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.stat{border:2px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff}
+.stat .k{font-family:var(--pixel);font-size:8px;color:var(--mute)}
+.stat .v{font-family:var(--mono);font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}
+.badges{display:flex;gap:6px;margin-top:4px}
+.badge{width:22px;height:22px}
+
+/* ---------- route ---------- */
+.patches{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.patch{text-align:left;background:
+  repeating-linear-gradient(135deg,var(--grass) 0 6px,var(--grass2) 6px 8px);border:3px solid var(--line);border-radius:10px;padding:0;overflow:hidden;display:flex;flex-direction:column}
+.patch .in{background:#fff;margin-top:26px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--line);flex:1}
+.patch h3{margin:0;font-size:15px;font-weight:600}
+.patch:hover{box-shadow:0 0 0 3px var(--gold)}
+.meter{height:8px;border:2px solid var(--line);border-radius:4px;background:#E8ECF4;overflow:hidden;display:flex}
+.meter i{display:block;height:100%}
+.gymcard{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;border:3px solid var(--line);border-radius:10px;padding:14px;background:#fff}
+.gymcard .trn{width:64px;height:88px}
+@media (max-width:520px){.gymcard{grid-template-columns:1fr}.gymcard .trn{justify-self:center}}
+
+/* ---------- battle ---------- */
+.scene{position:relative;aspect-ratio:16/9;max-width:100%;background:linear-gradient(180deg,var(--sky) 0 52%,var(--sky2) 52% 60%,var(--grass) 60% 100%);overflow:hidden;border-bottom:4px solid var(--line)}
+.scene.gym{background:linear-gradient(180deg,#E6E1F4 0 52%,#CFC6EA 52% 60%,#B7A9DE 60% 100%)}
+.scene.cave{background:linear-gradient(180deg,#D9D2C6 0 52%,#C3B8A6 52% 60%,#A8987F 60% 100%)}
+.plat{position:absolute;border-radius:50%;background:var(--pad);border:3px solid var(--pad2)}
+.plat.e{right:6%;top:40%;width:34%;height:13%}
+.plat.p{left:4%;bottom:4%;width:40%;height:15%}
+.scene.gym .plat,.scene.cave .plat{background:#fff8;border-color:#0002}
+.mon{position:absolute;image-rendering:pixelated}
+.mon.e{right:12%;top:8%;width:22%;aspect-ratio:16/18}
+.mon.p{left:9%;bottom:8%;width:28%;aspect-ratio:16/18}
+.mon.e.enter{animation:slideE .7s steps(8) both}
+.mon.p.enter{animation:slideP .6s steps(8) both}
+@keyframes slideE{from{transform:translateX(160%)}to{transform:none}}
+@keyframes slideP{from{transform:translateX(-160%)}to{transform:none}}
+.mon.hit{animation:blink .5s steps(2) 2}
+@keyframes blink{50%{opacity:.1}}
+.mon.e.leave{animation:slideOut .5s steps(6) forwards}
+.mon.faint{animation:faint .6s ease-in forwards}
+@keyframes faint{to{transform:translateY(60%);opacity:0}}
+.mon.lunge.p{animation:lungeP .35s ease-out}
+.mon.lunge.e{animation:lungeE .35s ease-out}
+@keyframes lungeP{50%{transform:translate(18%,-10%)}}
+@keyframes lungeE{50%{transform:translate(-18%,10%)}}
+.scene.shake{animation:shake .35s steps(4)}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.orb{position:absolute;width:7%;aspect-ratio:1;left:30%;bottom:30%;z-index:4;animation:throw .7s ease-out forwards}
+@keyframes throw{to{left:73%;bottom:62%}}
+.orb.wobble{left:73%;bottom:62%;animation:wob .5s ease-in-out 3}
+@keyframes wob{25%{transform:rotate(-20deg)}75%{transform:rotate(20deg)}}
+.stbox{position:absolute;background:#fff;border:3px solid var(--line);border-radius:8px 8px 8px 0;padding:6px 9px;min-width:0;width:44%;box-shadow:4px 4px 0 #0002}
+.stbox.e{left:3%;top:5%}
+.stbox.p{right:3%;bottom:6%;border-radius:8px 0 8px 8px}
+.stbox .nm{font-family:var(--pixel);font-size:clamp(7px,1.5vw,10px);line-height:1.35;display:flex;justify-content:space-between;gap:8px}
+.stbox .nm span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stbox .nm span:last-child{flex:none}
+.hpline{display:flex;align-items:center;gap:6px;margin-top:5px}
+.hpline .lab{font-family:var(--pixel);font-size:7px;color:var(--gold-ink);background:#FFF1C4;padding:2px 3px;border-radius:2px}
+.hpbar{flex:1;height:8px;border:2px solid var(--line);border-radius:4px;background:#E8ECF4;overflow:hidden}
+.hpbar i{display:block;height:100%;background:var(--hp-hi);transition:width .6s steps(12),background .3s}
+.hpnum{font-family:var(--mono);font-size:clamp(10px,1.8vw,13px);text-align:right;font-variant-numeric:tabular-nums;margin-top:2px}
+.xpbar{height:4px;background:#E8ECF4;margin-top:4px;border-radius:2px;overflow:hidden}
+.xpbar i{display:block;height:100%;background:var(--xp);transition:width .6s}
+.tbadge{position:absolute;right:3%;top:5%;display:flex;gap:4px}
+.tbadge i{width:10px;height:10px;border-radius:50%;border:2px solid var(--line);background:#fff}
+.tbadge i.dead{background:#9aa0b4}
+.tbadge i.alive{background:var(--gold)}
+.leader{position:absolute;right:4%;top:6%;width:13%;aspect-ratio:10/14}
+.leader.leave{animation:slideOut .5s steps(6) forwards}
+@keyframes slideOut{to{transform:translateX(200%)}}
+
+.msg{margin:12px;border:4px double var(--line);border-radius:8px;background:#fff;padding:12px 40px 12px 14px;min-height:62px;font-family:var(--pixel);font-size:clamp(9px,1.8vw,12px);line-height:1.8;position:relative;cursor:pointer}
+.msg .more{position:absolute;right:14px;bottom:10px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:8px solid var(--ink);animation:bob .8s steps(2) infinite;opacity:0}
+.msg.done .more{opacity:1}
+@keyframes bob{50%{transform:translateY(3px)}}
+
+.qpanel{padding:0 12px 14px;display:flex;flex-direction:column;gap:10px}
+.qhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qhead .mv{font-family:var(--pixel);font-size:10px}
+.qhead .hint{font-size:12.5px;color:var(--mute)}
+.stem{margin:0;font-size:16px;max-width:70ch}
+.chart{border:2px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+.chart .ch{display:flex;justify-content:space-between;gap:10px;background:var(--ink);color:#fff;padding:5px 10px;font-family:var(--pixel);font-size:8px;line-height:1.6}
+.chart .cr{display:grid;grid-template-columns:100px 1fr;border-top:1px solid #D7DCEA}
+.chart .cr:first-of-type{border-top:0}
+.chart .sys{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute);padding:7px 10px;background:#F4F6FB}
+.chart .fx{padding:7px 10px;font-size:14.5px}
+.chart .cr.hid .fx{color:#A8AEC4;font-style:italic}
+.chart .cr.new{animation:flash 1s}
+@keyframes flash{from{background:#FFF1C4}}
+.chart .cr.hist .sys{background:#FFF7DA}
+.moves{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:600px){.moves{grid-template-columns:1fr}}
+.move{display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:start;text-align:left;background:#fff;border:3px solid var(--line);border-radius:8px;padding:9px 10px;font-size:14.5px;line-height:1.4;box-shadow:0 3px 0 var(--line)}
+.move:hover{background:#FFF8DE}
+.move:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.move .k{font-family:var(--pixel);font-size:9px;background:var(--ink);color:#fff;border-radius:4px;height:22px;display:grid;place-items:center}
+.move.gone{opacity:.3;text-decoration:line-through;pointer-events:none}
+.cmds{display:flex;gap:8px;flex-wrap:wrap}
+.cmd{background:#fff;border:3px solid var(--line);border-radius:6px;padding:8px 12px;font-family:var(--pixel);font-size:9px;line-height:1.3}
+.cmd:hover{background:#FFF8DE}
+.cmd[disabled]{opacity:.4;pointer-events:none}
+.cmd.examine{background:#EAF3FF}
+.sub{border:2px dashed var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:8px;background:#fff}
+.sub .opt{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+
+.fb{display:flex;flex-direction:column;gap:10px}
+.verdict{font-family:var(--pixel);font-size:11px;padding:9px 12px;border-radius:6px;border:3px solid}
+.verdict.ok{background:var(--good-soft);border-color:var(--good);color:#0E4A2D}
+.verdict.no{background:var(--bad-soft);border-color:var(--bad);color:#6B1B10}
+.verdict.tr{background:var(--trap-soft);border-color:var(--trap);color:var(--trap)}
+.ans{font-size:15px}
+.ans b{font-weight:600}
+.whys{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.whys small{display:block;color:var(--mute)}
+.recall{font-size:15px}
+
+/* ---------- lists / dex / party ---------- */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.sheet{background:#fff;color:var(--ink);border:3px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto}
+.sheet h2{font-family:var(--pixel);font-size:11px;line-height:1.5;margin:18px 0 8px}
+.sheet table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
+.sheet th,.sheet td{border-bottom:1px solid #D5D9E5;padding:7px 8px;text-align:left;vertical-align:top}
+.sheet th{background:var(--ink);color:#fff;font-weight:600;position:sticky;top:0}
+.sheet td,.sheet td b,.sheet p,.sheet h2{color:var(--ink)}
+.sheet td small{display:block;color:var(--mute)}
+.sheet .area{font-family:var(--mono);font-size:11.5px;color:var(--mute);white-space:nowrap}
+.sheet .hy{margin:10px 0}
+.atlas-sec{font-family:var(--pixel);font-size:10px;line-height:1.5;margin:20px 0 8px;padding-bottom:6px;border-bottom:3px solid var(--line);color:var(--ink)}
+.srch{width:100%;padding:9px 11px;border:3px solid var(--line);border-radius:6px;font:15px var(--body);background:#fff;color:var(--ink);color-scheme:light}
+.pdfcard{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+details.tog{margin:6px 0}
+.atree{display:flex;flex-direction:column;gap:8px;margin-left:14px;padding-left:10px;border-left:3px solid #C9D0E0}
+.atree.top{margin-left:0;padding-left:0;border-left:0}
+details.grp>summary{font-family:var(--pixel);font-size:9px;line-height:1.6;color:var(--ink)}
+details.nerve>summary{font-weight:700;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:6px;padding:6px 10px}
+details.tog>summary{cursor:pointer;list-style:none;padding:6px 0}
+details.tog>summary::before{content:'▸ ';color:var(--gold-ink);font-size:14px}
+details.tog[open]>summary::before{content:'▾ '}
+details.tog>summary::-webkit-details-marker{display:none}
+.tab{background:#fff;border:3px solid var(--line);border-radius:6px;padding:7px 10px;font-family:var(--pixel);font-size:8.5px;line-height:1.3}
+.tab[aria-pressed="true"]{background:var(--ink);color:#fff}
+.dexgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.dexe{background:#fff;border:2px solid var(--line);border-radius:8px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-size:12px;line-height:1.25}
+.dexe .spr{width:64px;height:72px}
+.dexe .no{font-family:var(--mono);font-size:10px;color:var(--mute)}
+.dexe.unseen{background:#EEF0F6;color:#8C93AE}
+.dexe.caught{box-shadow:inset 0 0 0 2px var(--gold)}
+.card{background:#fff;border:3px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.card h3{margin:0;font-size:18px}
+.lin{font-size:13px;color:var(--mute)}
+.fx-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.fx-list li{display:grid;grid-template-columns:96px 1fr;gap:8px;font-size:14px;border-top:1px solid #E1E5EF;padding-top:6px}
+.fx-list li span:first-child{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--mute);letter-spacing:.04em}
+.fx-list small{display:block;color:var(--mute)}
+.party{display:flex;flex-direction:column;gap:8px}
+.pm{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;background:#fff;border:3px solid var(--line);border-radius:10px;padding:8px 10px}
+.pm .spr{width:56px;height:63px}
+.pm.lead{box-shadow:0 0 0 3px var(--gold)}
+.pm .nm{font-weight:600}
+@media (max-width:480px){.pm{grid-template-columns:52px 1fr}.pm .act{grid-column:1/-1}}
+.dexpatch{display:flex;flex-direction:column;gap:6px}
+.dexhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:3px solid var(--line);padding-bottom:6px}
+.dexlist{display:flex;flex-direction:column;gap:4px}
+.dexsub{font-family:var(--pixel);font-size:8.5px;color:var(--mute);margin:6px 0 2px;letter-spacing:.03em}
+.dexrow{margin-left:calc(var(--d,0)*22px);display:grid;grid-template-columns:auto 38px 44px 1fr auto;align-items:center;gap:8px;text-align:left;background:#fff;border:2px solid var(--line);border-radius:6px;padding:4px 8px;font-size:14px;line-height:1.25;max-width:calc(100% - 0px)}
+.dexrow .spr{width:32px;height:36px}
+.dexrow .no{font-family:var(--mono);font-size:10px;color:var(--mute)}
+.dexrow .dn small{display:block;color:var(--mute);font-size:11.5px}
+.dexrow .twig{font-family:var(--mono);color:var(--mute)}
+.dexrow:not(:has(.twig)){grid-template-columns:38px 44px 1fr auto}
+.dexrow.unseen{background:#EEF0F6;color:#8C93AE}
+.dexrow.caught{box-shadow:inset 0 0 0 2px var(--gold)}
+.dexrow .tag{font-family:var(--pixel);font-size:7px;background:var(--gold);color:#241A00;border-radius:3px;padding:3px 5px}
+.dexrow .tag.seen{background:#9DB4D8;color:#1B2033}
+@media (max-width:520px){.dexrow{margin-left:calc(var(--d,0)*12px)}.dexrow .twig{display:none}.dexrow{grid-template-columns:38px 36px 1fr!important}.dexrow .tag{grid-column:3}}
+.misslist{display:flex;flex-direction:column;gap:6px}
+.missi{display:flex;justify-content:space-between;gap:10px;background:#fff;border:2px solid var(--line);border-radius:6px;padding:7px 10px;font-size:14px}
+.missi b{font-family:var(--mono);color:var(--bad)}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;font-family:var(--pixel);font-size:9px;padding:10px 14px;border-radius:6px;border:2px solid var(--gold);z-index:20;line-height:1.6;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+.dexe{font:inherit;color:inherit}
+.dexe[disabled]{cursor:default}
+</style>
+<div class="wrap">
+  <div class="mast">
+    <div class="brand"><b>HoyaDocs</b> · MSK Block 5 · Pharmacology</div>
+    <div class="hud" id="hud" hidden></div>
+  </div>
+  <main class="screen" id="app" aria-live="polite"></main>
+  <footer class="foot"><span>MSK12 · MSK22 · MSK24</span><span>Rev 1 · Updated Sep 29, 2026</span></footer>
+</div>
+<script>
+const TYPES={
+ ANTIRES:{n:'Antiresorptive',c:'#6A45A6',atk:'Osteoclast Lock'},
+ ANABOL:{n:'Anabolic',c:'#C77A1E',atk:'Osteoblast Surge'},
+ CDMARD:{n:'DMARD',c:'#1F7A6B',atk:'Folate Freeze'},
+ TNF:{n:'Anti-TNF',c:'#2C6FB0',atk:'TNF Takedown'},
+ BIOLOG:{n:'Targeted',c:'#0E8C9A',atk:'Cytokine Snipe'},
+ IMMUNO:{n:'Immuno',c:'#8A3B6E',atk:'Lymphocyte Lull'},
+ TOXIC:{n:'Toxicity',c:'#C0392B',atk:'Side-Effect Sting'},
+ DISEASE:{n:'Disease',c:'#6B6F80',atk:'Inflammation Hex'}
+};
+const AREAS={
+ bone:{lec:'12',name:'Remodeling Reef',sub:'MSK12 · Treatment of osteoporosis',blurb:'Bisphosphonates, denosumab, estrogen, raloxifene and the anabolics — plus the fracture clinic where risk decides the drug.',
+   patches:{antires:{label:'Antiresorptive Atoll (LO 1–3)',type:'ANTIRES'},anabol:{label:'Anabolic Heights (LO 2–5)',type:'ANABOL'},fxclinic:{label:'Fracture Clinic (LO 4, 6)',type:'DISEASE'},bonetox:{label:'Side-Effect Shoals (LO 3, 5)',type:'TOXIC'}}},
+ dmard:{lec:'22',name:'DMARD Delta',sub:'MSK22 · DMARDs and biologics',blurb:'Conventional DMARDs, anti-TNFs and every targeted biologic, with treat-to-target and anti-drug antibodies.',
+   patches:{conv:{label:'Conventional Creek (LO 1, 4)',type:'CDMARD'},tnf:{label:'TNF Terraces (LO 1–4)',type:'TNF'},bio:{label:'Biologic Bayou (LO 3–4)',type:'BIOLOG'},ratox:{label:'Toxicity Marsh (LO 2–4)',type:'TOXIC'}}},
+ conf:{lec:'24',name:'Conference Canyon',sub:'MSK24 · Rheumatology inflammation conference',blurb:'The nine conference cases, the immunosuppressants that treat them and the toxicities they leave behind.',
+   patches:{immuno:{label:'Immuno Outpost (LO 2–3)',type:'IMMUNO'},joint:{label:'Joint Ward (LO 1, 4)',type:'DISEASE'},systemic:{label:'Systemic Ward (LO 1, 3)',type:'DISEASE'},conftox:{label:'Toxicity Trail (LO 2, 4)',type:'TOXIC'}}}
+};
+const SPECIES=[
+/* ---------- MSK12 · BONE ---------- */
+{id:'alendronate',n:'Alendronate',t:'ANTIRES',a:'bone',p:'antires',lo:'12.2',cl:'Oral nitrogen-containing bisphosphonate',mx:'Binds hydroxyapatite; inhibits farnesyl pyrophosphate synthase → osteoclast apoptosis',us:'First-line for high-risk osteoporosis (vertebral, non-vertebral, hip); cheap generic',ae:'Pill esophagitis; rare osteonecrosis of the jaw and atypical femoral fracture',ci:'Hypocalcemia, CrCl < 30–35, cannot stay upright',rt:'PO weekly with 8 oz water, empty stomach, stay upright',pearl:'The only class that gets a drug holiday (reassess at 3–5 years).'},
+{id:'zoledronic',n:'Zoledronic Acid',t:'ANTIRES',a:'bone',p:'antires',lo:'12.3',cl:'IV bisphosphonate',mx:'Hydroxyapatite-bound osteoclast poison (FPPS inhibitor), given once a year',us:'High risk when oral bisphosphonates are not tolerated',ae:'Acute-phase flu-like reaction after the first infusion; renal toxicity',ci:'Hypocalcemia or renal impairment',rt:'IV once yearly',pearl:'Fever and myalgias the day after the infusion = acute-phase reaction.'},
+{id:'ibandronate',n:'Ibandronate',t:'ANTIRES',a:'bone',p:'antires',lo:'12.4',cl:'Bisphosphonate (vertebral-only evidence)',mx:'Osteoclast apoptosis via hydroxyapatite binding',us:'Vertebral fracture reduction only → not first line',ae:'Esophagitis (oral), like other bisphosphonates',ci:'Hypocalcemia, reduced renal function',rt:'PO monthly or IV quarterly',pearl:'No proven hip or non-vertebral benefit — pick alendronate/risedronate/zoledronic acid instead.'},
+{id:'denosumab',n:'Denosumab',t:'ANTIRES',a:'bone',p:'antires',lo:'12.5',cl:'Fully human anti-RANKL monoclonal antibody',mx:'Binds RANKL → blocks osteoclast formation, function and survival',us:'High risk, glucocorticoid-induced, aromatase inhibitor or androgen deprivation; oral BP intolerance',ae:'Cellulitis, eczema; severe hypocalcemia in advanced CKD; ONJ/AFF',ci:'Uncorrected hypocalcemia, pregnancy',rt:'SC every 6 months — never late, never stopped without follow-on',pearl:'Stopping it without a bisphosphonate → rebound multiple vertebral fractures.'},
+{id:'estrogen',n:'Estrogen',t:'ANTIRES',a:'bone',p:'antires',lo:'12.1',cl:'Hormone therapy (± progestin)',mx:'↓ RANKL, ↑ OPG, ↓ osteoclasts, ↑ gut calcium absorption',us:'Early menopause with vasomotor symptoms to prevent rapid bone loss',ae:'VTE, uterine bleeding, breast tenderness, ↑ BP, ↑ triglycerides',ci:'Breast cancer, VTE/stroke/MI, migraine with aura, pregnancy',rt:'PO or topical daily',pearl:'When stopped, BMD falls fast → follow with a bisphosphonate.'},
+{id:'raloxifene',n:'Raloxifene',t:'ANTIRES',a:'bone',p:'antires',lo:'12.3',cl:'SERM (estrogen agonist/antagonist)',mx:'Estrogen agonist in bone, antagonist in breast, neutral in uterus',us:'Younger postmenopausal woman at vertebral risk with breast cancer risk',ae:'VTE, hot flashes, leg cramps',ci:'History of VTE',rt:'PO daily',pearl:'Reduces ER+ breast cancer; no endometrial cancer (unlike tamoxifen); spine only.'},
+{id:'calcitonin',n:'Calcitonin',t:'ANTIRES',a:'bone',p:'antires',lo:'12.2',cl:'Peptide hormone antiresorptive',mx:'Direct osteoclast inhibition via calcitonin receptor',us:'Weak antiresorptive; rarely used for osteoporosis today',ae:'Nausea, flushing, rhinitis (nasal)',ci:'Not a first-line fracture drug',rt:'Nasal spray or injection',pearl:'Listed with the antiresorptives but the weakest of them.'},
+{id:'teriparatide',n:'Teriparatide',t:'ANABOL',a:'bone',p:'anabol',lo:'12.2',cl:'PTH 1-34 analog (remodeling stimulator)',mx:'Intermittent PTH-receptor stimulation → ↑ osteoblasts (↑ formation and resorption)',us:'Very high risk (recent fracture, T < −3); glucocorticoid-induced osteoporosis',ae:'Hypercalcemia, kidney stones, orthostatic hypotension',ci:'Paget disease, open epiphyses, prior skeletal radiation, unexplained ↑ ALP',rt:'SC daily for up to 2 years',pearl:'PTH paradox: intermittent = anabolic, continuous = catabolic. Always follow with an antiresorptive.'},
+{id:'abaloparatide',n:'Abaloparatide',t:'ANABOL',a:'bone',p:'anabol',lo:'12.2',cl:'PTHrP analog',mx:'Favors the R0 PTH-receptor conformation → anabolic with less resorption',us:'Very-high-risk postmenopausal osteoporosis',ae:'Hypercalcemia, orthostasis, palpitations',ci:'Osteosarcoma risk factors',rt:'SC daily',pearl:'Same class rules as teriparatide: anabolic first, then antiresorptive.'},
+{id:'romosozumab',n:'Romosozumab',t:'ANABOL',a:'bone',p:'anabol',lo:'12.3',cl:'Anti-sclerostin monoclonal antibody (modeling stimulator)',mx:'Blocks sclerostin → ↑ Wnt → ↑ formation AND ↓ resorption (dual effect)',us:'Very high risk, including Paget or prior radiation where PTH analogs are avoided',ae:'MI, stroke and cardiovascular death (boxed); arthralgia',ci:'MI or stroke within the past year',rt:'SC monthly × 12',pearl:'ROMO = Removes the Osteocyte\'s brake — but Risky for the heart.'},
+{id:'vhrisk',n:'Very-High-Risk Osteoporosis',t:'DISEASE',a:'bone',p:'fxclinic',lo:'12.4',pr:'Vertebral fracture in the past year, or multiple fractures, or fracture while on therapy',lb:'T-score < −3.0 or FRAX > 30% major / > 4.5% hip',tx:'Anabolic first (teriparatide, abaloparatide, romosozumab)',es:'Then a potent antiresorptive to consolidate gains',pearl:'Fractures beget fractures — prior fracture is the strongest predictor.'},
+{id:'hirisk',n:'High-Risk Osteoporosis',t:'DISEASE',a:'bone',p:'fxclinic',lo:'12.4',pr:'Older fracture (> 2 years ago) or low BMD without recent fracture',lb:'T-score ≤ −2.5 (or −1 to −2.5 with high FRAX)',tx:'Antiresorptive — usually an oral bisphosphonate',es:'Reassess at 3–5 years; holiday if risk falls',pearl:'Uninsured? Generic alendronate is cheap and effective.'},
+{id:'earlymeno',n:'Early Menopausal Bone Loss',t:'DISEASE',a:'bone',p:'fxclinic',lo:'12.4',pr:'Woman ~1 year past menopause with hot flashes and no fracture',lb:'T-score −1 to −2.5, low FRAX',tx:'Estrogen therapy (if no breast cancer/VTE)',es:'Follow with a bisphosphonate when estrogen stops',pearl:'Raloxifene instead if breast cancer risk dominates and no VTE.'},
+{id:'chronicop',n:'Chronic Osteoporosis',t:'DISEASE',a:'bone',p:'fxclinic',lo:'12.6',pr:'T-score improves from −2.8 to −2.2 on therapy',lb:'Serial DXA; diagnosis is kept as osteoporosis',tx:'Lifelong management tailored to risk and preference',es:'Sequence and switch rather than simply stop',pearl:'Like hypertension: normal numbers on treatment do not mean the disease is gone.'},
+{id:'hypocal',n:'Severe Hypocalcemia',t:'TOXIC',a:'bone',p:'bonetox',lo:'12.3',pr:'Perioral numbness and carpopedal spasm two weeks after an injection',cz:'Denosumab in a patient on dialysis (advanced CKD)',pv:'Correct calcium/vitamin D and monitor closely before and after dosing',lb:'Low serum calcium',pearl:'Boxed warning for denosumab in advanced CKD.'},
+{id:'pillesoph',n:'Pill Esophagitis',t:'TOXIC',a:'bone',p:'bonetox',lo:'12.3',pr:'Painful swallowing and retrosternal pain after a morning pill taken lying down',cz:'Oral bisphosphonate taken incorrectly',pv:'Take with 8 oz plain water on an empty stomach and stay upright',lb:'Endoscopy shows a focal ulcer',pearl:'Consider IV zoledronic acid or denosumab if oral BPs are not tolerated.'},
+{id:'rebound',n:'Rebound Vertebral Fractures',t:'TOXIC',a:'bone',p:'bonetox',lo:'12.5',pr:'Several new vertebral fractures months after a drug was stopped',cz:'Stopping denosumab without follow-on therapy',pv:'Never take a denosumab holiday — follow with a bisphosphonate',lb:'Rapid rise in resorption markers and fall in BMD',pearl:'Onset as early as 7 months, average 19 months after the last dose.'},
+{id:'onj',n:'Jaw Osteonecrosis',t:'TOXIC',a:'bone',p:'bonetox',lo:'12.3',pr:'Exposed, non-healing jawbone after a dental extraction',cz:'Potent antiresorptives (bisphosphonates, denosumab)',pv:'Dental evaluation before therapy; rare at osteoporosis doses',lb:'Clinical diagnosis: exposed bone > 8 weeks',pearl:'The rare pair is "jaw and thigh" — ONJ and atypical femoral fracture.'},
+/* ---------- MSK22 · DMARDs ---------- */
+{id:'mtx',n:'Methotrexate',t:'CDMARD',a:'dmard',p:'conv',lo:'22.4',cl:'Conventional DMARD (antimetabolite)',mx:'Inhibits dihydrofolate reductase (low dose also ↑ adenosine)',us:'Cornerstone of RA; lupus skin/joints, GPA maintenance, sarcoid, PsA',ae:'Hepatotoxicity, cytopenias, pneumonitis, teratogen',ci:'Renal insufficiency, pregnancy',rt:'Weekly PO/SC with folic acid',pearl:'Also the "bodyguard" that cuts anti-drug antibodies against biologics.'},
+{id:'hcq',n:'Hydroxychloroquine',t:'CDMARD',a:'dmard',p:'conv',lo:'22.4',cl:'Antimalarial DMARD',mx:'↑ Lysosomal pH, ↓ TLR signaling → ↓ antigen presentation',us:'Standard in all lupus; RA combinations',ae:'Retinal toxicity',ci:'Pre-existing maculopathy',rt:'PO daily with periodic eye exams',pearl:'First drug for mild lupus and kept in almost every lupus patient.'},
+{id:'ssz',n:'Sulfasalazine',t:'CDMARD',a:'dmard',p:'conv',lo:'22.4',cl:'Conventional DMARD (sulfa drug)',mx:'Unclear anti-inflammatory mechanism',us:'RA, usually in combination',ae:'Sulfa allergy, GI upset, headache; rarely agranulocytosis',ci:'Sulfa allergy',rt:'PO twice daily',pearl:'Frequent sulfa allergy is its signature problem.'},
+{id:'leflunomide',n:'Leflunomide',t:'CDMARD',a:'dmard',p:'conv',lo:'22.4',cl:'Conventional DMARD (pyrimidine inhibitor)',mx:'Inhibits dihydroorotate dehydrogenase → ↓ pyrimidine synthesis',us:'Alternative to methotrexate in RA',ae:'Hepatotoxicity; very long half-life',ci:'Pregnancy without washout',rt:'PO daily; cholestyramine washout to eliminate',pearl:'Enterohepatic recycling → wash out with cholestyramine before pregnancy.'},
+{id:'mino',n:'Minocycline',t:'CDMARD',a:'dmard',p:'conv',lo:'22.4',cl:'Tetracycline antibiotic used as a DMARD',mx:'May inhibit matrix metalloproteinases',us:'Mild RA (safe but low potency)',ae:'Dizziness/vestibular toxicity; drug-induced lupus (P-ANCA); hepatitis',ci:'Pregnancy, young children (tetracycline)',rt:'PO twice daily',pearl:'Drug-induced lupus with fever, arthritis and P-ANCA.'},
+{id:'infliximab',n:'Infliximab',t:'TNF',a:'dmard',p:'tnf',lo:'22.3',cl:'Chimeric anti-TNF monoclonal antibody',mx:'Binds TNF-α (mouse/human chimera)',us:'RA, AS, PsA, Crohn disease, uveitis',ae:'TB and HBV reactivation; most immunogenic anti-TNF',ci:'Untreated latent TB, active infection',rt:'IV infusion with methotrexate',pearl:'Anti-drug antibodies in 6–61% → secondary failure; always pair with MTX.'},
+{id:'adalimumab',n:'Adalimumab',t:'TNF',a:'dmard',p:'tnf',lo:'22.4',cl:'Human anti-TNF monoclonal antibody',mx:'Binds TNF-α',us:'RA, axial SpA, PsA, plus IBD and uveitis',ae:'TB reactivation, HBV, infections; rare drug-induced lupus/MS',ci:'Untreated latent TB',rt:'SC every 2 weeks',pearl:'The conference dancer\'s drug — it was quietly treating her IBD too.'},
+{id:'etanercept',n:'Etanercept',t:'TNF',a:'dmard',p:'tnf',lo:'22.1',cl:'TNF receptor–Fc fusion protein (-cept)',mx:'Soluble decoy TNF receptor',us:'RA, AS, psoriasis/PsA — NOT Crohn or uveitis',ae:'TB reactivation, infections, injection-site reactions',ci:'Untreated latent TB',rt:'SC weekly',pearl:'Low immunogenicity; the fusion receptor that fails in IBD and uveitis.'},
+{id:'rituximab',n:'Rituximab',t:'BIOLOG',a:'dmard',p:'bio',lo:'22.4',cl:'Chimeric anti-CD20 monoclonal antibody',mx:'Depletes B cells for ≥ 6 months',us:'RA, GPA induction/maintenance, myositis, refractory lupus',ae:'Infusion reactions, PML (JC virus), hepatitis B reactivation',ci:'Active HBV (check HBcAb first)',rt:'IV infusions, e.g., every 6 months',pearl:'Not used for psoriatic arthritis or AS.'},
+{id:'abatacept',n:'Abatacept',t:'BIOLOG',a:'dmard',p:'bio',lo:'22.4',cl:'CTLA4-Ig fusion protein',mx:'Binds CD80/86 on APCs → blocks CD28 T-cell co-stimulation',us:'RA (moderately effective, slow onset)',ae:'Well tolerated; infection',ci:'Active serious infection',rt:'IV monthly or SC weekly',pearl:'It is NOT an anti-CD28 or anti-CTLA4 antibody.'},
+{id:'tocilizumab',n:'Tocilizumab',t:'BIOLOG',a:'dmard',p:'bio',lo:'24.3',cl:'Humanized anti-IL-6 receptor antibody',mx:'Blocks IL-6 receptor signaling',us:'TNF-refractory RA, giant cell arteritis, systemic JIA',ae:'Infection, ↑ BP, ↑ liver enzymes and lipids',ci:'Active infection',rt:'IV or SC',pearl:'The biologic for GCA in a PMR patient.'},
+{id:'anakinra',n:'Anakinra',t:'BIOLOG',a:'dmard',p:'bio',lo:'22.4',cl:'Recombinant IL-1 receptor antagonist (-ra)',mx:'Blocks the IL-1 receptor',us:'CAPS/periodic fevers, Still disease, acute gout; modest in RA',ae:'Painful injection-site welts, neutropenia, infection',ci:'Active infection',rt:'SC daily',pearl:'Daily shots and welts — but dramatic in autoinflammatory disease.'},
+{id:'belimumab',n:'Belimumab',t:'BIOLOG',a:'dmard',p:'bio',lo:'24.3',cl:'Human anti-BLyS/BAFF monoclonal antibody',mx:'Neutralizes B-cell survival factor → fewer autoreactive B cells',us:'Lupus (skin, joints, kidneys)',ae:'Infection',ci:'Active infection',rt:'IV or SC',pearl:'The approved biologic for SLE.'},
+{id:'tofacitinib',n:'Tofacitinib',t:'BIOLOG',a:'dmard',p:'bio',lo:'22.4',cl:'Small-molecule JAK inhibitor (not a biologic)',mx:'Blocks JAK (lecture: JAK3) → JAK-STAT cytokine signaling',us:'RA and psoriatic arthritis',ae:'Infections (zoster), ↑ cholesterol',ci:'Active serious infection',rt:'PO twice daily',pearl:'Congenital JAK3 absence causes SCID — that is how strong the effect is.'},
+{id:'pegloticase',n:'Pegloticase',t:'BIOLOG',a:'dmard',p:'bio',lo:'22.3',cl:'PEGylated porcine uricase',mx:'Converts uric acid to allantoin',us:'Refractory tophaceous gout',ae:'Neutralizing anti-drug antibodies (~50%), infusion reactions',ci:'G6PD deficiency',rt:'IV every 2 weeks',pearl:'If serum urate climbs back up, the antibodies have won.'},
+{id:'ra',n:'Rheumatoid Arthritis',t:'DISEASE',a:'dmard',p:'ratox',lo:'22.2',pr:'Symmetric wrist/MCP/ankle synovitis with morning stiffness > 1 hour',lb:'RF and anti-CCP positive; periarticular osteopenia and erosions',tx:'Methotrexate early, treat to target',es:'Add anti-TNF, abatacept, rituximab, tocilizumab or JAKi',pearl:'Measure with DAS28, ACR20/50/70 or RAPID3 and adjust.'},
+{id:'secfail',n:'Secondary Drug Failure',t:'TOXIC',a:'dmard',p:'ratox',lo:'22.3',pr:'RA controlled for 2 years on a biologic, then flares despite adherence',cz:'Anti-drug antibodies against a biologic',pv:'Regular dosing plus methotrexate; ↑ dose, shorten interval or switch',lb:'Low drug trough level with anti-drug antibodies',pearl:'Primary failure (never worked) → new class and recheck the diagnosis.'},
+{id:'tbreact',n:'TB Reactivation',t:'TOXIC',a:'dmard',p:'ratox',lo:'22.4',pr:'Fever, weight loss and an upper-lobe cavity after starting a biologic',cz:'Anti-TNF therapy',pv:'Screen with PPD or IGRA before starting; treat latent TB',lb:'Positive IGRA / acid-fast bacilli',pearl:'TNF holds granulomas together.'},
+{id:'pml',n:'Progressive Multifocal Leukoencephalopathy',t:'TOXIC',a:'dmard',p:'ratox',lo:'22.4',pr:'Progressive weakness and cognitive decline with multifocal white-matter lesions',cz:'Rituximab (B-cell depletion)',pv:'Stop the drug; no specific therapy',lb:'JC virus DNA in CSF',pearl:'JC virus reactivation.'},
+{id:'dil',n:'Drug-Induced Lupus',t:'TOXIC',a:'dmard',p:'ratox',lo:'22.4',pr:'Fever, arthritis and rash on a DMARD or anti-TNF, without kidney disease',cz:'Minocycline or anti-TNF agents',pv:'Stop the offending drug',lb:'Anti-histone antibodies (P-ANCA with minocycline)',pearl:'Why anti-TNF is usually avoided in SLE.'},
+{id:'retinotox',n:'Retinal Toxicity',t:'TOXIC',a:'dmard',p:'ratox',lo:'22.4',pr:'Bull\'s-eye maculopathy on a routine eye exam in a lupus patient',cz:'Hydroxychloroquine',pv:'Baseline and periodic ophthalmologic screening',lb:'Visual fields / OCT changes',pearl:'Cumulative dose-related.'},
+/* ---------- MSK24 · CONFERENCE ---------- */
+{id:'pred',n:'Glucocorticoids',t:'IMMUNO',a:'conf',p:'immuno',lo:'24.2',cl:'Corticosteroid',mx:'↓ NF-κB, ↓ cytokines, ↓ phospholipase A2 — broad and fast',us:'Dermatomyositis, PMR, lupus nephritis, GPA and sarcoid induction',ae:'Hyperglycemia, Cushingoid, cataracts, osteoporosis, avascular necrosis',ci:'Use the lowest dose for the shortest time',rt:'PO or IV pulse',pearl:'The femoral head necrosis in the lupus case was caused by the therapy.'},
+{id:'cyc',n:'Cyclophosphamide',t:'IMMUNO',a:'conf',p:'immuno',lo:'24.2',cl:'Alkylating agent',mx:'Cross-links DNA',us:'Severe lupus nephritis and GPA induction',ae:'Hemorrhagic cystitis, bladder cancer, premature ovarian failure, infection',ci:'Pregnancy',rt:'IV pulses (low-dose Euro-Lupus preferred) or PO',pearl:'Cystitis, Cancer, Can\'t conceive — give mesna.'},
+{id:'mmf',n:'Mycophenolate Mofetil',t:'IMMUNO',a:'conf',p:'immuno',lo:'24.3',cl:'Antimetabolite immunosuppressant',mx:'Inhibits IMP dehydrogenase → ↓ de novo guanosine in lymphocytes',us:'Lupus nephritis induction and maintenance; transplant',ae:'GI upset, cytopenias, teratogen',ci:'Pregnancy',rt:'PO twice daily',pearl:'Not helpful for RA joints.'},
+{id:'aza',n:'Azathioprine',t:'IMMUNO',a:'conf',p:'immuno',lo:'24.2',cl:'Purine analog prodrug',mx:'Converted to 6-MP/6-TG and incorporated into DNA',us:'Maintenance after cyclophosphamide (lupus, vasculitis); GPA if GFR < 50',ae:'Marrow suppression, GI, infection, malignancy',ci:'Low TPMT activity; avoid with allopurinol',rt:'PO daily',pearl:'Allopurinol blocks xanthine oxidase → toxic 6-MP.'},
+{id:'anifrolumab',n:'Anifrolumab',t:'IMMUNO',a:'conf',p:'immuno',lo:'24.2',cl:'Human monoclonal antibody (lupus add-on)',mx:'Blocks the type I interferon receptor',us:'SLE skin and joint disease',ae:'Infection, especially herpes zoster',ci:'Active infection',rt:'IV monthly',pearl:'Interferon signature drug; belimumab is the BLyS drug.'},
+{id:'oa',n:'Osteoarthritis',t:'DISEASE',a:'conf',p:'joint',lo:'24.4',pr:'Thumb-base, PIP and DIP pain worse with use; stiffness < 30 minutes',lb:'Osteophytes and joint-space narrowing on X-ray',tx:'Analgesics, exercise and joint protection (no DMARD)',es:'NSAIDs, injections, joint replacement',pearl:'A high uric acid with mechanical toe pain is still OA, not gout.'},
+{id:'psa',n:'Psoriatic Arthritis',t:'DISEASE',a:'conf',p:'joint',lo:'24.1',pr:'Nail pitting, scalp/gluteal plaques, dactylitis, DIP arthritis',lb:'RF negative; CASPAR criteria ≥ 3',tx:'NSAIDs and methotrexate',es:'Anti-TNF, IL-17, IL-12/23, abatacept or JAK inhibitor',pearl:'"Toenail fungus" that never heals is nail psoriasis.'},
+{id:'axspa',n:'Axial Spondyloarthritis',t:'DISEASE',a:'conf',p:'joint',lo:'24.4',pr:'Young adult with morning back pain that improves with activity and NSAIDs',lb:'Sacroiliitis on MRI; Schober may be normal if hypermobile',tx:'NSAIDs',es:'Anti-TNF (mAb if uveitis/IBD) or IL-17 inhibitor',pearl:'Associated with IBD and anterior uveitis.'},
+{id:'pmr',n:'Polymyalgia Rheumatica',t:'DISEASE',a:'conf',p:'joint',lo:'24.1',pr:'Over 50 with bilateral shoulder and hip girdle pain, worse in the morning',lb:'Very high ESR/CRP; RF, ANA and CPK normal',tx:'Prednisone 10–20 mg with dramatic response',es:'Taper; tocilizumab if giant cell arteritis',pearl:'Always ask about headache, jaw claudication and vision loss (GCA).'},
+{id:'sle',n:'Systemic Lupus Erythematosus',t:'DISEASE',a:'conf',p:'systemic',lo:'24.3',pr:'Young woman with Raynaud, photosensitive rash, arthralgia and fatigue',lb:'ANA 1:1280; normal kidneys',tx:'Hydroxychloroquine',es:'Low-dose steroid, methotrexate, belimumab, anifrolumab',pearl:'Avoid anti-TNF — it can induce lupus.'},
+{id:'lupusneph',n:'Lupus Nephritis',t:'DISEASE',a:'conf',p:'systemic',lo:'24.3',pr:'Lupus patient with edema, new hypertension, proteinuria and RBC casts',lb:'Low C3/C4, high anti-dsDNA; lumpy-bumpy immune complexes on biopsy',tx:'Glucocorticoids plus mycophenolate or cyclophosphamide',es:'Maintain with MMF or azathioprine; keep HCQ; belimumab or calcineurin inhibitor',pearl:'Steroids alone do not improve renal survival.'},
+{id:'dm',n:'Dermatomyositis',t:'DISEASE',a:'conf',p:'systemic',lo:'24.1',pr:'Heliotrope and cheek rash, nailfold changes, proximal weakness, nasal voice',lb:'CPK ~2000, positive ANA',tx:'Glucocorticoids',es:'Methotrexate, azathioprine, MMF, IVIG or rituximab',pearl:'Over 50 → screen for cancer.'},
+{id:'gpa',n:'Granulomatosis with Polyangiitis',t:'DISEASE',a:'conf',p:'systemic',lo:'24.1',pr:'Recurrent sinusitis, saddle nose, lacrimal swelling, lung and kidney disease',lb:'c-ANCA / anti-PR3; RBC casts',tx:'Glucocorticoids plus rituximab or cyclophosphamide',es:'Maintain with rituximab, methotrexate (GFR ≥ 50) or azathioprine; PCP prophylaxis',pearl:'A swollen lacrimal gland with a destroyed nose is GPA, not Sjögren.'},
+{id:'sarcoid',n:'Sarcoidosis',t:'DISEASE',a:'conf',p:'systemic',lo:'24.1',pr:'Uveitis with synechiae, purple facial rash, PIP swelling',lb:'Bilateral hilar nodes, mild hypercalcemia, non-caseating granulomas',tx:'Systemic glucocorticoids',es:'Methotrexate as steroid-sparing agent',pearl:'Granuloma 1α-hydroxylase → ↑ vitamin D → ↑ calcium.'},
+{id:'hcystitis',n:'Hemorrhagic Cystitis',t:'TOXIC',a:'conf',p:'conftox',lo:'24.2',pr:'Painless gross hematuria during IV therapy for severe lupus',cz:'Cyclophosphamide (acrolein metabolite)',pv:'Mesna and aggressive hydration',lb:'Urinalysis with RBCs, no casts',pearl:'Long-term risk: bladder cancer.'},
+{id:'avn',n:'Avascular Necrosis',t:'TOXIC',a:'conf',p:'conftox',lo:'24.4',pr:'Groin pain in a lupus patient after 18 months of therapy',cz:'Long-term glucocorticoids',pv:'Lowest steroid dose; steroid-sparing agents',lb:'MRI shows femoral head necrosis (most sensitive test)',pearl:'Also hips, knees and shoulders.'},
+{id:'mptox',n:'6-MP Toxicity',t:'TOXIC',a:'conf',p:'conftox',lo:'24.2',pr:'Severe pancytopenia after a gout drug is added to lupus maintenance therapy',cz:'Azathioprine plus allopurinol',pv:'Avoid the combination or cut the azathioprine dose; check TPMT',lb:'Pancytopenia on CBC',pearl:'Xanthine oxidase normally clears 6-MP.'},
+{id:'ovfail',n:'Premature Ovarian Failure',t:'TOXIC',a:'conf',p:'conftox',lo:'24.4',pr:'Amenorrhea and infertility in a young woman after induction therapy',cz:'Cyclophosphamide',pv:'Low-dose Euro-Lupus protocol; fertility counseling; prefer MMF when possible',lb:'↑ FSH, ↓ estradiol',pearl:'"Can\'t conceive" — the third C.'}
+];
+
+const CFG={
+ key:'hd-pharmomon-v1', mon:'Pharmomon', dex:'Pharmadex', orb:'Pill Orb', center:'Pharmacy',
+ logo:'PHARMOMON', logoSub:'MSK Edition · Osteoporosis, DMARDs &amp; Rheumatology',
+ intro:n=>`Bisphosphonates, biologics, immunosuppressants, the toxicities they cause and the diseases they treat hide in the tall grass. Identify each one from its drug record, battle through its mechanism, uses and dangers, and catch all ${n} for your Pharmadex. Pharmomon evolve as you master them, and their questions get harder: recall → 2nd-order and clinical → Step 1 vignettes. Earn three badges to face the Champion.`,
+ starters:[
+  {id:'st:clastbane',n:'Clastbane',t:'ANTIRES',blurb:'Clings to hydroxyapatite and waits for an osteoclast. Strong against Antiresorptive foes on Remodeling Reef.'},
+  {id:'st:folix',n:'Folix',t:'CDMARD',blurb:'Once a week, it freezes dihydrofolate reductase. Strong against DMARD foes in the DMARD Delta.'},
+  {id:'st:cortisaur',n:'Cortisaur',t:'IMMUNO',blurb:'Fast, broad and a little Cushingoid. Strong against Immuno foes in Conference Canyon.'}
+ ],
+ gyms:{
+  bone:{leader:'Leader Osteoclast',gym:'Remodeling Gym',badge:'RANKL Badge',coat:'#6A45A6',hair:'#1B2033',lvl:12,size:4,color:'#6A45A6',intro:'Resorb or rebuild? Holiday or rebound? Choose your drug wisely!',win:'Anabolic first, antiresorptive after. Take the RANKL Badge!'},
+  dmard:{leader:'Leader Folate',gym:'Target Gym',badge:'Target Badge',coat:'#1F7A6B',hair:'#E3AE12',lvl:14,size:4,color:'#1F7A6B',intro:'Methotrexate, anti-TNF, anti-CD20. Screen for TB before you step in here!',win:'Treated to target. The Target Badge is yours!'},
+  conf:{leader:'Leader Mesna',gym:'Conference Gym',badge:'Case Badge',coat:'#B02A22',hair:'#3A2A1E',lvl:14,size:4,color:'#B02A22',intro:'Nine cases, nine diagnoses, nine therapies. Is it working — and is it hurting?',win:'Diagnosis, therapy and toxicity — all correct. Take the Case Badge!'},
+  summit:{leader:'Champion Formulary',gym:'Summit',badge:'Champion Crest',coat:'#1B2033',hair:'#C9CFE0',lvl:20,size:6,color:'#E3AE12',intro:'Bone, joints and every immune target. Step 1 vignettes only. I am the final prescription!',win:'Unbelievable… you are the new Pharmacology Champion!'}
+ },
+ locs:{center:{x:50,y:52,n:'Pharmacy',e:'Heal',c:'#C2412F'},bone:{x:17,y:30,n:'Remodeling Reef',e:'MSK12',c:'#6A45A6'},dmard:{x:83,y:30,n:'DMARD Delta',e:'MSK22',c:'#1F7A6B'},conf:{x:50,y:16,n:'Conference Canyon',e:'MSK24',c:'#B02A22'},summit:{x:50,y:86,n:'The Summit',e:'Champion',c:'#E3AE12'}},
+ fields:{
+  cl:{mv:'DRUG CLASS',hint:'What kind of drug?',lab:'Class',stem:S=>`What class of drug is <strong>${S.n}</strong>?`,rev:v=>`Which drug is a <strong>${v}</strong>?`,chain:'what class is it?',desc:'is a'},
+  mx:{mv:'MECHANISM',hint:'How does it work?',lab:'Mechanism / target',stem:S=>`What is the mechanism of <strong>${S.n}</strong>?`,rev:v=>`Which drug works by: <strong>${v}</strong>?`,chain:'what is its mechanism?',desc:'works by'},
+  us:{mv:'INDICATION',hint:'When is it used?',lab:'Main use',stem:S=>`What is the main use of <strong>${S.n}</strong>?`,rev:v=>`Which drug is used for: <strong>${v}</strong>?`,chain:'when is it used?',desc:'is used for'},
+  ae:{mv:'ADVERSE EFFECT',hint:'What can go wrong?',lab:'Key adverse effect',stem:S=>`Which adverse effect is classic for <strong>${S.n}</strong>?`,rev:v=>`A patient develops <strong>${v}</strong>. Which drug is responsible?`,chain:'what is its key adverse effect?',desc:'can cause'},
+  ci:{mv:'AVOID IF',hint:'Who should not get it?',lab:'Avoid / contraindication',stem:S=>`When should <strong>${S.n}</strong> be avoided?`,rev:v=>`Which drug should be avoided with: <strong>${v}</strong>?`,chain:'when should it be avoided?',desc:'is avoided with'},
+  rt:{mv:'ROUTE & DOSING',hint:'How is it given?',lab:'Route / dosing',stem:S=>`How is <strong>${S.n}</strong> given?`,chain:'how is it given?',desc:'is given as'},
+  pr:{mv:'PRESENTATION',hint:'How does it present?',lab:'Presentation',stem:S=>`Which picture fits <strong>${S.n}</strong>?`,rev:v=>`A patient has <strong>${v}</strong>. What is going on?`,chain:'how does it present?',desc:'presents with'},
+  lb:{mv:'KEY TEST',hint:'Which lab or image?',lab:'Key lab / imaging',stem:S=>`Which lab or imaging finding fits <strong>${S.n}</strong>?`,rev:v=>`Workup shows <strong>${v}</strong>. Which condition?`,chain:'which test or finding confirms it?',desc:'shows'},
+  tx:{mv:'FIRST LINE',hint:'What do you start?',lab:'First-line therapy',stem:S=>`What is first-line therapy for <strong>${S.n}</strong>?`,rev:v=>`<strong>${v}</strong> is first-line for which condition?`,chain:'what is first-line therapy?',desc:'is treated first with'},
+  es:{mv:'ESCALATION',hint:'What comes next?',lab:'Escalation / maintenance',stem:S=>`What is the escalation or maintenance plan for <strong>${S.n}</strong>?`,rev:v=>`Escalation with <strong>${v}</strong> fits which condition?`,chain:'what comes next in treatment?',desc:'escalates to'},
+  cz:{mv:'CULPRIT',hint:'Which drug did it?',lab:'Culprit',stem:S=>`Which drug or situation causes <strong>${S.n}</strong>?`,rev:v=>`<strong>${v}</strong> causes which toxicity?`,chain:'which drug caused it?',desc:'is caused by'},
+  pv:{mv:'PREVENTION',hint:'How to prevent or manage?',lab:'Prevent / manage',stem:S=>`How is <strong>${S.n}</strong> prevented or managed?`,rev:v=>`Which problem is prevented by: <strong>${v}</strong>?`,chain:'how is it prevented or managed?',desc:'is prevented by'}
+ },
+ s1:['cl','mx','us','rt','pr','lb','cz','tx'], s2:['ae','ci','es','pv','mx','pr'],
+ rev1:['mx','us','pr','cz'], rev2:['ae','ci','lb','tx','pv'],
+ chainGive:['mx','ae','pr','lb','cz'], chainAsk:['cl','us','ci','tx','pv','es','ae'],
+ idOrder:['cl','mx','us','ae','ci','rt','pr','lb','tx','es','cz','pv']
+};
+
+const BOSS={"12": {"key": "12", "title": "The Apothecary Keep", "lecture": "MSK Pharmacology · MSK12 · MSK22 · MSK24", "final": {"name": "The Grand Formulary", "epithet": "Every drug, every dose, every danger", "n": 15}, "bosses": [{"lo": "12.1", "name": "The Remodeling Warden", "epithet": "Keeper of the RANKL gate", "los": "Bone remodeling and where drugs act", "q": [["2", "RANKL made by osteoblasts binds RANK on osteoclast precursors. Which molecule acts as the natural decoy that blocks it?", ["Sclerostin", "Osteoprotegerin (OPG)", "Wnt", "Calcitonin", "PTHrP"], 1, "OPG binds RANKL and prevents RANK activation. Estrogen raises OPG and lowers RANKL."], ["2", "Which cell makes sclerostin, and what does sclerostin do?", ["Osteoclast; stimulates resorption", "Osteocyte; inhibits Wnt signaling and brakes bone formation", "Osteoblast; activates RANK", "Chondrocyte; mineralizes matrix", "Parathyroid chief cell; raises calcium"], 1, "Osteocyte-derived sclerostin inhibits Wnt → less bone formation. Romosozumab blocks it."], ["S1", "A 66-year-old woman has a T-score of −2.7 at the hip. Serum calcium, phosphate, PTH and alkaline phosphatase are all normal. Which process best explains her disease?", ["Defective mineralization of osteoid", "Resorption exceeding formation in remodeling units", "Excess PTH-driven osteoclast activity", "Disorganized woven bone from osteoclast overactivity", "Deficient type I collagen synthesis"], 1, "Osteoporosis = remodeling imbalance (resorption > formation) with normal labs. Osteomalacia has abnormal Ca/phosphate/ALP; Paget has ↑ ALP."], ["2", "What is the clinical goal of osteoporosis therapy?", ["Normalize the T-score", "Raise serum calcium", "Prevent fractures", "Lower alkaline phosphatase", "Increase cortical thickness on X-ray"], 2, "Raising BMD matters, but the goal is fewer fractures."], ["2", "Which non-drug foundation is recommended for every patient?", ["Bed rest and calcium 3000 mg/day", "Resistance and balance training, vitamin D ≥1000 IU, total calcium ~1200 mg, adequate protein", "Vitamin A supplements and low protein", "High-dose vitamin D only", "Avoid all weight-bearing exercise"], 1, "Strength ≥2 days/week, daily balance, calcium 1200 mg, vitamin D ≥1000 IU, protein 1–1.5 g/kg → fewer falls and fractures."]]}, {"lo": "12.2", "name": "The Mechanism Hydra", "epithet": "Two heads: resorb and rebuild", "los": "Classify osteoporosis drugs by mechanism", "q": [["2", "Nitrogen-containing bisphosphonates such as alendronate inhibit which enzyme in osteoclasts?", ["HMG-CoA reductase", "Farnesyl pyrophosphate synthase", "Dihydrofolate reductase", "Carbonic anhydrase", "Cathepsin K"], 1, "N-BPs block FPPS in the mevalonate pathway → impaired cytoskeleton → osteoclast apoptosis."], ["2", "Denosumab is best described as:", ["A PTHrP analog", "A fully human monoclonal antibody against RANKL", "An anti-sclerostin antibody", "A soluble RANK decoy", "A calcitonin analog"], 1, "Denosumab binds RANKL → blocks osteoclast formation, function and survival. SC every 6 months."], ["S1", "A patient receives daily subcutaneous injections of a drug that builds bone even though chronic hyperparathyroidism causes bone loss. Why does this drug build bone?", ["It blocks RANKL", "Intermittent PTH-receptor stimulation preferentially activates osteoblasts", "It inhibits sclerostin", "It is an estrogen agonist in bone", "It lowers serum calcium"], 1, "PTH paradox: continuous = catabolic; intermittent (teriparatide, abaloparatide) = anabolic."], ["2", "Which anabolic drug both increases bone formation AND decreases resorption?", ["Teriparatide", "Abaloparatide", "Romosozumab", "Raloxifene", "Zoledronic acid"], 2, "Romosozumab (anti-sclerostin) has a dual effect. PTH analogs raise both formation and resorption."], ["2", "Which statement about antiresorptive vs anabolic agents is correct?", ["Antiresorptives restore trabecular microarchitecture", "Only anabolic agents rebuild microarchitecture", "Anabolics lower BMD at first", "Bisphosphonates are anabolic", "Raloxifene is anabolic in bone"], 1, "Antiresorptives stabilize or modestly raise BMD; only anabolics restore structure."]]}, {"lo": "12.3", "name": "The Warning Wraith", "epithet": "Jaw, thigh, clot and heart", "los": "Indications, contraindications and adverse effects", "q": [["S1", "A 70-year-old on hemodialysis receives her first denosumab injection. Two weeks later she has perioral numbness and carpopedal spasm. Cause?", ["Hypercalcemia", "Severe hypocalcemia", "Hypokalemia", "Osteonecrosis of the jaw", "Acute-phase reaction"], 1, "Denosumab in advanced CKD carries a boxed warning for severe hypocalcemia."], ["S1", "A woman takes alendronate each morning lying back down with a cup of coffee. She develops retrosternal pain on swallowing. Best explanation?", ["Esophageal candidiasis", "Pill esophagitis from improper administration", "Achalasia", "Osteonecrosis of the jaw", "Acute-phase reaction"], 1, "Oral BPs are taken with 8 oz plain water on an empty stomach while staying upright."], ["S1", "A 58-year-old starts a daily oral osteoporosis drug that also lowers her risk of ER+ breast cancer. Three months later she has a swollen, painful calf. Which drug?", ["Alendronate", "Raloxifene", "Denosumab", "Teriparatide", "Calcitonin"], 1, "Raloxifene: VTE, hot flashes, leg cramps; reduces invasive breast cancer; protects the spine only."], ["2", "Which drug carries a boxed warning for MI, stroke and cardiovascular death?", ["Teriparatide", "Romosozumab", "Denosumab", "Ibandronate", "Estrogen/bazedoxifene"], 1, "Avoid romosozumab within 1 year of MI or stroke."], ["2", "Why is teriparatide avoided in Paget disease, open epiphyses and prior skeletal radiation?", ["Risk of osteonecrosis of the jaw", "Theoretical osteosarcoma risk", "Risk of severe hypocalcemia", "Risk of VTE", "Risk of atypical femoral fracture"], 1, "Osteosarcoma in rats → avoid in any condition with higher osteosarcoma risk (including unexplained ↑ ALP)."], ["2", "The rare serious pair shared by potent antiresorptives (bisphosphonates, denosumab) is:", ["VTE and stroke", "Osteonecrosis of the jaw and atypical femoral fracture", "Hypercalcemia and kidney stones", "Osteosarcoma and hypercalcemia", "MI and CV death"], 1, "\"Jaw and thigh.\""]]}, {"lo": "12.4", "name": "The Risk Stratifier", "epithet": "Judge of T-scores and fractures", "los": "Choosing initial therapy by fracture risk", "q": [["S1", "A 52-year-old woman 1 year past her last period has frequent hot flashes. Spine T-score is −1.8; no fractures, no VTE or breast cancer history. Best option to prevent bone loss?", ["Zoledronic acid", "Estrogen therapy", "Romosozumab", "Teriparatide", "Denosumab"], 1, "Estrogen prevents rapid early-menopausal loss, especially with vasomotor symptoms."], ["S1", "A 74-year-old woman had a vertebral fracture 4 months ago; T-score is −3.4. She had an MI 5 months ago. Best initial therapy?", ["Romosozumab", "Alendronate alone", "Teriparatide followed by an antiresorptive", "Raloxifene", "Observation"], 2, "Very high risk → anabolic first; romosozumab is avoided within 1 year of MI → PTH analog, then antiresorptive."], ["S1", "A 68-year-old uninsured woman has a T-score of −2.6 and no fractures. Normal kidneys and calcium. Best initial therapy?", ["Romosozumab", "Oral alendronate", "Ibandronate", "Teriparatide", "Calcitonin"], 1, "High risk → oral bisphosphonate (generic, cheap). Ibandronate is vertebral-only → not first line."], ["2", "Which finding places a patient in the VERY HIGH risk group?", ["T-score −1.5 with no fracture", "A hip fracture 6 years ago only", "A vertebral fracture within the past year", "Age 55 with early menopause", "T-score −2.0 with low FRAX"], 2, "Recent fracture (1–2 yr), multiple fractures, T < −3.0, or fracture on therapy = very high → anabolic first."], ["2", "What is the single strongest predictor of a future fracture?", ["Low calcium intake", "Prior fragility fracture", "Female sex", "Low body weight", "Smoking"], 1, "Fractures beget fractures; age is next."], ["S1", "A woman on an aromatase inhibitor for breast cancer has osteoporosis and cannot tolerate oral bisphosphonates. Calcium and kidney function are normal. Which drug fits best?", ["Raloxifene", "Estrogen", "Denosumab", "Teriparatide", "Calcitonin"], 2, "Denosumab is used with aromatase inhibitors and androgen deprivation; estrogen is contraindicated after breast cancer."]]}, {"lo": "12.5", "name": "The Rebound Revenant", "epithet": "It returns when the dose is missed", "los": "Why sequencing matters", "q": [["S1", "A woman on denosumab for 6 years stops without further treatment. Ten months later she has several new vertebral fractures. What should have been done?", ["Nothing; any drug does this", "A drug holiday was appropriate", "Follow-on bisphosphonate therapy", "Switch to teriparatide immediately", "Add calcitonin"], 2, "Stopping denosumab → RANKL rebound → multiple vertebral fractures. Always follow with a bisphosphonate."], ["2", "A patient completes 2 years of teriparatide. What must come next?", ["Nothing; gains are permanent", "An antiresorptive agent", "Romosozumab", "A drug holiday", "Another 2 years of teriparatide"], 1, "Anabolic gains are lost unless consolidated by an antiresorptive."], ["2", "For which drug class is a planned \"drug holiday\" appropriate?", ["Denosumab", "Bisphosphonates", "Estrogen", "Romosozumab", "PTH analogs"], 1, "Only bisphosphonates, thanks to skeletal retention and slow offset."], ["2", "What happens if a patient switches from denosumab directly to teriparatide?", ["Larger BMD gains than either alone", "Transient bone loss, especially at the hip", "Severe hypercalcemia", "No change in effect", "Osteonecrosis of the jaw"], 1, "Denosumab → PTH analog causes delayed/attenuated effect or bone loss at cortical sites."], ["2", "Why give the anabolic FIRST in a very-high-risk patient?", ["It is cheaper", "An anabolic given after an antiresorptive has a weaker effect", "Antiresorptives cause hypercalcemia", "Anabolics have holidays", "Antiresorptives are contraindicated after fracture"], 1, "Build first, then protect."]]}, {"lo": "12.6", "name": "The Chronic Keeper", "epithet": "The disease that never retires", "los": "Osteoporosis as a lifelong, tailored disease", "q": [["S1", "A 67-year-old on alendronate for 5 years now has a T-score of −2.0 and no fractures. Next step?", ["Continue indefinitely", "Consider a drug holiday with reassessment", "Switch to ibandronate", "Add denosumab", "Stop all therapy permanently"], 1, "After 3–5 years at lower risk, a temporary holiday — a holiday, not retirement."], ["2", "After treatment raises a T-score from −2.8 to −2.2, the diagnosis should be:", ["Changed to osteopenia", "Kept as osteoporosis", "Removed", "Changed to osteomalacia", "Reclassified as normal"], 1, "Keeping the diagnosis avoids false security, stopping therapy and losing coverage."], ["2", "How do BMD trends differ between bisphosphonates and denosumab over time?", ["Both plateau at 1 year", "BPs plateau after ~4–5 years; denosumab keeps rising up to 10 years", "Denosumab plateaus; BPs keep rising", "Both fall after 3 years", "Neither changes BMD"], 1, "Denosumab: no plateau for up to 10 years."], ["2", "Osteoporosis is best compared with which disease in management style?", ["Strep pharyngitis", "Hypertension", "Appendicitis", "Influenza", "Ankle sprain"], 1, "Chronic, lifelong, treated not cured; normal numbers on therapy do not mean the disease is gone."], ["2", "Which factor does NOT belong in tailoring an osteoporosis plan?", ["Baseline fracture risk", "Comorbidities such as CKD or prior VTE", "Patient preference", "Blood type", "Menopausal stage"], 3, "Tailor to risk, fracture history, comorbidities, age/menopause and preference."]]}]}, "22": {"key": "22", "title": "The Apothecary Keep", "lecture": "MSK Pharmacology · MSK12 · MSK22 · MSK24", "final": {"name": "The Grand Formulary", "epithet": "Every drug, every dose, every danger", "n": 15}, "bosses": [{"lo": "22.1", "name": "The Disease Modifier", "epithet": "Slows the erosion, not just the pain", "los": "Why DMARDs and biologics are used", "q": [["2", "Why add a DMARD rather than relying on NSAIDs or steroids in RA?", ["DMARDs work faster", "DMARDs slow joint damage; NSAIDs/steroids only relieve symptoms", "DMARDs have no toxicity", "NSAIDs are contraindicated in RA", "Steroids worsen erosions immediately"], 1, "Disease-modifying = prevents erosions and deformity."], ["2", "What distinguishes a biologic from a conventional DMARD?", ["Biologics are oral", "Biologics are proteins from living material that block one cytokine or receptor and must be injected", "Biologics inhibit purine synthesis", "Biologics are cheaper", "Biologics never cause infection"], 1, "Biologics: injected, expensive, targeted, immunogenic."], ["2", "The suffix \"-ximab\" (e.g., infliximab, rituximab) indicates:", ["Human mAb", "Humanized mAb", "Chimeric mouse/human mAb", "Fusion receptor", "Receptor antagonist"], 2, "xi = mixed. -zumab humanized, -umab human, -cept fusion receptor, -ra receptor antagonist."], ["2", "About what fraction of RA patients are controlled with oral DMARDs alone?", ["10%", "25%", "50%", "90%", "100%"], 2, "About half; biologics fill in the rest. Methotrexate is the cornerstone."], ["S1", "A 45-year-old woman has symmetric MCP and wrist swelling with 2 hours of morning stiffness despite naproxen. Anti-CCP is positive. Best next drug?", ["Long-term high-dose prednisone", "Low-dose weekly methotrexate", "Allopurinol", "Colchicine", "Etanercept as monotherapy before any DMARD"], 1, "Methotrexate is first-line DMARD in RA; add a biologic if still active."]]}, {"lo": "22.2", "name": "The Target Keeper", "epithet": "Measure, adjust, measure again", "los": "Treat to target in RA", "q": [["2", "What does \"treat to target\" mean in RA?", ["Treat until symptoms vanish once, then stop", "Measure disease activity and adjust therapy until low activity or remission with low toxicity", "Use the most potent drug first", "Treat only abnormal labs", "Use steroids until ESR is normal"], 1, "Like a thermostat: measure (DAS28), adjust, re-measure."], ["2", "Which RA activity score uses only patient-reported function, pain and global health (no joint count)?", ["DAS28", "ACR20", "RAPID3", "CASPAR", "FRAX"], 2, "RAPID3 is patient-reported; DAS28 uses tender/swollen joints + ESR/CRP + global."], ["2", "An ACR20 response means:", ["20% of joints are swollen", "≥20% improvement in tender and swollen joints plus 3 of 5 other measures", "ESR fell by 20 mm", "20 weeks of remission", "A 20-point DAS28 drop"], 1, "ACR50/70 are the same at 50%/70%."], ["S1", "A patient's RA never improved on 6 months of an anti-TNF agent at full dose. Best approach?", ["Increase the anti-TNF dose", "Switch to another anti-TNF", "Choose a different drug class and review the diagnosis", "Stop all therapy", "Add a second anti-TNF"], 2, "Primary failure → new class + recheck diagnosis."], ["S1", "A patient's RA responded well to infliximab for 2 years, then flared despite adherence. Most likely cause?", ["Wrong diagnosis", "Anti-drug antibodies (secondary failure)", "TB reactivation", "Drug-induced lupus", "Primary failure"], 1, "Secondary failure → ↑ dose/shorten interval, switch within class or change target."]]}, {"lo": "22.3", "name": "The Antibody Eater", "epithet": "It learns the drug and devours it", "los": "Anti-drug antibodies", "q": [["2", "Which dosing pattern most raises the risk of anti-drug antibodies?", ["Continuous scheduled dosing", "Intermittent stop-start dosing", "Co-therapy with methotrexate", "Higher doses", "PEGylated formulation"], 1, "Stop-start dosing, low doses, chimeric structure and no immunosuppressant raise ADAb risk."], ["2", "Which anti-TNF is most immunogenic?", ["Etanercept", "Adalimumab", "Infliximab", "Certolizumab pegol", "Golimumab"], 2, "Infliximab is a chimeric IV mAb (ADAb in 6–61%)."], ["2", "What is the best way to reduce anti-drug antibodies against a biologic?", ["Give it only during flares", "Co-prescribe methotrexate or azathioprine and dose regularly", "Lower the dose", "Switch to a chimeric antibody", "Add NSAIDs"], 1, "Give the biologic a \"bodyguard.\""], ["S1", "A man with tophaceous gout refractory to allopurinol receives IV pegloticase. After an early dramatic drop, his serum urate climbs back up. What happened?", ["Tumor lysis", "Neutralizing anti-drug antibodies", "Renal failure", "Xanthine oxidase induction", "Dietary purine excess"], 1, "About 50% form antibodies; monitor uric acid — if it is not low, the drug is not working."], ["2", "Anti-drug antibodies usually cause which failure pattern?", ["Primary failure", "Secondary failure", "Toxicity failure", "Immediate anaphylaxis only", "No change in efficacy"], 1, "Worked, then stopped working."]]}, {"lo": "22.4", "name": "The Toxicity Titan", "epithet": "Liver, retina, marrow and TB", "los": "Key toxicities of DMARDs and biologics", "q": [["S1", "Before starting adalimumab for RA, which test is mandatory?", ["Ophthalmologic exam", "TB screening (PPD or IGRA)", "Pulmonary function tests", "TPMT activity", "Urinalysis"], 1, "Anti-TNF → TB reactivation (and HBV). Screen first."], ["2", "Hydroxychloroquine requires periodic monitoring of:", ["Liver enzymes", "The retina", "Pulmonary function", "Serum uric acid", "Hearing"], 1, "Retinal toxicity → regular eye exams."], ["S1", "A patient on leflunomide wants to become pregnant. Liver enzymes are mildly elevated. What is used to eliminate the drug quickly?", ["Leucovorin", "Cholestyramine", "Mesna", "N-acetylcysteine", "Folic acid"], 1, "Leflunomide (DHODH inhibitor) has a very long half-life from enterohepatic recycling → cholestyramine washout."], ["S1", "After rituximab for RA, a patient develops progressive hemiparesis and cognitive decline; MRI shows multifocal white-matter lesions. Cause?", ["Multiple sclerosis", "PML from JC virus", "Hepatitis B reactivation", "Drug-induced lupus", "Stroke from hypertension"], 1, "Rituximab (anti-CD20): PML, HBV reactivation, infusion reactions."], ["2", "Which drug is a CTLA4-Ig fusion protein that binds CD80/86 and blocks CD28 co-stimulation?", ["Tocilizumab", "Abatacept", "Anakinra", "Belimumab", "Rituximab"], 1, "Abatacept: slow onset, well tolerated, moderately effective in RA."], ["2", "Methotrexate should be avoided in which setting?", ["Hypertension", "Renal insufficiency", "Glaucoma", "Hypothyroidism", "Gout"], 1, "Renally cleared → toxicity; also hepatotoxicity, cytopenias, pneumonitis; give folate."], ["2", "Which anti-TNF does NOT treat Crohn disease or uveitis?", ["Infliximab", "Adalimumab", "Etanercept", "Certolizumab", "Golimumab"], 2, "Only monoclonal antibodies work for IBD and uveitis; etanercept is a fusion receptor."]]}]}, "24": {"key": "24", "title": "The Apothecary Keep", "lecture": "MSK Pharmacology · MSK12 · MSK22 · MSK24", "final": {"name": "The Grand Formulary", "epithet": "Every drug, every dose, every danger", "n": 15}, "bosses": [{"lo": "24.1", "name": "The Mimic Queen", "epithet": "A thousand faces of inflammation", "los": "Presentations of prototypic inflammatory diseases", "q": [["S1", "A 64-year-old man has bilateral dull great-toe pain worse with walking, better with rest, without redness or warmth. Uric acid is 8.4. Most likely cause?", ["Acute gout", "Osteoarthritis", "Septic arthritis", "Pseudogout", "Rheumatoid arthritis"], 1, "Mechanical pattern = OA; hyperuricemia alone does not make it gout."], ["S1", "A 24-year-old has a violaceous eyelid rash, nailfold changes, trouble climbing stairs, a nasal voice and CPK 2000. Diagnosis?", ["SLE", "Dermatomyositis", "Polymyalgia rheumatica", "Myasthenia gravis", "Hypothyroid myopathy"], 1, "Heliotrope rash + proximal weakness + ↑ CPK. Over 50 → screen for cancer."], ["S1", "A 68-year-old has 3 months of bilateral shoulder and hip girdle pain and stiffness, worse in the morning. ESR 60, RF and ANA negative, CPK normal. Diagnosis?", ["Polymyositis", "Polymyalgia rheumatica", "Rheumatoid arthritis", "Fibromyalgia", "Osteoarthritis"], 1, "PMR: >50, girdle pain, ↑ ESR, normal CPK; ask about GCA symptoms."], ["S1", "A 55-year-old has recurrent sinusitis, a saddle-nose deformity, lacrimal gland swelling and hematuria with RBC casts. Which antibody is expected?", ["Anti-SSA/SSB", "c-ANCA (anti-PR3)", "Anti-dsDNA", "Anti-CCP", "Anti-Jo-1"], 1, "GPA: upper airway + lung + kidney, c-ANCA/PR3."], ["S1", "A 40-year-old has bilateral uveitis with synechiae, a purple raised facial rash, PIP swelling, mild hypercalcemia and bilateral hilar adenopathy. Diagnosis?", ["SLE", "Sarcoidosis", "GPA", "Psoriatic arthritis", "Tuberculosis"], 1, "Non-caseating granulomas; lupus pernio; ↑ 1α-hydroxylase → hypercalcemia."], ["S1", "A 35-year-old has non-healing \"toenail fungus,\" scalp and gluteal-cleft plaques, sausage-shaped toes and RF-negative DIP arthritis. Diagnosis?", ["Rheumatoid arthritis", "Psoriatic arthritis", "Gout", "Reactive arthritis", "Osteoarthritis"], 1, "Nail pitting/onycholysis + dactylitis + DIP = psoriatic arthritis."]]}, {"lo": "24.2", "name": "The Alkylator", "epithet": "Cystitis, cancer, can't conceive", "los": "Mechanisms of rheumatologic therapies", "q": [["2", "Which drug protects the bladder during cyclophosphamide therapy?", ["Leucovorin", "Mesna", "Allopurinol", "Folic acid", "Amifostine"], 1, "Mesna binds acrolein → less hemorrhagic cystitis and bladder cancer."], ["2", "Mycophenolate mofetil inhibits which enzyme?", ["Dihydrofolate reductase", "Inosine monophosphate dehydrogenase", "Dihydroorotate dehydrogenase", "Xanthine oxidase", "Calcineurin"], 1, "IMPDH → ↓ de novo guanosine; lymphocytes rely on it."], ["S1", "A patient on azathioprine for lupus maintenance is started on allopurinol for gout and develops severe pancytopenia. Why?", ["Allopurinol is marrow-toxic alone", "Xanthine oxidase inhibition raises 6-MP levels", "Azathioprine induces TPMT", "Drug-induced lupus", "Folate deficiency"], 1, "Xanthine oxidase metabolizes 6-MP; blocking it → toxic levels. Check TPMT too."], ["S1", "A 30-year-old treated with prednisone for 18 months for lupus nephritis now has groin pain; MRI shows femoral head necrosis. Principal cause?", ["Lupus vasculitis", "Genetics", "Monoclonal antibody therapy", "Corticosteroid therapy", "Caloric excess"], 3, "Long-term glucocorticoids → avascular necrosis of the hip."], ["2", "Which lupus drug blocks the type I interferon receptor?", ["Belimumab", "Anifrolumab", "Voclosporin", "Rituximab", "Hydroxychloroquine"], 1, "Anifrolumab helps skin and joints; belimumab targets BLyS/BAFF."], ["2", "Which glucocorticoid toxicity is NOT expected with long-term use?", ["Cataracts", "Osteoporosis", "Hyperglycemia", "Avascular necrosis", "Hypoglycemia"], 4, "Steroids cause hyperglycemia, not hypoglycemia."]]}, {"lo": "24.3", "name": "The Modulator", "epithet": "The right drug for each disease", "los": "DMARDs and biologics in systemic inflammatory illness", "q": [["S1", "A 20-year-old woman has Raynaud, a photosensitive rash, arthralgia and ANA 1:1280 with normal kidneys. Best first therapy?", ["Cyclophosphamide", "Hydroxychloroquine", "Etanercept", "Allopurinol", "Rituximab"], 1, "Mild SLE → hydroxychloroquine, maintained in almost all lupus patients."], ["S1", "A 22-year-old with lupus develops proteinuria, RBC casts, low complement and high anti-dsDNA. Best therapy?", ["Hydroxychloroquine alone", "Prednisone plus mycophenolate mofetil", "Propranolol", "NSAIDs", "Anti-TNF"], 1, "Lupus nephritis → steroids + MMF or cyclophosphamide; continue HCQ."], ["S1", "A 55-year-old with GPA and RBC casts needs induction therapy. Best regimen?", ["Hydroxychloroquine", "Glucocorticoids plus rituximab", "NSAIDs alone", "Allopurinol", "Etanercept alone"], 1, "Steroids + rituximab or cyclophosphamide; PCP prophylaxis."], ["2", "Why is anti-TNF therapy usually avoided in SLE?", ["It causes hypercalcemia", "It can induce lupus", "It is nephrotoxic", "It lowers complement", "It causes retinal toxicity"], 1, "Anti-TNF can cause drug-induced lupus."], ["S1", "A young man with axial spondyloarthritis has persistent inflammatory back pain despite two NSAIDs. He also has recurrent anterior uveitis. Best next drug?", ["Etanercept", "Adalimumab", "Methotrexate", "Hydroxychloroquine", "Prednisone long-term"], 1, "Monoclonal anti-TNF treats SpA and also uveitis/IBD; etanercept does not help uveitis."], ["2", "Which biologic is used for giant cell arteritis associated with PMR?", ["Anakinra", "Tocilizumab", "Belimumab", "Abatacept", "Pegloticase"], 1, "Anti-IL-6 receptor."]]}, {"lo": "24.4", "name": "The Case Conference", "epithet": "Diagnose, treat, then watch", "los": "Therapeutic approach to clinical cases", "q": [["S1", "A 29-year-old hypermobile dancer with sacroiliitis on MRI stops adalimumab and weeks later develops bloody diarrhea with neutrophilic colitis. Best explanation?", ["Infectious colitis from the drug", "IBD associated with spondyloarthritis, previously treated by anti-TNF", "C. difficile from NSAIDs", "Ischemic colitis", "Drug-induced lupus"], 1, "SpA is associated with IBD; the monoclonal anti-TNF had been controlling it."], ["S1", "The same hypermobile dancer had a NORMAL Schober test despite inflammatory back pain. Why?", ["Schober is only abnormal in OA", "Hypermobility masked the loss of lumbar flexion", "She had mechanical back pain", "Sacroiliitis never limits motion", "The test was done at night"], 1, "A normal Schober does not exclude axial SpA in hypermobile patients."], ["2", "Which sequence best describes the approach to each conference case?", ["Treat empirically, then diagnose", "Pattern recognition → differential → confirm → treat → measure success and toxicity", "Order every antibody first", "Start steroids for all", "Refer before examining"], 1, "Always ask: is it working, and is it hurting?"], ["S1", "A 59-year-old with 15–30 minutes of morning stiffness has thumb-base, PIP and DIP pain worse with knitting. Best management?", ["Methotrexate", "Analgesics, exercise and joint protection", "Rituximab", "Hydroxychloroquine", "High-dose prednisone"], 1, "Osteoarthritis has no true disease-modifying drug."], ["S1", "A lupus patient on IV cyclophosphamide is 26 years old and wants children later. Which toxicity is the key counseling point?", ["Retinal toxicity", "Premature ovarian failure", "Hypercalcemia", "Pancreatitis", "Ototoxicity"], 1, "Cyclophosphamide → ovarian failure; low-dose \"Euro-Lupus\" IV protocols are preferred."]]}]}};
+</script>
+<script>
+"use strict";
+(function(){
+/* ================= utilities ================= */
+const app=document.getElementById('app'), hud=document.getElementById('hud');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function rng(seed){let a=seed||1;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const LET=['A','B','C','D','E'];
+const tchip=t=>`<span class="tchip" style="background:${TYPES[t].c}">${TYPES[t].n.toUpperCase()}</span>`;
+
+/* ================= species index ================= */
+const SP={};SPECIES.forEach((s,i)=>{s.no=i+1;SP[s.id]=s;});
+const STARTERS=CFG.starters;
+STARTERS.forEach(s=>SP[s.id]={id:s.id,n:s.n,t:s.t,starter:true});
+const areaKeys=a=>SPECIES.filter(s=>s.a===a).map(s=>s.id);
+const patchKeys=(a,p)=>SPECIES.filter(s=>s.a===a&&s.p===p).map(s=>s.id);
+
+/* ================= Leitner schedule (stage = box) ================= */
+const BOX_IV=[0,1,3,6,10,16,25],BOX_MAX=6,LEECH_AT=3;
+let G=null;const KEY=CFG.key;
+function schedGet(k){if(!G.sched[k])G.sched[k]={b:0,d:0,s:0,l:0};return G.sched[k];}
+const stageOf=b=>b<=1?1:b<=3?2:3;
+function monStage(k){if(!G||!G.sched||!k||k.startsWith('st:'))return 1;const s=G.sched[k];return s?stageOf(s.b):1;}
+function isDue(k){const s=G.sched[k];return !!s&&s.s>0&&s.d<=G.enc;}
+function schedRight(k){const s=schedGet(k);const was=stageOf(s.b);s.s++;s.b=Math.min(BOX_MAX,s.b+1);s.d=G.enc+BOX_IV[s.b];const now=stageOf(s.b);return now>was?{up:true,to:now}:null;}
+function schedWrong(k){const s=schedGet(k);const was=stageOf(s.b);s.s++;s.l++;s.b=0;s.d=G.enc;const now=stageOf(s.b);return now<was?{up:false,to:now}:null;}
+const dueKeys=()=>Object.keys(G.sched).filter(k=>SP[k]&&isDue(k)).sort((a,b)=>G.sched[a].d-G.sched[b].d);
+
+/* ================= sprites (reused from Neuromon) ================= */
+/* ================= sprites (procedural, original) ================= */
+const spriteCache={};
+function shade(hex,f){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;
+  if(f<0){r*=1+f;g*=1+f;b*=1+f;}else{r+=(255-r)*f;g+=(255-g)*f;b+=(255-b)*f;}
+  return '#'+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');}
+function genGrid(key,st){
+  /* Stage keeps the SAME seed, so an evolution is recognisably the same creature
+     grown up — bigger body, more dendrites — rather than a different species. */
+  const stg=st||1;const ck=stg>1?key+'|'+stg:key;
+  if(spriteCache[ck])return spriteCache[ck];
+  const r=rng(hash(key));const W=16,H=18,half=8;const g=[...Array(H)].map(()=>Array(W).fill(0));
+  const wide=(.75+r()*.5)*(1+(stg-1)*.15), tall=(.55+r()*.35)*(1+(stg-1)*.11);
+  for(let y=3;y<H-1;y++)for(let x=1;x<half;x++){
+    const dx=(half-1-x)/half, dy=Math.abs(y-10.5)/7.5;
+    const p=1.05-dx*1.05/wide-dy*dy*tall*1.1+(r()-.5)*.45;
+    if(r()<p){g[y][x]=1;g[y][W-1-x]=1;}
+  }
+  // keep component connected to center
+  const seen=new Set();const stk=[[10,7]];
+  if(!g[10][7]){g[10][7]=g[10][8]=1;}
+  while(stk.length){const [y,x]=stk.pop();const k=y*W+x;if(seen.has(k)||y<0||y>=H||x<0||x>=W||!g[y][x])continue;seen.add(k);stk.push([y+1,x],[y-1,x],[y,x+1],[y,x-1]);}
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(g[y][x]&&!seen.has(y*W+x))g[y][x]=0;
+  // dendrites
+  let top=H;for(let y=0;y<H;y++)if(g[y].some(v=>v)){top=y;break;}
+  const nd=1+Math.floor(r()*2)+(stg-1);
+  for(let i=0;i<nd;i++){let x=2+Math.floor(r()*5);let y=top;while(y<H-1&&!g[y][x])y++;
+    for(let s=0;s<3+(stg-1)&&y>0;s++){y--;if(r()<.4)x=Math.max(1,Math.min(half-1,x+(r()<.5?-1:1)));g[y][x]=g[y][x]||3;g[y][W-1-x]=g[y][W-1-x]||3;}}
+  // eyes
+  let eye=null;
+  for(let y=top+1;y<H-4&&!eye;y++){for(const ex of [5,4,6,3]){if(g[y][ex]===1&&g[y+1][ex]===1&&g[y][ex-1]&&g[y][ex+1]&&g[y+1][ex]){eye=[y,ex];break;}}}
+  const out={g,W,H,eye,hue:r(),stg};
+  return spriteCache[ck]=out;
+}
+function spriteSVG(key,opt={}){
+  const sp=SP[key];const base=sp?TYPES[sp.t].c:'#888';
+  const stg=opt.stage||monStage(key);           // every render site evolves without being told to
+  const {g,W,H,eye,hue}=genGrid(key,stg);
+  const body=shade(base,(hue-.5)*.35), hi=shade(body,.35), lo=shade(body,-.3), acc=shade(base,.55+(stg-1)*.14), ol='#1B2033';
+  const sil=opt.sil;let rects='';
+  const at=(y,x)=>y>=0&&y<H&&x>=0&&x<W?g[y][x]:0;
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    const v=g[y][x];
+    if(!v){if(at(y-1,x)||at(y+1,x)||at(y,x-1)||at(y,x+1))rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${sil?'#1B203355':ol}"/>`;continue;}
+    let c;
+    if(sil)c='#1B203340';
+    else if(v===3)c=acc;
+    else if(opt.back)c=!at(y+1,x)?lo:(!at(y-1,x)?body:shade(body,-.12));
+    else c=!at(y-1,x)?hi:(!at(y+1,x)?lo:((x>5&&x<10&&y>11&&y<15)?shade(body,.2):body));
+    rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${c}"/>`;
+  }
+  if(eye&&!opt.back&&!sil){const [y,ex]=eye;[ex,W-1-ex].forEach(x=>{rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#fff"/><rect x="${x}" y="${y+1}" width="1" height="1" fill="${ol}"/>`;});}
+  return `<svg class="${opt.cls||'spr'}" viewBox="0 0 ${W} ${H}" shape-rendering="crispEdges" aria-hidden="true">${rects}</svg>`;
+}
+const TRAINER=["...HHHH...","..HHHHHH..",".HHHHHHHH.","..SSSSSS..","..SESSES..","..SSSSSS..","...SMMS...","..WCCCCW..",".WWCCCCWW.",".SWCCCCWS.",".SWWCCWWS.","..PPPPPP..","..PP..PP..","..BB..BB.."];
+function trainerSVG(coat,hair,cls){
+  const pal={H:hair||'#3A2A1E',S:'#F2C9A0',E:'#1B2033',M:'#B5524A',C:coat,W:'#FFFFFF',P:'#2D3350',B:'#1B2033'};let r='';
+  TRAINER.forEach((row,y)=>[...row].forEach((ch,x)=>{if(ch!=='.')r+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${pal[ch]}"/>`;}));
+  return `<svg class="${cls||'trn'}" viewBox="-1 -1 12 16" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`;
+}
+const ORB=`<svg viewBox="0 0 10 10" shape-rendering="crispEdges"><circle cx="5" cy="5" r="4.5" fill="#3A7FD0" stroke="#1B2033" stroke-width="1"/><path d="M.5 5h9a4.5 4.5 0 0 1-9 0z" fill="#E3AE12" stroke="#1B2033" stroke-width="1"/><circle cx="5" cy="5" r="1.4" fill="#fff" stroke="#1B2033" stroke-width=".8"/></svg>`;
+function badgeSVG(color,got){return `<svg class="badge" viewBox="0 0 10 10" aria-hidden="true"><path d="M5 .6 9.2 3.4 7.6 9.2H2.4L.8 3.4z" fill="${got?color:'#D5D9E6'}" stroke="#1B2033" stroke-width=".8"/><path d="M5 2.4 7.2 3.9 6.4 7.4H3.6L2.8 3.9z" fill="${got?'#ffffff88':'#ffffff55'}"/></svg>`;}
+
+
+
+/* ================= gyms ================= */
+const GYMS=CFG.gyms;
+const CHAMP_NEED=Object.keys(AREAS).length;const MON=CFG.mon;
+
+/* ================= save ================= */
+function fresh(){return {name:'Hoya',party:[],box:[],dex:{},badges:{},sched:{},enc:0,uid:1,loc:'center',right:0,tot:0};}
+function load(){try{const r=localStorage.getItem(KEY);if(r){const d=JSON.parse(r);if(d&&d.party&&d.party.length)return Object.assign(fresh(),d);}}catch(e){}return null;}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(G));}catch(e){}}
+const maxHP=l=>30+l*5;
+function newMon(key,lvl){const m={uid:G.uid++,sp:key,lvl,xp:0,max:maxHP(lvl)};m.hp=m.max;return m;}
+const lead=()=>G.party.find(m=>m.hp>0)||G.party[0];
+function seen(key,how){const cur=G.dex[key];if(how==='caught'||!cur)G.dex[key]=how;}
+function toast(t){const d=document.createElement('div');d.className='toast';d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2400);}
+function healAll(){G.party.forEach(m=>m.hp=m.max);}
+function stagePip(k,lab){if(!k||k.startsWith('st:'))return '';const s=monStage(k);
+  return `<span class="tchip" style="background:${s>=3?'#E3AE12':s===2?'#7E9BD0':'#8A93A8'};color:${s>=3?'#1B2033':'#fff'};letter-spacing:.12em" title="Stage ${s} of 3 — questions get harder as it evolves">${'●●●'.slice(0,s)+'○○○'.slice(0,3-s)}${lab?' STAGE '+s:''}</span>`;}
+const hpColor=f=>f>.5?'var(--hp-hi)':f>.2?'var(--hp-mid)':'var(--hp-lo)';
+
+/* ================= question bank ================= */
+const F_OLD={
+ or:{mv:'ORIGIN',hint:'Where does it come from?',lab:'Origin',stem:S=>`What does <strong>${esc(S.n)}</strong> arise from?`,rev:v=>`Which structure arises from <strong>${esc(v)}</strong>?`,chain:'what does it arise from?',desc:'arises from'},
+ wk:{mv:'TIMELINE',hint:'When?',lab:'Timing',stem:S=>`When does <strong>${esc(S.n)}</strong> form or act?`,chain:'when does it form?',desc:'forms at'},
+ be:{mv:'FATE',hint:'What does it become?',lab:'Becomes',stem:S=>`What does <strong>${esc(S.n)}</strong> become?`,rev:v=>`Which structure becomes <strong>${esc(v)}</strong>?`,chain:'what does it become?',desc:'becomes'},
+ nv:{mv:'NERVE',hint:'Which nerve goes with it?',lab:'Nerve',stem:S=>`Which nerve goes with <strong>${esc(S.n)}</strong>?`,rev:v=>`Which structure is supplied by <strong>${esc(v)}</strong>?`,chain:'which nerve goes with it?',desc:'is supplied by'},
+ mu:{mv:'MUSCLE MAP',hint:'Which muscles?',lab:'Muscles',stem:S=>`Which muscles come from <strong>${esc(S.n)}</strong>?`,rev:v=>`Which structure gives rise to <strong>${esc(v)}</strong>?`,chain:'which muscles come from it?',desc:'forms the muscles'},
+ fu:{mv:'FUSION',hint:'What does it fuse with or meet?',lab:'Fuses / meets',stem:S=>`What does <strong>${esc(S.n)}</strong> fuse with or meet?`,chain:'what does it fuse with or meet?',desc:'fuses with'},
+ ge:{mv:'SIGNAL',hint:'Which gene or signal?',lab:'Gene / signal',stem:S=>`Which gene, signal or cause goes with <strong>${esc(S.n)}</strong>?`,chain:'which gene or signal is involved?',desc:'is driven by'},
+ rl:{mv:'ROLE',hint:'What does it do?',lab:'Role',stem:S=>`What best describes the role of <strong>${esc(S.n)}</strong>?`,chain:'what is its role?',desc:'acts by'},
+ fa:{mv:'FAILURE',hint:'If it fails…',lab:'If it fails',stem:S=>`If <strong>${esc(S.n)}</strong> fails to develop normally, what results?`,rev:v=>`A child has <strong>${esc(v)}</strong>. Which structure failed?`,chain:'what results if it fails?',desc:'when it fails causes'},
+ fx:{mv:'ROOT CAUSE',hint:'What failed?',lab:'What failed',stem:S=>`In <strong>${esc(S.n)}</strong>, which structure or process failed?`,rev:v=>`Failure of <strong>${esc(v)}</strong> causes which defect?`,chain:'what failed?',desc:'results from failure of'},
+ cl:{mv:'PRESENTATION',hint:'How does it present?',lab:'Presentation',stem:S=>`Which picture fits <strong>${esc(S.n)}</strong>?`,rev:v=>`A patient has <strong>${esc(v)}</strong>. What is the diagnosis?`,chain:'how does it present?',desc:'presents with'}
+};
+const F=CFG.fields, S1F=CFG.s1, S2F=CFG.s2;
+function sameAreaFirst(S,list){const a=shuffle(list.filter(x=>x.a===S.a)),b=shuffle(list.filter(x=>x.a!==S.a));return [...a,...b];}
+function fieldQ(S,k){const v=S[k];if(!v)return null;
+  const pool=[...new Set(sameAreaFirst(S,SPECIES.filter(x=>x.id!==S.id&&x[k]&&x[k]!==v)).map(x=>x[k]))].slice(0,3);if(pool.length<3)return null;
+  const opts=shuffle([v,...pool]);
+  return {sig:'f:'+k,mv:F[k].mv,hint:F[k].hint,stem:F[k].stem(S),opts,ans:opts.indexOf(v),explain:`<p class="ans"><b>${esc(v)}</b></p>`,kind:'recall'};}
+function revQ(S,k){const v=S[k];if(!v||!F[k].rev)return null;
+  const pool=sameAreaFirst(S,SPECIES.filter(x=>x.id!==S.id&&x[k]&&x[k]!==v&&x.t!=='DEFECT'===(S.t!=='DEFECT'))).map(x=>x.n);const d=[...new Set(pool)].slice(0,3);if(d.length<3)return null;
+  const opts=shuffle([S.n,...d]);
+  return {sig:'r:'+k,mv:'REVERSE '+F[k].mv,hint:'Name the drug or condition',stem:F[k].rev(v),opts,ans:opts.indexOf(S.n),explain:`<p class="ans"><b>${esc(S.n)}</b> ${F[k].desc} ${esc(v)}.</p>`,kind:'reverse'};}
+function chainQ(S){const giv=shuffle(CFG.chainGive.filter(k=>S[k])),ask=shuffle(CFG.chainAsk.filter(k=>S[k]));
+  for(const g of giv)for(const a of ask){if(a===g)continue;const base=fieldQ(S,a);if(!base)continue;
+    base.sig='c:'+g+a;base.mv='2ND ORDER';base.hint='Identify it, then answer';base.kind='chain';
+    base.stem=`Think in two steps. The drug or condition that <em>${F[g].desc} “${esc(S[g])}”</em> — ${F[a].chain}`;
+    base.explain=`<p class="ans">That is <b>${esc(S.n)}</b>, which ${F[a].desc} <b>${esc(S[a])}</b>.</p>`;return base;}
+  return null;}
+function vignQ(S){const bank=BOSS[S.lo.split('.')[0]];if(!bank)return null;const qs=[];bank.bosses.forEach(b=>{if(b.lo===S.lo)b.q.forEach(q=>qs.push(q));});if(!qs.length)return null;
+  const q=pick(qs);const ord=shuffle([0,1,2,3,4]);const opts=ord.map(i=>q[2][i]);
+  return {sig:'v:'+hash(q[1]),mv:q[0]==='S1'?'STEP 1 STRIKE':'2ND ORDER',hint:q[0]==='S1'?'Clinical vignette':'Two-step reasoning',stem:esc(q[1]),opts,ans:ord.indexOf(q[3]),explain:`<p class="ans"><b>${esc(q[2][q[3]])}</b></p><p>${esc(q[4])}</p>`,kind:'vignette'};}
+function identifyQ(S,E){const nw=S.n.toLowerCase().replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>=4&&!['cell','cells','face'].includes(w));
+  const leak=t=>{const l=t.toLowerCase();return nw.some(w=>l.includes(w));};
+  let rows=CFG.idOrder.filter(k=>S[k]).map(k=>[F[k].lab,S[k]]);
+  const clean=rows.filter(r=>!leak(r[1]));if(clean.length>=2)rows=clean;
+  const same=shuffle(SPECIES.filter(x=>x.id!==S.id&&x.t===S.t)),near=shuffle(SPECIES.filter(x=>x.id!==S.id&&x.t!==S.t&&x.a===S.a));
+  const d=[...same,...near].map(x=>x.n).filter((v,i,a)=>a.indexOf(v)===i).slice(0,4);const opts=shuffle([S.n,...d]);
+  return {sig:'id',mv:'IDENTIFY',hint:'Read its record, then name it',rows,shown:E.shown,stem:`A wild ${MON} is hiding its name. Which drug or condition has this record?`,opts,ans:opts.indexOf(S.n),kind:'identify',
+    explain:`<ul class="whys">${rows.map(r=>`<li><b>${esc(r[0])}:</b> ${esc(r[1])}</li>`).join('')}</ul>`};}
+function nextQ(E){const S=SP[E.sp];const st=Math.max(monStage(E.sp),E.minStage||1);let cands=[];
+  const add=q=>{if(q&&!E.asked.has(q.sig))cands.push(q);};
+  if(st===1){S1F.forEach(k=>add(fieldQ(S,k)));CFG.rev1.forEach(k=>add(revQ(S,k)));}
+  else if(st===2){S2F.forEach(k=>add(fieldQ(S,k)));CFG.rev2.forEach(k=>add(revQ(S,k)));add(chainQ(S));add(chainQ(S));}
+  if(st===3||(st===2&&Math.random()<.35)){for(let i=0;i<3;i++)add(vignQ(S));add(chainQ(S));}
+  if(!cands.length){S1F.concat(S2F).forEach(k=>add(fieldQ(S,k)));add(chainQ(S));add(vignQ(S));}
+  if(!cands.length){E.asked.clear();return nextQ(E);}
+  return pick(cands);}
+
+/* ================= HUD ================= */
+function renderHud(){if(!G||!G.party.length){hud.hidden=true;return;}hud.hidden=false;const due=dueKeys().length;
+  hud.innerHTML=`<button class="hbtn" data-go="map">Map</button><button class="hbtn" data-go="party">Party <b>${G.party.length}</b></button><button class="hbtn" data-go="dex">${CFG.dex}</button><button class="hbtn" data-go="review">Review <b>${due}</b></button>`;
+  hud.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));}
+function go(s,arg){renderHud();window.scrollTo(0,0);
+  if(s==='title')return renderTitle();if(s==='map')return renderMap();if(s==='route')return renderRoute(arg);
+  if(s==='party')return renderParty();if(s==='dex')return renderDex(arg);if(s==='review')return renderReview();}
+
+/* ================= title ================= */
+function renderTitle(){hud.hidden=true;const saved=load();let chosen=null;
+  app.innerHTML=`<section class="title"><div class="pane">
+    <h1 class="logo">${CFG.logo}<small>${CFG.logoSub}</small></h1>
+    <p class="lede" style="color:var(--ink)">${CFG.intro(SPECIES.length)}</p>
+    ${saved?`<div class="box row" style="justify-content:space-between"><div><div class="h2">Continue</div><div class="small">${esc(saved.name)} · ${saved.party.length} ${MON} · ${Object.keys(saved.badges).length} badges</div></div><button class="btn gold" id="cont">Continue &gt;</button></div>`:''}
+    <div class="box" style="display:flex;flex-direction:column;gap:12px">
+      <div class="h2">${saved?'Or start a new journey':'Start your journey'}</div>
+      <div class="namefield"><label for="tname">Trainer name</label><input id="tname" maxlength="14" value="${esc(saved?saved.name:'')}" placeholder="Your name"></div>
+      <div class="small">Choose your first ${MON}. It deals bonus damage to foes of its own type.</div>
+      <div class="starters">${STARTERS.map(s=>`<button class="starter" data-k="${s.id}" aria-pressed="false">${spriteSVG(s.id)}<h3>${s.n}</h3>${tchip(s.t)}<p>${s.blurb}</p></button>`).join('')}</div>
+      <div class="row"><button class="btn" id="begin" disabled>Choose a starter</button>${saved?'<span class="small">Starting over replaces your saved game.</span>':''}</div>
+    </div></div></section>`;
+  if(saved)document.getElementById('cont').onclick=()=>{G=saved;go('map');};
+  const bt=document.getElementById('begin');
+  app.querySelectorAll('.starter').forEach(b=>b.onclick=()=>{chosen=b.dataset.k;app.querySelectorAll('.starter').forEach(x=>x.setAttribute('aria-pressed',x===b));bt.disabled=false;bt.textContent='Begin with '+SP[chosen].n+' >';});
+  bt.onclick=()=>{G=fresh();G.name=(document.getElementById('tname').value.trim()||'Hoya');G.party=[newMon(chosen,5)];persist();go('map');};}
+
+/* ================= map ================= */
+const LOCS=CFG.locs;
+function locIcon(k){const c=(LOCS[k]&&LOCS[k].c)||'#C2412F';
+  return `<svg class="ico" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="6" width="12" height="9" fill="${c}" stroke="#1B2033"/><path d="M1 7 8 1l7 6z" fill="#fff" stroke="#1B2033"/><rect x="6" y="10" width="4" height="5" fill="#1B2033"/></svg>`;}
+function renderMap(){const nb=Object.keys(G.badges).filter(k=>k!=='summit').length,caught=Object.values(G.dex).filter(v=>v==='caught').length,seenN=Object.keys(G.dex).length;
+  const L=LOCS[G.loc]||LOCS.center;
+  app.innerHTML=`<div class="map">
+    <svg class="paths" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${Object.keys(LOCS).filter(k=>k!=='center').map(k=>`<line x1="${LOCS.center.x}" y1="${LOCS.center.y}" x2="${LOCS[k].x}" y2="${LOCS[k].y}" stroke="#E8D9A8" stroke-width="3.2" stroke-dasharray="1.5 1"/>`).join('')}</svg>
+    <div class="pond"></div>${[[8,70],[28,80],[70,76],[90,62],[34,8],[66,10],[12,10]].map(p=>`<span class="tree" style="left:${p[0]}%;top:${p[1]}%"></span>`).join('')}
+    ${Object.entries(LOCS).map(([k,l])=>{const locked=k==='summit'&&nb<CHAMP_NEED;return `<button class="loc" data-l="${k}" style="left:${l.x}%;top:${l.y}%" ${locked?'disabled':''}>${locIcon(k)}<span class="lbl">${l.n}<em>${locked?`Needs ${CHAMP_NEED} badges`:l.e}</em></span></button>`;}).join('')}
+    <div class="avatar" style="left:${L.x}%;top:${L.y-4}%">${trainerSVG('#C2412F','#3A2A1E','trn')}</div></div>
+  <div class="mapfoot">
+    <div class="stat"><div class="k">TRAINER</div><div class="v">${esc(G.name)}</div></div>
+    <div class="stat"><div class="k">BADGES</div><div class="badges">${[...Object.keys(AREAS),'summit'].map(k=>badgeSVG(GYMS[k].color,G.badges[k])).join('')}</div></div>
+    <div class="stat"><div class="k">${CFG.dex.toUpperCase()}</div><div class="v">${caught} / ${SPECIES.length}</div><div class="small">${seenN} seen</div></div>
+    <div class="stat"><div class="k">DUE FOR REVIEW</div><div class="v">${dueKeys().length}</div><div class="small">${G.enc} encounters</div></div>
+  </div>`;
+  app.querySelectorAll('.loc').forEach(b=>b.onclick=()=>{if(b.disabled)return;const k=b.dataset.l;G.loc=k;persist();
+    if(k==='center'){healAll();persist();toast(`Your ${MON} are fully healed!`);renderMap();return;}
+    if(k==='summit'){renderSummit();return;}go('route',k);});}
+function renderSummit(){const g=GYMS.summit;
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">The Summit</div><button class="btn ghost" id="back">&lt; Map</button></div>
+  <div class="gymcard">${trainerSVG(g.coat,g.hair)}<div style="display:flex;flex-direction:column;gap:8px"><div class="h2">${g.leader}</div><p class="lede">“${g.intro}”</p>
+  <div class="row"><button class="btn gold" id="gym">${G.badges.summit?'Rematch':'Challenge'} &gt;</button><span class="small">${g.size} ${MON} from every region · every question is Step 1 or 2nd order</span></div></div></div></div>`;
+  document.getElementById('back').onclick=()=>go('map');document.getElementById('gym').onclick=()=>startGym('summit');}
+
+/* ================= route ================= */
+function dexProgress(keys){let s=0,c=0;keys.forEach(k=>{if(G.dex[k])s++;if(G.dex[k]==='caught')c++;});return {s,c,n:keys.length};}
+function renderRoute(id){const A=AREAS[id],g=GYMS[id];
+  app.innerHTML=`<div class="pane">
+    <div class="row" style="justify-content:space-between"><div><div class="h1">${A.name}</div><div class="small">${A.sub} · ${A.blurb}</div></div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <div class="h2">Tall grass</div>
+    <div class="patches">${Object.entries(A.patches).map(([k,p])=>{const keys=patchKeys(id,k),d=dexProgress(keys),pd=keys.filter(isDue).length,ev=keys.filter(x=>monStage(x)>1).length;
+      return `<button class="patch" data-p="${k}"><div class="in"><div class="row" style="justify-content:space-between">${tchip(p.type)}<span class="small">${pd?`<b style="color:var(--gold-ink)">${pd} due</b> · `:''}${keys.length} ${MON}</span></div>
+      <h3>${esc(p.label)}</h3>${ev?`<div class="small">${ev} evolved</div>`:''}
+      <div class="meter" title="Seen ${d.s}, caught ${d.c} of ${d.n}"><i style="width:${d.c/d.n*100}%;background:var(--gold)"></i><i style="width:${(d.s-d.c)/d.n*100}%;background:#9DB4D8"></i></div>
+      <div class="small">Caught ${d.c} · Seen ${d.s} · of ${d.n}</div></div></button>`;}).join('')}</div>
+    <div class="h2">Gym</div>
+    <div class="gymcard">${trainerSVG(g.coat,g.hair)}<div style="display:flex;flex-direction:column;gap:8px"><div class="h2">${g.gym} · ${g.leader}</div><p class="lede">“${g.intro}”</p>
+      <div class="row"><button class="btn gold" id="gym">${G.badges[id]?'Rematch':'Challenge'} &gt;</button><span class="small">${g.size} ${MON} · Lv ${g.lvl} · questions start at stage 2${G.badges[id]?' · '+g.badge+' earned':''}</span></div></div></div></div>`;
+  document.getElementById('back').onclick=()=>go('map');document.getElementById('gym').onclick=()=>startGym(id);
+  app.querySelectorAll('.patch').forEach(b=>b.onclick=()=>startWild(id,b.dataset.p));}
+
+/* ================= encounters ================= */
+function enemyLevel(){return 3+Object.keys(G.badges).length*3+Math.floor(Math.random()*4);}
+function mkEnemy(sp,o={}){return {sp,hp:100,max:100,lvl:o.lvl||enemyLevel(),hidden:true,shown:2,asked:new Set(),missed:0,minStage:o.minStage||1};}
+function startWild(area,patch){const keys=patchKeys(area,patch);
+  const w=keys.flatMap(k=>Array((G.dex[k]==='caught'?1:G.dex[k]?2:4)+(isDue(k)?3:0)).fill(k));
+  battle({kind:'wild',area,patch,queue:[mkEnemy(pick(w))]});}
+function startGym(id){if(id==='summit'&&Object.keys(G.badges).filter(k=>k!=='summit').length<CHAMP_NEED)return;
+  const g=GYMS[id];const pool=id==='summit'?SPECIES.map(s=>s.id):areaKeys(id);
+  const pri=shuffle(pool).sort((a,b)=>(isDue(b)-isDue(a)));const team=[];
+  const types=new Set();pri.forEach(k=>{if(team.length<g.size&&!types.has(SP[k].p)){team.push(k);types.add(SP[k].p);}});pri.forEach(k=>{if(team.length<g.size&&!team.includes(k))team.push(k);});
+  battle({kind:'gym',gym:id,queue:team.map(k=>mkEnemy(k,{lvl:g.lvl,minStage:id==='summit'?3:2}))});}
+function startReview(){const due=dueKeys().slice(0,6);if(!due.length)return;battle({kind:'review',queue:due.map(k=>mkEnemy(k))});}
+
+/* ================= battle ================= */
+let B=null;
+function battle(cfg){B=Object.assign({i:0,log:[]},cfg);B.E=B.queue[0];seen(B.E.sp,'seen');G.enc++;persist();renderBattle(true);turn();}
+function sceneHTML(enter){const E=B.E,S=SP[E.sp],P=lead(),PS=SP[P.sp],hid=E.hidden;
+  const gym=B.kind==='gym'?GYMS[B.gym]:null;
+  return `<div class="scene ${gym?'gym':''}" id="scene"><div class="plat e"></div><div class="plat p"></div>
+    ${gym?`<div class="tbadge">${B.queue.map((q,i)=>`<i class="${i<B.i?'dead':'alive'}"></i>`).join('')}</div>`:''}
+    <div class="mon e${enter?' enter':''}" id="monE">${spriteSVG(E.sp,{sil:false})}</div>
+    <div class="mon p${enter?' enter':''}" id="monP">${spriteSVG(P.sp,{back:true})}</div>
+    <div class="stbox e"><div class="nm"><span>${hid?'??? '+tchip(S.t):esc(S.n)+' '+tchip(S.t)}</span><span>Lv${E.lvl}</span></div>
+      <div class="hpline"><span class="lab">HP</span><div class="hpbar"><i id="hpE" style="width:${E.hp/E.max*100}%;background:${hpColor(E.hp/E.max)}"></i></div></div>
+      <div class="small" style="margin-top:3px">${stagePip(E.sp,true)} ${G.dex[E.sp]==='caught'?'<span class="tchip" style="background:var(--gold);color:#241A00">CAUGHT</span>':''}</div></div>
+    <div class="stbox p"><div class="nm"><span>${esc(PS.n)} ${tchip(PS.t)}</span><span>Lv${P.lvl}</span></div>
+      <div class="hpline"><span class="lab">HP</span><div class="hpbar"><i id="hpP" style="width:${P.hp/P.max*100}%;background:${hpColor(P.hp/P.max)}"></i></div></div>
+      <div class="hpnum">${P.hp} / ${P.max}</div><div class="xpbar"><i style="width:${Math.min(100,P.xp/(P.lvl*10)*100)}%"></i></div></div></div>`;}
+function renderBattle(enter){app.innerHTML=sceneHTML(enter)+`<div class="msg" id="msg"></div><div class="qpanel" id="qp"></div>`;}
+function say(t){const m=document.getElementById('msg');if(m){m.innerHTML=t+'<span class="more"></span>';m.classList.add('done');}}
+function turn(){const E=B.E,S=SP[E.sp];
+  let intro='';if(!B.saidIntro){intro=B.kind==='gym'?`${GYMS[B.gym].leader} sent out an ${MON}!`:B.kind==='review'?`A due ${MON} returns for review!`:`A wild ${MON} appeared in the tall grass!`;B.saidIntro=true;}
+  const q=E.hidden?identifyQ(S,E):nextQ(E);B.q=q;
+  say(intro||(E.hidden?'It still hides its name…':`${esc(S.n)} is ready. Choose your move!`));
+  const P=lead(),PS=SP[P.sp];
+  document.getElementById('qp').innerHTML=`<div class="qhead"><span class="tchip" style="background:${TYPES[PS.t].c}">${esc(q.mv)}</span><span class="hint">${esc(q.hint)}</span></div>
+    ${q.rows?`<div class="chart"><div class="ch"><span>${CFG.dex.toUpperCase()} RECORD</span><span>${q.shown}/${q.rows.length} clues</span></div>${q.rows.map((r,i)=>`<div class="cr ${i<q.shown?'':'hid'}"><div class="sys">${esc(r[0])}</div><div class="fx">${i<q.shown?esc(r[1]):'— hidden —'}</div></div>`).join('')}</div>`:''}
+    <p class="stem">${q.stem}</p>
+    <div class="moves">${q.opts.map((o,i)=>`<button class="move" data-i="${i}"><span class="k">${LET[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>
+    <div class="cmds">${q.rows&&q.shown<q.rows.length?'<button class="cmd examine" id="exam">Examine (reveal a clue, costs a turn)</button>':''}${B.kind!=='gym'?'<button class="cmd" id="run">Run</button>':''}<button class="cmd" id="swap">Switch lead</button></div>`;
+  document.querySelectorAll('.move').forEach(b=>b.onclick=()=>answer(+b.dataset.i));
+  const ex=document.getElementById('exam');if(ex)ex.onclick=()=>{E.shown++;enemyHits('You examined it closely… but it attacked!');};
+  const rn=document.getElementById('run');if(rn)rn.onclick=()=>{toast('Got away safely!');endBattle(false,true);};
+  document.getElementById('swap').onclick=swapMenu;
+  const f=document.querySelector('.move');if(f)f.focus({preventScroll:true});}
+function swapMenu(){const qp=document.getElementById('qp');const alive=G.party.filter(m=>m.hp>0);
+  qp.innerHTML=`<div class="sub"><div class="h2">Choose your lead</div>${alive.map(m=>`<div class="opt"><span>${esc(SP[m.sp].n)} ${tchip(SP[m.sp].t)} Lv${m.lvl} · ${m.hp}/${m.max} HP</span><button class="cmd" data-u="${m.uid}">Send out</button></div>`).join('')}<button class="cmd" id="cancel">Cancel</button></div>`;
+  qp.querySelectorAll('[data-u]').forEach(b=>b.onclick=()=>{const m=G.party.find(x=>x.uid===+b.dataset.u);G.party=[m,...G.party.filter(x=>x!==m)];persist();renderBattle(false);turn();});
+  document.getElementById('cancel').onclick=turn;}
+function anim(id,cls){const el=document.getElementById(id);if(!el)return;el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);}
+function answer(i){const q=B.q,E=B.E,S=SP[E.sp],P=lead(),PS=SP[P.sp];const ok=i===q.ans;G.tot++;
+  document.querySelectorAll('.move').forEach((b,j)=>{b.disabled=true;if(j===q.ans)b.style.background='var(--good-soft)';else if(j===i)b.style.background='var(--bad-soft)';});
+  E.asked.add(q.sig);
+  if(ok){G.right++;const bonus=PS.t===S.t?1.5:1;const dmg=Math.round((q.kind==='identify'?30:34)*bonus*(q.kind==='vignette'||q.kind==='chain'?1.2:1));
+    E.hp=Math.max(0,E.hp-dmg);if(q.kind==='identify'){E.hidden=false;seen(E.sp,'seen');}
+    P.xp+=12;let lv='';while(P.xp>=P.lvl*10){P.xp-=P.lvl*10;P.lvl++;const f=P.hp/P.max;P.max=maxHP(P.lvl);P.hp=Math.max(P.hp,Math.round(P.max*f));lv=`${PS.n} grew to Lv${P.lvl}! `;}
+    anim('monP','lunge');setTimeout(()=>anim('monE','hit'),200);
+    feedback(true,q,`${esc(PS.n)} used ${esc(TYPES[PS.t].atk)}!${bonus>1?' It\'s super effective!':''} ${lv}`);}
+  else{E.missed++;if(q.kind==='identify')E.shown=Math.min(q.rows.length,E.shown+1);
+    const dmg=8+E.lvl;P.hp=Math.max(0,P.hp-dmg);anim('monE','lunge');setTimeout(()=>{anim('monP','hit');anim('scene','shake');},200);
+    feedback(false,q,`${E.hidden?'The wild '+MON:esc(S.n)} used ${esc(TYPES[S.t].atk)}! ${esc(PS.n)} took ${dmg} damage.`);}
+  persist();}
+function feedback(ok,q,line){const E=B.E,S=SP[E.sp];
+  document.getElementById('hpE').style.width=(E.hp/E.max*100)+'%';document.getElementById('hpE').style.background=hpColor(E.hp/E.max);
+  const P=lead();document.getElementById('hpP').style.width=(P.hp/P.max*100)+'%';document.getElementById('hpP').style.background=hpColor(P.hp/P.max);
+  say(line);
+  const qp=document.getElementById('qp');const fb=document.createElement('div');fb.className='fb';
+  fb.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'CORRECT!':'NOT QUITE'}</div>${ok?'':`<p class="ans">Answer: <b>${esc(q.opts[q.ans])}</b></p>`}${q.explain}${!E.hidden&&S.pearl&&(!ok||q.kind==='identify')?`<div class="hy"><b>HIGH-YIELD · ${esc(S.n).toUpperCase()}</b>${esc(S.pearl)}</div>`:''}<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>`;
+  qp.querySelector('.cmds')?.remove();qp.appendChild(fb);const c=document.getElementById('cont');c.focus({preventScroll:true});
+  c.onclick=()=>{if(E.hp<=0)return enemyDown();if(P.hp<=0)return leadDown();turn();};}
+function enemyHits(line){const E=B.E,P=lead();const dmg=8+E.lvl;P.hp=Math.max(0,P.hp-dmg);E.missed++;renderBattle(false);anim('scene','shake');say(line+` ${esc(SP[P.sp].n)} took ${dmg} damage.`);
+  document.getElementById('qp').innerHTML='<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>';
+  document.getElementById('cont').onclick=()=>{if(P.hp<=0)return leadDown();turn();};persist();}
+function leadDown(){const P=G.party.find(m=>m.hp<=0&&m===G.party[0])||G.party.find(m=>m.hp<=0);
+  const alive=G.party.filter(m=>m.hp>0);
+  if(!alive.length){say(`All your ${MON} fainted! You hurried back to the ${CFG.center}.`);healAll();G.loc='center';
+    if(B.E&&!B.E.hidden){const ch=schedWrong(B.E.sp);if(ch)toast(`${SP[B.E.sp].n} devolved to stage ${ch.to}`);}
+    persist();document.getElementById('qp').innerHTML='<div class="row"><button class="btn gold" id="cont">Back to map &gt;</button></div>';document.getElementById('cont').onclick=()=>go('map');return;}
+  G.party=[alive[0],...G.party.filter(m=>m!==alive[0])];persist();renderBattle(false);say(`Your ${MON} fainted! Go, ${esc(SP[alive[0].sp].n)}!`);
+  document.getElementById('qp').innerHTML='<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>';document.getElementById('cont').onclick=turn;}
+function settle(E){const ch=E.missed===0?schedRight(E.sp):schedWrong(E.sp);
+  if(ch){const n=SP[E.sp].n;toast(ch.up?`${n} evolved to stage ${ch.to}! Its questions get harder.`:`${n} dropped to stage ${ch.to}.`);}}
+function enemyDown(){const E=B.E,S=SP[E.sp];anim('monE','faint');
+  if(B.kind==='wild'||B.kind==='review'){
+    if(G.dex[E.sp]!=='caught'){say(`${esc(S.n)} is weakened! Throw an ${CFG.orb}? You must answer one more question to catch it.`);
+      document.getElementById('qp').innerHTML=`<div class="row"><button class="btn gold" id="orb">Throw ${CFG.orb}</button><button class="btn ghost" id="let">Let it go</button></div>`;
+      document.getElementById('orb').onclick=captureQ;document.getElementById('let').onclick=()=>{settle(E);nextEnemy();};return;}
+    say(`${esc(S.n)} fainted! Your team gained experience.`);settle(E);}
+  else{say(`${esc(S.n)} fainted!`);settle(E);}
+  persist();document.getElementById('qp').innerHTML='<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>';document.getElementById('cont').onclick=nextEnemy;}
+function captureQ(){const E=B.E,S=SP[E.sp];const q=nextQ(Object.assign({},E,{minStage:Math.max(2,monStage(E.sp))}));B.q=q;
+  const scene=document.getElementById('scene');const orb=document.createElement('div');orb.className='orb';orb.innerHTML=ORB;scene.appendChild(orb);
+  setTimeout(()=>orb.classList.add('wobble'),700);
+  say('The orb wobbles… answer to seal it!');
+  document.getElementById('qp').innerHTML=`<div class="qhead"><span class="tchip" style="background:var(--gold);color:#241A00">CAPTURE · ${esc(q.mv)}</span><span class="hint">${esc(q.hint)}</span></div><p class="stem">${q.stem}</p>
+    <div class="moves">${q.opts.map((o,i)=>`<button class="move" data-i="${i}"><span class="k">${LET[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>`;
+  document.querySelectorAll('.move').forEach(b=>b.onclick=()=>{const i=+b.dataset.i,ok=i===q.ans;G.tot++;if(ok)G.right++;else E.missed++;
+    document.querySelectorAll('.move').forEach((x,j)=>{x.disabled=true;if(j===q.ans)x.style.background='var(--good-soft)';else if(j===i)x.style.background='var(--bad-soft)';});
+    if(ok){seen(E.sp,'caught');const m=newMon(E.sp,Math.max(3,E.lvl-1));if(G.party.length<6)G.party.push(m);else G.box.push(m);say(`Gotcha! ${esc(S.n)} was caught!${G.party.length>=6&&G.party.indexOf(m)<0?' It was sent to the box.':''}`);}
+    else{document.querySelector('.orb')?.remove();say(`Oh no! ${esc(S.n)} broke free and fled!`);}
+    settle(E);persist();
+    const qp=document.getElementById('qp');const fb=document.createElement('div');fb.className='fb';
+    fb.innerHTML=`<div class="verdict ${ok?'ok':'no'}">${ok?'CAUGHT!':'IT FLED'}</div>${ok?'':`<p class="ans">Answer: <b>${esc(q.opts[q.ans])}</b></p>`}${q.explain}${S.pearl?`<div class="hy"><b>HIGH-YIELD · ${esc(S.n).toUpperCase()}</b>${esc(S.pearl)}</div>`:''}<div class="row"><button class="btn gold" id="cont">Continue &gt;</button></div>`;
+    qp.appendChild(fb);document.getElementById('cont').onclick=nextEnemy;document.getElementById('cont').focus({preventScroll:true});});}
+function nextEnemy(){B.i++;if(B.i<B.queue.length){B.E=B.queue[B.i];B.saidIntro=false;seen(B.E.sp,'seen');persist();renderBattle(true);turn();return;}endBattle(true);}
+function endBattle(won,ran){if(B.kind==='gym'&&won){const g=GYMS[B.gym];const first=!G.badges[B.gym];G.badges[B.gym]=true;healAll();persist();
+    app.innerHTML=`<div class="pane"><div class="gymcard">${trainerSVG(g.coat,g.hair)}<div style="display:flex;flex-direction:column;gap:8px"><div class="h2">${g.leader}</div><p class="lede">“${g.win}”</p>
+    <div class="row">${badgeSVG(g.color,true)}<b>${first?'You earned the '+g.badge+'!':'Rematch won!'}</b></div><div class="small">Your team was healed.</div><div class="row"><button class="btn gold" id="cont">Back to map &gt;</button></div></div></div></div>`;
+    document.getElementById('cont').onclick=()=>go('map');return;}
+  persist();if(B.kind==='wild'&&!ran)go('route',B.area);else if(B.kind==='review'&&!ran)go('review');else go(B.area?'route':'map',B.area);}
+
+/* ================= party / dex / review ================= */
+function renderParty(){
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Party</div><button class="btn ghost" id="back">&lt; Map</button></div>
+  <div class="party">${G.party.map((m,i)=>`<div class="pm ${i===0?'lead':''}">${spriteSVG(m.sp)}<div><div class="nm">${esc(SP[m.sp].n)} ${tchip(SP[m.sp].t)} ${stagePip(m.sp)}</div><div class="small">Lv${m.lvl} · ${m.hp}/${m.max} HP</div><div class="meter" style="max-width:220px"><i style="width:${m.hp/m.max*100}%;background:${hpColor(m.hp/m.max)}"></i></div></div>
+    <div class="act">${i===0?'<span class="small">Lead</span>':`<button class="btn ghost" data-u="${m.uid}">Make lead</button>`}</div></div>`).join('')}</div>
+  ${G.box.length?`<div class="h2">Box (${G.box.length})</div><div class="party">${G.box.map(m=>`<div class="pm">${spriteSVG(m.sp)}<div><div class="nm">${esc(SP[m.sp].n)} ${tchip(SP[m.sp].t)}</div><div class="small">Lv${m.lvl}</div></div><div class="act"><button class="btn ghost" data-b="${m.uid}">Swap into party</button></div></div>`).join('')}</div>`:''}</div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  app.querySelectorAll('[data-u]').forEach(b=>b.onclick=()=>{const m=G.party.find(x=>x.uid===+b.dataset.u);G.party=[m,...G.party.filter(x=>x!==m)];persist();renderParty();});
+  app.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{const m=G.box.find(x=>x.uid===+b.dataset.b);const out=G.party.pop();G.box=G.box.filter(x=>x!==m).concat(out?[out]:[]);G.party.push(m);persist();renderParty();});}
+function recordCard(S){const rows=CFG.idOrder.filter(k=>S[k]);
+  return `<div class="card"><div class="row">${spriteSVG(S.id)}<div><h3>#${String(S.no).padStart(3,'0')} ${esc(S.n)}</h3><div class="row">${tchip(S.t)} ${stagePip(S.id,true)} <span class="small">LO ${esc(S.lo)} · ${esc(AREAS[S.a].name)}</span></div></div></div>
+    <ul class="fx-list">${rows.map(k=>`<li><span>${F[k].lab}</span><span>${esc(S[k])}</span></li>`).join('')}</ul>${S.pearl?`<div class="hy"><b>HIGH-YIELD</b>${esc(S.pearl)}</div>`:''}</div>`;}
+function renderDex(sel){const tab=(sel&&sel.tab)||'arch';const keys=areaKeys(tab);
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">${CFG.dex}</div><button class="btn ghost" id="back">&lt; Map</button></div>
+  <div class="tabs">${Object.entries(AREAS).map(([k,a])=>`<button class="tab" data-t="${k}" aria-pressed="${k===tab}">${a.name}</button>`).join('')}</div>
+  <p class="small">Seen and caught ${MON} open their full record — use it as your study sheet. ${dexProgress(keys).c} of ${keys.length} caught here.</p>
+  <div id="dexcard"></div>
+  <div class="dexgrid">${keys.map(k=>{const S=SP[k],st=G.dex[k];return `<button class="dexe ${st||'unseen'}" data-k="${k}" ${st?'':'disabled'}>${spriteSVG(k,{sil:!st})}<span class="no">#${String(S.no).padStart(3,'0')}</span><span>${st?esc(S.n):'???'}</span>${st?stagePip(k):''}</button>`;}).join('')}</div></div>`;
+  document.getElementById('back').onclick=()=>go('map');
+  app.querySelectorAll('.tab').forEach(b=>b.onclick=()=>renderDex({tab:b.dataset.t}));
+  app.querySelectorAll('.dexe').forEach(b=>b.onclick=()=>{document.getElementById('dexcard').innerHTML=recordCard(SP[b.dataset.k]);document.getElementById('dexcard').scrollIntoView({block:'nearest'});});}
+function renderReview(){const due=dueKeys();const st={1:0,2:0,3:0};Object.keys(G.sched).forEach(k=>{if(SP[k])st[stageOf(G.sched[k].b)]++;});
+  const leech=Object.keys(G.sched).filter(k=>SP[k]&&G.sched[k].l>=LEECH_AT);
+  const row=k=>`<div class="missi"><span>${esc(SP[k].n)} ${tchip(SP[k].t)} ${stagePip(k)}</span><b>${G.sched[k].l} miss${G.sched[k].l===1?'':'es'}</b></div>`;
+  app.innerHTML=`<div class="pane"><div class="row" style="justify-content:space-between"><div class="h1">Review</div><button class="btn ghost" id="back">&lt; Map</button></div>
+    <p class="lede">${MON} come back on a spaced schedule. A clean battle moves one up a box and pushes its next visit further out; any miss sends it back to box 0. Stage 1 asks recall, stage 2 asks failures and 2nd-order chains, stage 3 asks Step 1 vignettes.</p>
+    <div class="mapfoot" style="padding:0"><div class="stat"><div class="k">TRACKED</div><div class="v">${Object.keys(G.sched).filter(k=>SP[k]).length}</div></div><div class="stat"><div class="k">STAGE 1 / 2 / 3</div><div class="v">${st[1]} · ${st[2]} · ${st[3]}</div></div><div class="stat"><div class="k">ACCURACY</div><div class="v">${G.tot?Math.round(100*G.right/G.tot)+'%':'—'}</div></div></div>
+    ${due.length?`<div class="row"><button class="btn gold" id="rm">Run the due queue &gt;</button><span class="small">${due.length} due · a run pulls up to six</span></div><div class="misslist">${due.map(row).join('')}</div>`:'<div class="box">Nothing due right now. Go catch something new, or come back after a few more battles.</div>'}
+    ${leech.length?`<div class="h2">Leeches <span class="small">(missed ${LEECH_AT}+ times — study their records in the ${CFG.dex})</span></div><div class="misslist">${leech.map(row).join('')}</div>`:''}</div>`;
+  document.getElementById('back').onclick=()=>go('map');const rm=document.getElementById('rm');if(rm)rm.onclick=startReview;}
+
+/* keyboard: A–E / 1–5 to answer, Enter to continue */
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.metaKey||e.ctrlKey||e.altKey)return;
+  if(e.key==='Enter'){const c=document.getElementById('cont');if(c&&document.activeElement!==c){e.preventDefault();c.click();}return;}
+  let i=LET.indexOf(e.key.toUpperCase());if(i<0){const n=parseInt(e.key,10);if(n>=1&&n<=5)i=n-1;}
+  if(i>=0){const b=document.querySelectorAll('.move')[i];if(b&&!b.disabled)b.click();}});
+
+/* ================= boot ================= */
+G=load();if(G)go('map');else go('title');
+})();
+
+</script>
