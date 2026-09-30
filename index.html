@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoyaDocs &middot; Block 5 &middot; MSK</title>
+<meta name="description" content="HoyaDocs Block 5 — Musculoskeletal. MSK games, LO study guides, anatomy games and helpful links.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&family=Saira+Extra+Condensed:wght@500;700;800&display=swap">
+<style>
+:root{
+  --ground:#EEF3F0; --panel:#FFFFFF; --sunk:#E2EAE6; --line:#C9D6D0;
+  --ink:#13201D; --muted:#566963;
+  --p1:#E3AE12; --p1-ink:#7A5B00; --p1-soft:#FBF1CF;
+  --p2:#2E86C8; --p2-ink:#155987; --p2-soft:#DDEDF8;
+  --arena:#3B2F6E; --arena-soft:#E8E3F7; --arena-ink:#332766;
+  --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#4A3A00;
+  --plate:#0E1413; --plate-ink:#EEF3F0;
+  --emb:#C4631B; --emb-ink:#8A3F0A; --emb-soft:#FBE7D6;
+  --his:#C2407A; --his-ink:#8C1F55; --his-soft:#F8DDEA;
+  --neu:#6A55C9; --neu-ink:#3F2E91; --neu-soft:#E8E3F7;
+  --pha:#1F8A70; --pha-ink:#0F5E4B; --pha-soft:#D7F0E8;
+  --display:"Saira Extra Condensed","Arial Narrow",sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --plate:#080C0B; --plate-ink:#DDE7E3;
+    --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
+    --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
+    --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
+    --pha:#4CC3A0; --pha-ink:#7AD6BA; --pha-soft:#12302A;
+  }
+}
+:root[data-theme="dark"]{
+    --ground:#121A19; --panel:#1B2523; --sunk:#16201E; --line:#2D3B38;
+    --ink:#DDE7E3; --muted:#8FA39D;
+    --p1:#F2C230; --p1-ink:#F5CD4E; --p1-soft:#2E2A14;
+    --p2:#5BB0E6; --p2-ink:#7DC2EE; --p2-soft:#15293A;
+    --arena:#9B8DE0; --arena-soft:#241E3D; --arena-ink:#B5A9EE;
+    --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
+    --plate:#080C0B; --plate-ink:#DDE7E3;
+    --emb:#F0914A; --emb-ink:#F4A86B; --emb-soft:#3A2413;
+    --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
+    --neu:#9B8DE0; --neu-ink:#B5A9EE; --neu-soft:#241E3D;
+    --pha:#4CC3A0; --pha-ink:#7AD6BA; --pha-soft:#12302A;
+}
+*{box-sizing:border-box}
+html,body{background:var(--ground);color:var(--ink)}
+body{font:15px/1.55 var(--body);margin:0;padding-inline:16px;padding-block:18px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--p2);outline-offset:3px}
+
+/* masthead */
+.mast{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:10px}
+.brand{font-family:var(--display);font-weight:800;font-size:30px;letter-spacing:.02em;text-transform:uppercase;line-height:1;text-decoration:none}
+.brand b{color:var(--p1-ink)}
+.tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mastright{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.themebtn{background:var(--sunk);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px}
+.themebtn:hover{color:var(--ink);border-color:var(--muted)}
+
+/* site tabs */
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-top:-14px;border-bottom:1px solid var(--line)}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:none;text-decoration:none;font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:17px;letter-spacing:.04em;color:var(--muted);padding:9px 14px 8px;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs a:hover{color:var(--ink)}
+.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--p1)}
+
+.foot{border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* hero */
+.hero{background:var(--plate);color:var(--plate-ink);border-radius:10px;padding:clamp(28px,5vw,58px) clamp(22px,4vw,52px) clamp(26px,4vw,46px);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -60px -140px auto;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(227,174,18,.22), transparent 62%);pointer-events:none}
+.hero .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--p1);margin-bottom:14px}
+.hero h1{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(54px,10vw,132px);line-height:.84;margin:0 0 6px;letter-spacing:.005em;text-wrap:balance}
+.cta{display:inline-flex;align-items:center;gap:10px;margin-top:28px;background:var(--p1);color:#1A1400;text-decoration:none;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:24px;letter-spacing:.03em;padding:12px 26px 11px;border-radius:5px;position:relative;z-index:1;transition:transform .12s ease,box-shadow .12s ease}
+.cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.cta svg{width:17px;height:17px;transition:transform .12s}
+.cta:hover svg{transform:translateX(4px)}
+
+/* destination cards */
+.notes{--a:var(--p2);--a-ink:var(--p2-ink);--a-soft:var(--p2-soft);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(14px,3vw,28px);background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--a);border-radius:10px;padding:clamp(20px,3vw,30px) clamp(18px,3vw,34px);text-decoration:none;color:var(--ink);transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+.notes:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:var(--a)}
+.notes.games{--a:var(--neu);--a-ink:var(--neu-ink);--a-soft:var(--neu-soft)}
+.notes.guides{--a:var(--emb);--a-ink:var(--emb-ink);--a-soft:var(--emb-soft)}
+.notes .ico{width:56px;height:56px;border-radius:8px;background:var(--a-soft);color:var(--a-ink);display:grid;place-items:center}
+.notes .ico svg{width:28px;height:28px}
+.notes .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--a-ink);margin-bottom:4px}
+.notes h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(30px,4.6vw,46px);line-height:.9;margin:0;letter-spacing:.01em}
+.notes p{margin:8px 0 0;color:var(--muted);max-width:60ch}
+.notes .go{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:20px;letter-spacing:.03em;color:var(--a-ink);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.notes .go svg{width:16px;height:16px;transition:transform .12s}
+.notes:hover .go svg{transform:translateX(4px)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pair .notes{grid-template-columns:auto 1fr}
+.pair .notes .go{grid-column:1 / -1}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.meta span{font-size:12px;background:var(--sunk);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.sechead{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 -14px}
+@media (max-width:820px){ .pair{grid-template-columns:1fr} }
+@media (max-width:620px){
+  .notes{grid-template-columns:auto 1fr}
+  .notes .go{grid-column:1 / -1}
+}
+/* helpful links */
+.links{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.link{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-decoration:none;color:var(--ink);transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+.link:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12);border-color:var(--p2)}
+.link .li{flex:none;width:44px;height:44px;border-radius:8px;background:var(--sunk);color:var(--p2-ink);display:grid;place-items:center}
+.link .li svg{width:22px;height:22px}
+.link .lt{flex:1;min-width:0}
+.link .lk{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.link h3{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:24px;line-height:.95;margin:2px 0 0;letter-spacing:.01em}
+.link .ext{flex:none;width:16px;height:16px;color:var(--muted);transition:transform .12s,color .12s}
+.link:hover .ext{color:var(--p2-ink);transform:translate(2px,-2px)}
+@media (max-width:900px){ .links{grid-template-columns:1fr} }
+.notes.anat{--a:var(--p1);--a-ink:var(--p1-ink);--a-soft:var(--p1-soft)}
+.notes.games{--a:var(--pha);--a-ink:var(--pha-ink);--a-soft:var(--pha-soft)}
+.notes.guides{--a:var(--his);--a-ink:var(--his-ink);--a-soft:var(--his-soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div class="brand">HoyaDocs <b>&middot;</b> Block 5</div>
+    <div class="mastright">
+      <div class="tag">MSK &middot; Rev 1 &middot; Updated Sep 30, 2026</div>
+      <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="MSK sections">
+    <a href="index.html" aria-current="page">MSK Home</a>
+    <a href="Anat-Games/">Anatomy MSK Games</a>
+    <a href="MSK-Games/index.html">MSK Games</a>
+    <a href="MSK-Study-Guides/index.html">MSK Study Guides</a>
+  </nav>
+
+  <section class="hero">
+    <div class="kicker">Block 5 &middot; Musculoskeletal</div>
+    <h1>MSK.</h1>
+    <a class="cta" href="MSK-Games/index.html">Enter the Game Hub
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+    </a>
+  </section>
+
+  <p class="sechead">Histology &middot; Pathology &middot; Pharmacology</p>
+
+  <div class="pair">
+    <a class="notes games" href="MSK-Games/index.html">
+      <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 8h11a4 4 0 0 1 3.9 4.9l-1 4.3a2.3 2.3 0 0 1-3.9 1L14.8 16H9.2l-1.7 2.2a2.3 2.3 0 0 1-3.9-1l-1-4.3A4 4 0 0 1 6.5 8z"/><path d="M7.5 11v3M6 12.5h3"/><circle cx="15.5" cy="11.5" r=".6" fill="currentColor"/><circle cx="17.5" cy="13.5" r=".6" fill="currentColor"/></svg></div>
+      <div>
+        <div class="kicker">3 Games &middot; Pharmacology</div>
+        <h2>MSK Games</h2>
+        <p>A structure builder, a 15-boss gauntlet and a creature-battle campaign built from every pharmacology learning objective.</p>
+        <div class="meta"><span>Pharmacology</span><span>Histology &middot; soon</span><span>Pathology &middot; soon</span></div>
+      </div>
+      <span class="go">Play
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+      </span>
+    </a>
+
+    <a class="notes guides" href="MSK-Study-Guides/index.html">
+      <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/><path d="M8.5 7.5h7M8.5 11h5"/></svg></div>
+      <div>
+        <div class="kicker">55 LOs &middot; 11 Lectures</div>
+        <h2>MSK Study Guides</h2>
+        <p>Every learning objective answered, with key questions, high-yield boxes, application questions and a full drug chart.</p>
+        <div class="meta"><span>Histology</span><span>Pathology</span><span>Pharmacology</span></div>
+      </div>
+      <span class="go">Study
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+      </span>
+    </a>
+  </div>
+
+  <p class="sechead">Anatomy</p>
+
+  <a class="notes anat" href="Anat-Games/">
+    <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 3.5a2.5 2.5 0 0 0-2.4 3.2L6.7 15.1a2.5 2.5 0 1 0-1.6 3.8 2.5 2.5 0 1 0 3.8-1.6l8.4-8.4a2.5 2.5 0 1 0 1.6-3.8 2.5 2.5 0 0 0-1.4-1.6z"/></svg></div>
+    <div>
+      <div class="kicker">Anatomy Review Games</div>
+      <h2>Anatomy MSK Games</h2>
+      <p>Anatomy review games, lab quiz stations and Step 1 style vignettes for the back, upper limb and lower limb.</p>
+    </div>
+    <span class="go">Play
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 8h11M9 4l4 4-4 4"/></svg>
+    </span>
+  </a>
+
+  <p class="sechead">Helpful Links</p>
+
+  <section class="links" aria-label="Helpful links">
+    <a class="link" href="https://drive.google.com/drive/folders/16SVxR2aDhUdc8VJ8mYtz4lukkoLxVuXn" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></div>
+      <div class="lt"><div class="lk">Google Drive &middot; Folder</div><h3>UWorld QIDs &times; In-House Lectures</h3></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="link" href="https://drive.google.com/drive/folders/1rfYf6iQgZNuGtUiGFUNWYg5ZWKBkTppD?usp=drive_link" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="7" y="3" width="13" height="15" rx="2"/><path d="M4 7v12a2 2 0 0 0 2 2h10"/></svg></div>
+      <div class="lt"><div class="lk">Google Drive &middot; Folder</div><h3>HoyaDocs Anki Decks</h3></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+    <a class="link" href="https://docs.google.com/spreadsheets/d/1lcXNqU4aKg72C3AAQ3ktiDc5wfvX08q7gM1MA1fRtEw/edit?usp=sharing" target="_blank" rel="noopener">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 9h17M3.5 14.5h17M9.5 9v11.5"/></svg></div>
+      <div class="lt"><div class="lk">Google Sheets</div><h3>Third Party Resource Sheet</h3></div>
+      <svg class="ext" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3H3v10h10v-3M9 2h5v5M14 2 7.5 8.5"/></svg>
+    </a>
+  </section>
+
+  <footer class="foot">
+    <div class="tag">HoyaDocs &middot; Block 5 &middot; MSK</div>
+    <div class="tag">Rev 1 &middot; Updated Sep 30, 2026</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var btn = document.getElementById('theme');
+  var root = document.documentElement;
+  try{
+    var saved = localStorage.getItem('hoyadocs-theme');
+    if(saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  }catch(e){}
+  btn.addEventListener('click', function(){
+    var isDark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.hasAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var next = isDark ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('hoyadocs-theme', next); }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
