@@ -1,0 +1,251 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartilage LO Answers</title><meta name="description" content="HoyaDocs MSK04 histology learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22; --h11:#1f6f8b; --h15:#8a2f5b; --h16:#4d6b1f; --m04:#1f6f8b; --m07:#9a4a1c; --m12:#6a45a6; --m22:#1f7a6b; --m24:#b02a22; --m10:#7a4a14; --m11:#1f5f8b; --m14:#8a2f5b; --m16:#3d6b1f; --m18:#5a3fa0; --m19:#a0302a;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80; --m10:#e0b27a; --m11:#7cb6e0; --m14:#e79ac0; --m16:#b5d67a; --m18:#c3a9f2; --m19:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80; --m10:#e0b27a; --m11:#7cb6e0; --m14:#e79ac0; --m16:#b5d67a; --m18:#c3a9f2; --m19:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)} #hnss11{--c:var(--h11)} #hnss15{--c:var(--h15)} #hnss16{--c:var(--h16)} #msk04{--c:var(--m04)} #msk07{--c:var(--m07)} #msk12{--c:var(--m12)} #msk22{--c:var(--m22)} #msk24{--c:var(--m24)} #msk10{--c:var(--m10)} #msk11{--c:var(--m11)} #msk14{--c:var(--m14)} #msk16{--c:var(--m16)} #msk18{--c:var(--m18)} #msk19{--c:var(--m19)}
+.figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+figure.lab{margin:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface,transparent);display:grid}
+figure.lab img{width:100%;height:180px;object-fit:cover;display:block;background:#000}
+figure.lab figcaption{padding:8px 10px;font-size:.85rem;display:grid;gap:4px}
+figure.lab .lq{font-weight:600}
+figure.lab summary{cursor:pointer;color:var(--c);font-weight:700}
+figure.lab details p{margin:4px 0 0}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;min-width:7em}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 MSK · Histology · Updated Sep 30, 2026 · Revision 1.1</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="msk04" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">MSK04 · 4 learning objectives</p>
+    <h1>Cartilage</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Know the cellular components and extracellular components of amorphous and fibrous connective tissue that comprise cartilage</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>What kind of tissue is cartilage?</span></summary><div class="a">A specialized, avascular connective tissue in which the amorphous ECM (GAGs, proteoglycans) predominates over the fibrous ECM (collagen, elastic fibers). It supports, lets joints slide, absorbs shock and drives long-bone growth.</div></details></li><li><details><summary><span class="qn">Q2</span><span>What are the four cell types in cartilage?</span></summary><div class="a">Perichondrial fibroblasts, chondroblasts, chondrocytes and chondroclasts (the cartilage equivalent of osteoclasts).</div></details></li><li><details><summary><span class="qn">Q3</span><span>What is the order of cells from the surface inward?</span></summary><div class="a">Perichondrium (perichondrial fibroblasts) → chondroblasts → chondrocytes → chondrocytes grouped in isogenic nests (several cells in one matrix &quot;bubble&quot;).</div></details></li><li><details><summary><span class="qn">Q4</span><span>Which cell has a territorial matrix, and which does not?</span></summary><div class="a">Chondrocytes are surrounded by a territorial matrix; chondroblasts are NOT. On H&amp;E the territorial matrix is a pale ring around each chondrocyte.</div></details></li><li><details><summary><span class="qn">Q5</span><span>Territorial vs interterritorial matrix?</span></summary><div class="a">Territorial (right around each chondrocyte) = mostly amorphous components (GAGs). Interterritorial (between chondrocyte groups) = more fibrous components.</div></details></li><li><details><summary><span class="qn">Q6</span><span>What is in the amorphous matrix?</span></summary><div class="a">GAGs and proteoglycans (aggrecan, syndecan, fibroglycan) plus glycoproteins (chondronectin, chondrocalcin). Aggrecan molecules attach to a central hyaluronic acid filament to form huge proteoglycan aggregates that hold type II collagen fibrils together.</div></details></li><li><details><summary><span class="qn">Q7</span><span>Why can cartilage bend without breaking?</span></summary><div class="a">Hyaluronic acid and the proteoglycans are hydrophilic — they trap water like a sponge, giving resilience. Papain digests the proteoglycans and the cartilage loses its rigidity (the rabbit ear flops).</div></details></li><li><details><summary><span class="qn">Q8</span><span>What is the main collagen of cartilage?</span></summary><div class="a">Type II collagen — in all three cartilage types. Type I is added in fibrocartilage; elastic fibers are added in elastic cartilage. Type II deposition marks differentiation and maturation of cartilage.</div></details></li><li><details><summary><span class="qn">Q9</span><span>What do chondroclasts do?</span></summary><div class="a">They are multinucleated cells that resorb calcified cartilage (for example during endochondral ossification); they enter the cartilage with invading blood vessels.</div></details></li><li><details><summary><span class="qn">Q10</span><span>What are the consequences of cartilage being avascular?</span></summary><div class="a">Nutrients diffuse in from the perichondrium (or synovial fluid), so diffusion limits cartilage thickness, and damaged cartilage regenerates poorly. Microfracture surgery pokes holes into the underlying bone so marrow mesenchymal cells can fill the defect.</div></details></li></ol></div>
+    <p class="bottom-line">Cartilage = <b>avascular</b> connective tissue where <b>amorphous ECM</b> (GAGs, proteoglycans on hyaluronic acid) <b>predominates</b> over fibrous ECM. <b>Type II collagen</b> is in every type. Cells: perichondrial fibroblasts → chondroblasts → chondrocytes (with <b>territorial matrix</b>, in <b>isogenic nests</b>) + multinucleated chondroclasts.</p>
+<p class="sub">The cells, surface to center</p>
+<div class="flow"><span>Perichondrium<br>(fibroblasts)</span><i>→ Sox →</i><span>Chondroblasts<br>(no territorial matrix)</span><i>→</i><span>Chondrocytes<br>(territorial matrix)</span><i>→ mitosis →</i><span>Isogenic nests</span></div>
+<div class="tbl"><table>
+ <thead><tr><th>Cell</th><th>Where</th><th>Job / look</th></tr></thead>
+ <tbody>
+  <tr><td>Perichondrial fibroblast</td><td>Outer, vascular perichondrium</td><td>Flat, spindle cells; the source of new chondroblasts</td></tr>
+  <tr><td>Chondroblast</td><td>Just under the perichondrium</td><td>Young, flattened; secretes matrix; <b>no territorial matrix</b></td></tr>
+  <tr><td>Chondrocyte</td><td>Deeper, in lacunae</td><td>Round, mature; <b>surrounded by a pale territorial matrix</b>; clusters in isogenic nests</td></tr>
+  <tr><td>Chondroclast</td><td>At calcified cartilage, with vessels</td><td><b>Multinucleated</b>; resorbs calcified cartilage</td></tr>
+ </tbody></table></div>
+<p class="sub">The matrix</p>
+<div class="tbl"><table>
+ <thead><tr><th>Component</th><th>Examples</th><th>Function</th></tr></thead>
+ <tbody>
+  <tr><td><b>Amorphous</b> (predominates)</td><td>GAGs (chondroitin sulfate, hyaluronic acid), proteoglycans (<b>aggrecan</b>, syndecan, fibroglycan), glycoproteins (chondronectin, chondrocalcin)</td><td>Traps water → resilience, shock absorption; aggregates bind collagen</td></tr>
+  <tr><td><b>Fibrous</b></td><td><b>Type II collagen</b> (all types); + type I (fibrocartilage); + elastic fibers (elastic cartilage)</td><td>Tensile strength</td></tr>
+  <tr><td>Territorial matrix</td><td>Ring around each chondrocyte</td><td>Rich in amorphous ECM</td></tr>
+  <tr><td>Interterritorial matrix</td><td>Between cell groups</td><td>More fibrous ECM</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Hyaluronic acid filament</span><i>+</i><span>many aggrecan (core protein + GAG chains)</span><i>→</i><span>Proteoglycan aggregate</span><i>→ binds</i><span>Type II collagen fibrils</span><i>+ water →</i><span>Resilient matrix</span></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>"Cartilage is type II because it has two"</b> — "car-TWO-lage". Chondro<b>blasts</b> are <b>bare</b> (no territorial matrix); chondro<b>cytes</b> wear a <b>coat</b> (territorial ring).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Type II collagen</b> is the collagen of all cartilage (and vitreous, nucleus pulposus). Type I = bone, skin, tendon, fibrocartilage.</li>
+ <li><b>Chondrocytes have a territorial matrix; chondroblasts do not</b> — a classic identification point.</li>
+ <li><b>Chondroclasts are multinucleated</b>.</li>
+ <li>Avascular → heals poorly; osteoarthritis = progressive loss of articular cartilage.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Know the differences in the types of cartilage growth</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q11</span><span>What is appositional growth?</span></summary><div class="a">Growth at the surface by DIFFERENTIATION: perichondrial fibroblasts become chondroblasts, which become chondrocytes. It requires a perichondrium.</div></details></li><li><details><summary><span class="qn">Q12</span><span>What is interstitial growth?</span></summary><div class="a">Growth from within by MITOSIS of existing chondroblasts and chondrocytes. It does not require a perichondrium.</div></details></li><li><details><summary><span class="qn">Q13</span><span>Which is the main type of cartilage growth?</span></summary><div class="a">Appositional growth.</div></details></li><li><details><summary><span class="qn">Q14</span><span>What drives appositional growth?</span></summary><div class="a">The perichondrium releases Sox transcription factors → perichondrial fibroblasts differentiate into chondroblasts → they secrete amorphous matrix → become chondrocytes with a territorial matrix → secrete type II collagen. (Isogenic nests come from interstitial growth, not appositional.)</div></details></li><li><details><summary><span class="qn">Q15</span><span>What drives interstitial growth?</span></summary><div class="a">Growth hormone (somatotropin) from the anterior pituitary → somatomedin C (IGF-1) from the liver → mitosis of chondroblasts and chondrocytes.</div></details></li><li><details><summary><span class="qn">Q16</span><span>How do isogenic nests form?</span></summary><div class="a">By interstitial growth — a chondrocyte divides within its lacuna, so the daughter cells stay clustered in one matrix bubble.</div></details></li><li><details><summary><span class="qn">Q17</span><span>Which hormones and vitamins affect cartilage growth?</span></summary><div class="a">Stimulate: thyroxine, testosterone, GH. Inhibit: cortisol, estradiol. Vitamin A and C deficiency → growth-plate defects; excess vitamin A → accelerated ossification of the growth plate; vitamin D deficiency → cartilage fails to ossify (rickets).</div></details></li><li><details><summary><span class="qn">Q18</span><span>What does the perichondrium do besides appositional growth?</span></summary><div class="a">It is vascular, so it supplies nutrients that diffuse into the cartilage, and it produces the Sox factors that make chondroblasts.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Appositional</b> = <b>differentiation</b> from the perichondrium (Sox) → needs a perichondrium; the <b>main</b> growth type. <b>Interstitial</b> = <b>mitosis</b> of existing cells (GH → somatomedin C) → no perichondrium needed; makes isogenic nests.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Appositional</th><th>Interstitial</th></tr></thead>
+ <tbody>
+  <tr><td>Mechanism</td><td><b>Differentiation</b> of perichondrial fibroblasts → chondroblasts → chondrocytes</td><td><b>Mitosis</b> of existing chondroblasts and chondrocytes</td></tr>
+  <tr><td>Where it adds cartilage</td><td>Surface (adds layers)</td><td>From within (expands from inside)</td></tr>
+  <tr><td>Needs perichondrium?</td><td><b>Yes</b></td><td><b>No</b></td></tr>
+  <tr><td>Driver</td><td>Sox transcription factors (perichondrium)</td><td>GH → liver somatomedin C (IGF-1)</td></tr>
+  <tr><td>Signature</td><td>Chondroblasts under the perichondrium</td><td><b>Isogenic nests</b>; growth-plate proliferative zone</td></tr>
+  <tr><td>Importance</td><td><b>Main</b> type of cartilage growth</td><td>Only type in cartilage lacking perichondrium</td></tr>
+ </tbody></table></div>
+<p class="sub">What speeds up or slows cartilage growth</p>
+<div class="two">
+ <div><p><b>Stimulate ↑</b></p><ul><li>Growth hormone (via somatomedin C)</li><li>Thyroxine</li><li>Testosterone</li></ul></div>
+ <div><p><b>Inhibit ↓</b></p><ul><li>Cortisol</li><li>Estradiol (closes growth plates)</li><li>Vit A or C deficiency → growth-plate defects</li><li>Excess vit A → early ossification of growth plate</li><li>Vit D deficiency → no ossification → rickets</li></ul></div>
+</div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>A</b>ppositional = <b>A</b>dded on from the outside (needs the "skin" = perichondrium). <b>I</b>nterstitial = <b>I</b>nside, by m<b>I</b>tosis.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Appositional growth is the main type of cartilage growth.</b></li>
+ <li><b>Achondroplasia</b>: activating <b>FGFR3</b> mutation (autosomal dominant, often new mutation with advanced paternal age) → impaired chondrocyte proliferation in growth plates → short limbs with normal-sized head and trunk (dwarfism).</li>
+ <li>GH deficiency in childhood → pituitary dwarfism; GH excess before plate closure → gigantism.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Know the locations of interstitial growth</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q19</span><span>Where does interstitial growth occur?</span></summary><div class="a">Only in cartilage that LACKS a perichondrium: the epiphyseal growth plate, articular cartilage and fibrocartilage.</div></details></li><li><details><summary><span class="qn">Q20</span><span>Which cartilage lacks a perichondrium?</span></summary><div class="a">Epiphyseal growth plate, articular cartilage and fibrocartilage. All other cartilage has one.</div></details></li><li><details><summary><span class="qn">Q21</span><span>Where exactly in the growth plate does interstitial growth happen?</span></summary><div class="a">The zone of proliferation — chondrocytes stacked in columns dividing under GH/somatomedin C.</div></details></li><li><details><summary><span class="qn">Q22</span><span>How is articular cartilage formed?</span></summary><div class="a">By interstitial growth. A perichondrium on a joint surface would be rubbed off as bones slide against each other, so appositional growth is impossible there.</div></details></li><li><details><summary><span class="qn">Q23</span><span>A child with low GH is short. Which growth-plate zone is affected?</span></summary><div class="a">The proliferative zone — chondroblasts and chondrocytes there are the target of GH (via somatomedin C).</div></details></li><li><details><summary><span class="qn">Q24</span><span>What is special about the collagen in articular cartilage?</span></summary><div class="a">Its type II collagen fibers are arranged in arches, parallel to the surface, suited to resisting shear.</div></details></li></ol></div>
+    <p class="bottom-line">Interstitial growth happens only where there is <b>no perichondrium</b>: <b>epiphyseal growth plate</b> (zone of proliferation), <b>articular cartilage</b> and <b>fibrocartilage</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Site</th><th>Perichondrium?</th><th>Growth</th><th>Why it matters</th></tr></thead>
+ <tbody>
+  <tr><td><b>Epiphyseal growth plate</b></td><td>No</td><td>Interstitial (<b>proliferative zone</b>)</td><td>Long-bone lengthening; GH target</td></tr>
+  <tr><td><b>Articular cartilage</b></td><td>No</td><td>Interstitial</td><td>Joint surface; a perichondrium would be rubbed off</td></tr>
+  <tr><td><b>Fibrocartilage</b></td><td>No</td><td>Interstitial</td><td>Intervertebral disc, pubic symphysis, menisci</td></tr>
+  <tr><td>Other hyaline (trachea, costal, nasal)</td><td>Yes</td><td>Appositional (main) + some interstitial nests</td><td>—</td></tr>
+  <tr><td>Elastic (ear, epiglottis)</td><td>Yes</td><td>Appositional</td><td>—</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>No perichondrium = <b>"GAF"</b>: <b>G</b>rowth plate, <b>A</b>rticular, <b>F</b>ibrocartilage → all grow interstitially.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Articular cartilage is formed by interstitial growth</b> and has <b>no perichondrium</b>.</li>
+ <li>Interstitial growth in the growth plate happens in the <b>zone of proliferation</b> — the GH-dependent zone that sets height.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>Know the distinguishing characteristics of hyaline, elastic and fibrocartilage</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q25</span><span>What is the most common type of cartilage?</span></summary><div class="a">Hyaline cartilage.</div></details></li><li><details><summary><span class="qn">Q26</span><span>Where is hyaline cartilage found?</span></summary><div class="a">Articular surfaces, epiphyseal growth plates, costal cartilage, trachea/bronchi, larynx (most), nose, and the fetal skeleton template.</div></details></li><li><details><summary><span class="qn">Q27</span><span>What does hyaline cartilage look like?</span></summary><div class="a">Glassy, homogeneous pink-to-blue matrix (type II collagen fibrils are invisible) with chondrocytes in lacunae, often in isogenic nests; perichondrium present except at joints and growth plates.</div></details></li><li><details><summary><span class="qn">Q28</span><span>Where is elastic cartilage found and how do you recognize it?</span></summary><div class="a">External ear (auricle), external auditory canal, eustachian tube, epiglottis. Type II collagen plus abundant dark elastic fibers visible around the chondrocytes (elastic stain); has a perichondrium.</div></details></li><li><details><summary><span class="qn">Q29</span><span>Where is fibrocartilage found?</span></summary><div class="a">Intervertebral discs (annulus fibrosus), pubic symphysis, menisci, and tendon/ligament insertions.</div></details></li><li><details><summary><span class="qn">Q30</span><span>How do you recognize fibrocartilage?</span></summary><div class="a">Chondroblasts and chondrocytes aligned in chains (parallel rows) along lines of stress, surrounded by bundles of type I collagen; no perichondrium.</div></details></li><li><details><summary><span class="qn">Q31</span><span>A ruptured disc fragment shows chains of chondrocytes and no perichondrium. Tissue?</span></summary><div class="a">Fibrocartilage.</div></details></li><li><details><summary><span class="qn">Q32</span><span>Costal cartilage removed from an athlete shows clusters of chondrocytes in a glassy matrix. Best description?</span></summary><div class="a">Isogenic nests of hyaline cartilage.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Hyaline</b> = most common, glassy, type II, nests. <b>Elastic</b> = type II + <b>elastic fibers</b> (ear, epiglottis). <b>Fibrocartilage</b> = type II + <b>type I</b>, chondrocytes in <b>parallel chains along lines of stress</b>, <b>no perichondrium</b> (discs, symphysis, menisci).</p>
+<p class="sub">Compare the three</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Hyaline</th><th>Elastic</th><th>Fibrocartilage</th></tr></thead>
+ <tbody>
+  <tr><td>Collagen</td><td>Type II</td><td>Type II + <b>elastic fibers</b></td><td>Type II + <b>type I</b></td></tr>
+  <tr><td>Perichondrium</td><td>Yes (<b>except</b> articular and growth plate)</td><td>Yes</td><td><b>No</b></td></tr>
+  <tr><td>Growth</td><td>Appositional (interstitial where no perichondrium)</td><td>Appositional</td><td>Interstitial</td></tr>
+  <tr><td>Look on the slide</td><td>Glassy, homogeneous matrix; chondrocytes scattered or in isogenic nests</td><td>Chondrocytes with dark, branching elastic fibers around them</td><td>Chondrocytes in <b>rows/chains</b> between thick <b>type I collagen bundles</b></td></tr>
+  <tr><td>Locations</td><td>Joints, growth plate, ribs, trachea, larynx, nose</td><td>Ear (auricle, canal), eustachian tube, <b>epiglottis</b></td><td><b>Intervertebral disc</b>, <b>pubic symphysis</b>, menisci, tendon insertions</td></tr>
+  <tr><td>Function</td><td>Smooth surfaces, templates</td><td>Flexibility, springs back</td><td>Resists compression and tension</td></tr>
+  <tr><td>Frequency</td><td><b>Most common</b></td><td>Least</td><td>Intermediate</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Slide question</span><i>→ dark wavy fibers? →</i><span>Elastic</span><i>· rows of cells + pink bundles, no perichondrium →</i><span>Fibrocartilage</span><i>· glassy + nests →</i><span>Hyaline</span></div>
+<div class="mem"><span class="tag">Memory hooks</span><ul>
+ <li><b>E</b>lastic = <b>E</b>ar and <b>E</b>piglottis.</li>
+ <li><b>F</b>ibrocartilage = <b>F</b>ile of cells in a line (chains along stress), <b>F</b>irst-type (type I) collagen added.</li></ul></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Fibrocartilage: chondrocytes aligned in chains along lines of stress, surrounded by type I collagen</b> — the key identification feature.</li>
+ <li>Herniated disc: the <b>nucleus pulposus</b> (notochord remnant) herniates through a torn <b>annulus fibrosus</b> (fibrocartilage), usually posterolaterally at L4–L5 or L5–S1.</li>
+ <li>Relapsing polychondritis attacks cartilage (ears, nose, trachea) — inflamed auricle with a spared earlobe (no cartilage in the lobe).</li></ul></div>
+  </article>
+  <div class="vign" aria-label="MSK04 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A professional athlete damages the costal cartilage of his ribs. The removed fragment shows clusters of rounded cells in lacunae within a glassy matrix. What is the best description?</p>
+      <ol class="opts"><li>Isogenic nests of hyaline cartilage</li><li>Elastic cartilage</li><li>Epiphyseal cartilage</li><li>Fibrocartilage</li><li>Perichondrium</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>A.</b> Costal cartilage is hyaline; clusters of chondrocytes from one parent cell are isogenic nests formed by interstitial growth.</div></details></article>
+    <article><p><b>2.</b> Which statement about hyaline cartilage is true?</p>
+      <ol class="opts"><li>It has abundant type I collagen</li><li>Damage easily regenerates</li><li>It is non-vascular</li><li>It becomes more abundant with age</li><li>It lacks proteoglycans</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Cartilage is avascular (nutrients diffuse from the perichondrium), which is why it regenerates poorly. Its collagen is type II; it declines with age; it is rich in proteoglycans.</div></details></article>
+    <article><p><b>3.</b> Which statement regarding chondroblasts is true?</p>
+      <ol class="opts"><li>They occur in isogenic nests</li><li>They differentiate from chondrocytes</li><li>They are the oldest cell type in cartilage</li><li>They become more abundant with age</li><li>They lack a territorial matrix</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>E.</b> Chondroblasts are young cells beneath the perichondrium without a territorial matrix; chondrocytes (older) have the territorial ring and form nests.</div></details></article>
+    <article><p><b>4.</b> A golfer has severe back pain; MRI shows a herniated intervertebral disc. The discectomy shows cells aligned in chains between dense collagen bundles, with no perichondrium. Identify the tissue.</p>
+      <ol class="opts"><li>Articular cartilage</li><li>Epiphyseal cartilage</li><li>Elastic cartilage</li><li>Hyaline cartilage</li><li>Fibrocartilage</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>E.</b> Fibrocartilage (annulus fibrosus): no perichondrium, chains of chondrocytes along lines of stress, type I + type II collagen.</div></details></article>
+    <article><p><b>5.</b> A 10-year-old is short with low growth hormone. Which process in cartilage is most directly impaired?</p>
+      <ol class="opts"><li>Appositional growth from the perichondrium</li><li>Interstitial growth in the proliferative zone of the growth plate</li><li>Elastic fiber synthesis</li><li>Chondroclast resorption</li><li>Type I collagen synthesis in fibrocartilage</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> GH → somatomedin C drives mitosis (interstitial growth) of chondrocytes in the zone of proliferation.</div></details></article>
+    <article><p><b>6.</b> A rabbit ear is injected with papain and droops within hours. Which matrix component was digested?</p>
+      <ol class="opts"><li>Type II collagen</li><li>Elastic fibers</li><li>Proteoglycans</li><li>Type I collagen</li><li>Perichondrium</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Papain hydrolyzes the proteoglycan moiety; without the water-binding proteoglycans cartilage loses its rigidity.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · MSK04 · Cartilage · Revision 1.1 · Updated September 30, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>

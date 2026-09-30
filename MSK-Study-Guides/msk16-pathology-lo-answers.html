@@ -1,0 +1,318 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soft Tissue LO Answers</title><meta name="description" content="HoyaDocs MSK16 pathology learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22; --h11:#1f6f8b; --h15:#8a2f5b; --h16:#4d6b1f; --m04:#1f6f8b; --m07:#9a4a1c; --m12:#6a45a6; --m22:#1f7a6b; --m24:#b02a22; --m10:#7a4a14; --m11:#1f5f8b; --m14:#8a2f5b; --m16:#3d6b1f; --m18:#5a3fa0; --m19:#a0302a;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80; --m10:#e0b27a; --m11:#7cb6e0; --m14:#e79ac0; --m16:#b5d67a; --m18:#c3a9f2; --m19:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80; --m10:#e0b27a; --m11:#7cb6e0; --m14:#e79ac0; --m16:#b5d67a; --m18:#c3a9f2; --m19:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)} #hnss11{--c:var(--h11)} #hnss15{--c:var(--h15)} #hnss16{--c:var(--h16)} #msk04{--c:var(--m04)} #msk07{--c:var(--m07)} #msk12{--c:var(--m12)} #msk22{--c:var(--m22)} #msk24{--c:var(--m24)} #msk10{--c:var(--m10)} #msk11{--c:var(--m11)} #msk14{--c:var(--m14)} #msk16{--c:var(--m16)} #msk18{--c:var(--m18)} #msk19{--c:var(--m19)}
+.figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+figure.lab{margin:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface,transparent);display:grid}
+figure.lab img{width:100%;height:180px;object-fit:cover;display:block;background:#000}
+figure.lab figcaption{padding:8px 10px;font-size:.85rem;display:grid;gap:4px}
+figure.lab .lq{font-weight:600}
+figure.lab summary{cursor:pointer;color:var(--c);font-weight:700}
+figure.lab details p{margin:4px 0 0}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;min-width:7em}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 MSK · Pathology · Updated Sep 30, 2026 · Revision 1.2</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="msk16" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">MSK16 · 6 learning objectives</p>
+    <h1>Soft Tissue Pathology</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Characterize soft tissue tumors in terms of incidence, etiology and risk factors</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>What counts as &quot;soft tissue&quot;?</span></summary><div class="a">Non-epithelial tissue outside bone, brain and organs: fibrous tissue, fat, smooth and skeletal muscle, peripheral nerve and its sheaths, and blood/lymphatic vessels.</div></details></li><li><details><summary><span class="qn">Q2</span><span>How common are soft tissue tumors, and which are most common?</span></summary><div class="a">The great majority are benign (lipoma is the most common soft tissue tumor). Sarcomas (malignant mesenchymal tumors) are rare — that rarity makes them hard to recognize and easy to mistreat.</div></details></li><li><details><summary><span class="qn">Q3</span><span>Why are they hard to diagnose?</span></summary><div class="a">Hundreds of entities, most made of look-alike spindle cells (elongated cells, longer than wide — the hallmark cell; scan at low power to see the growth pattern, then look for secondary features such as inflammation, hyalinization or necrosis); classification (WHO) now combines morphology, immunohistochemistry and molecular testing.</div></details></li><li><details><summary><span class="qn">Q4</span><span>What causes most soft tissue tumors?</span></summary><div class="a">Unknown for most. Some benign lesions follow trauma or foreign material (nodular fasciitis may follow trauma).</div></details></li><li><details><summary><span class="qn">Q5</span><span>What are the risk factors for sarcoma?</span></summary><div class="a">Prior radiation (latency ~5–10 years), chemicals (vinyl chloride and thorium dioxide → angiosarcoma of the liver; herbicides; alkylating chemotherapy), viruses (HHV-8 → Kaposi; EBV → smooth muscle tumors in immunosuppressed), chronic lymphedema (angiosarcoma) and familial syndromes (NF1 → MPNST; Gardner/FAP → desmoid; Li-Fraumeni; hereditary retinoblastoma).</div></details></li><li><details><summary><span class="qn">Q6</span><span>What do sarcoma karyotypes look like?</span></summary><div class="a">Simple karyotype (~20%): one recurrent translocation, monomorphic cells, younger patients (e.g., synovial sarcoma, myxoid liposarcoma, alveolar rhabdomyosarcoma, Ewing). Complex karyotype (~80%): many gains/losses, genomic instability, pleomorphic tumors in older patients.</div></details></li><li><details><summary><span class="qn">Q7</span><span>Where do sarcomas arise?</span></summary><div class="a">Mostly deep tissues: extremities (especially the thigh), retroperitoneum and abdomen, trunk, genitourinary tract, head and neck.</div></details></li></ol></div>
+    <p class="bottom-line">Soft tissue = fat, fibrous tissue, muscle, nerve, vessels. <b>Most tumors are benign</b> (lipoma most common); <b>sarcomas are rare</b> and usually deep (thigh, retroperitoneum). Risk: <b>radiation, chemicals (vinyl chloride), viruses, lymphedema, NF1, Gardner, Li-Fraumeni</b>. ~20% simple translocation karyotypes (young), ~80% complex (older, pleomorphic).</p>
+<div class="tbl"><table>
+ <thead><tr><th>Risk factor</th><th>Tumor it raises</th></tr></thead>
+ <tbody>
+  <tr><td>Prior radiation (5–10 yr latency)</td><td>Post-radiation sarcoma, angiosarcoma of breast</td></tr>
+  <tr><td>Chronic lymphedema (post-mastectomy)</td><td><b>Angiosarcoma</b> (Stewart-Treves)</td></tr>
+  <tr><td>Vinyl chloride, thorium dioxide (Thorotrast), arsenic</td><td>Hepatic angiosarcoma</td></tr>
+  <tr><td>HHV-8</td><td>Kaposi sarcoma</td></tr>
+  <tr><td><b>NF1</b></td><td>Neurofibromas → <b>MPNST</b></td></tr>
+  <tr><td><b>Gardner syndrome / FAP</b> (APC)</td><td><b>Desmoid</b> (deep fibromatosis)</td></tr>
+  <tr><td>Li-Fraumeni (TP53)</td><td>Rhabdomyosarcoma, other sarcomas</td></tr>
+ </tbody></table></div>
+<p class="sub">Translocations to know</p>
+<div class="tbl"><table>
+ <thead><tr><th>Tumor</th><th>Translocation / fusion</th></tr></thead>
+ <tbody>
+  <tr><td><b>Myxoid/round cell liposarcoma</b></td><td><b>t(12;16) FUS-DDIT3</b></td></tr>
+  <tr><td><b>Synovial sarcoma</b></td><td><b>t(X;18) SS18-SSX</b></td></tr>
+  <tr><td>Alveolar rhabdomyosarcoma</td><td>t(2;13) PAX3-FOXO1 or t(1;13) PAX7-FOXO1</td></tr>
+  <tr><td>Ewing sarcoma</td><td>t(11;22) EWSR1-FLI1</td></tr>
+  <tr><td>Nodular fasciitis</td><td>t(17;22) MYH9-USP6</td></tr>
+  <tr><td>Well-differentiated / dedifferentiated liposarcoma</td><td>MDM2 amplification (12q13–15), ring chromosomes</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>"<b>X</b> marks the <b>18</b>-year-old's knee" → synovial sarcoma t(X;18). "<b>12–16</b>, a <b>lipo</b> in a 35-year-old's thigh" → myxoid liposarcoma t(12;16).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Lipoma = most common soft tissue tumor. Adult sarcomas: liposarcoma and undifferentiated pleomorphic sarcoma lead; children: rhabdomyosarcoma.</li>
+ <li>Vinyl chloride → hepatic angiosarcoma.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Discuss the approach to the patient with a soft tissue mass: presentation, diagnostic procedures and ancillary tests</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q8</span><span>What history matters?</span></summary><div class="a">Age, duration, rate of growth (sudden enlargement), pain or neurologic symptoms, history of trauma, prior radiation, lymphedema and family syndromes.</div></details></li><li><details><summary><span class="qn">Q9</span><span>Which features raise concern for sarcoma?</span></summary><div class="a">Size &gt;5 cm, deep location (below the fascia), rapid or recent growth, firm/fixed mass, older patient, retroperitoneal site. (A fatty mass in the retroperitoneum is a liposarcoma, not a lipoma, until proven otherwise.)</div></details></li><li><details><summary><span class="qn">Q10</span><span>What does imaging do?</span></summary><div class="a">CT/MRI localizes and characterizes (fat, myxoid, mineralization, necrosis, vascularity), guides biopsy and plans definitive surgery; many deep tumors are only found on imaging.</div></details></li><li><details><summary><span class="qn">Q11</span><span>Which biopsy is preferred?</span></summary><div class="a">Percutaneous core needle biopsy (or open incisional biopsy when more tissue is needed). FNA yields individual cells rather than a tissue core, so it is less informative for a first diagnosis. Excisional biopsy is reserved for very small lesions or a known lipoma.</div></details></li><li><details><summary><span class="qn">Q12</span><span>Why avoid &quot;shelling out&quot; a possible sarcoma?</span></summary><div class="a">Excisional biopsy or enucleation contaminates tissue planes, leaves tumor behind, and makes later limb-sparing wide excision harder — &quot;unnecessary complications.&quot;</div></details></li><li><details><summary><span class="qn">Q13</span><span>What ancillary tests help?</span></summary><div class="a">Immunohistochemistry for lineage (desmin/myogenin for muscle, S-100/SOX10 for nerve sheath, CD31/ERG for vessels, keratin/EMA and TLE1 for synovial sarcoma, CD99 for Ewing, MDM2 for liposarcoma) and cytogenetics/molecular tests for signature translocations.</div></details></li><li><details><summary><span class="qn">Q14</span><span>Who should manage these patients?</span></summary><div class="a">An experienced multidisciplinary team — surgeon, radiologist, pathologist, oncologist — because the tumors are rare and errors are costly.</div></details></li></ol></div>
+    <p class="bottom-line">Big (&gt;5 cm), <b>deep</b>, growing, or <b>retroperitoneal</b> = worry about sarcoma. <b>Image first</b> (MRI/CT), then <b>core needle or incisional biopsy</b> — <b>never shell out</b> a possible sarcoma. Confirm lineage with <b>IHC</b> and signature <b>translocations</b>.</p>
+<div class="flow"><span>History: age, duration, growth rate, pain, trauma, radiation</span><i>→</i><span>Exam: size, depth, mobility</span><i>→</i><span><b>MRI / CT</b></span><i>→</i><span><b>Core needle</b> or incisional biopsy</span><i>→</i><span>H&amp;E + IHC + molecular</span><i>→</i><span>Grade + stage → wide excision ± radiation</span></div>
+<div class="tbl"><table>
+ <thead><tr><th>Biopsy</th><th>What it is</th><th>When</th></tr></thead>
+ <tbody>
+  <tr><td><b>Core needle</b></td><td>Cylinder of tissue through a needle</td><td><b>Recommended</b> first choice</td></tr>
+  <tr><td>Incisional</td><td>Open removal of part of the mass</td><td>When more tissue is needed</td></tr>
+  <tr><td>Excisional</td><td>Remove entire lesion</td><td><b>Only</b> very small lesions or known lipoma</td></tr>
+  <tr><td>FNA</td><td>Cells only</td><td>Minimally invasive; limited architecture</td></tr>
+ </tbody></table></div>
+<div class="two">
+ <div><p class="sub">Reassuring</p><ul><li>Small (&lt;5 cm), superficial</li><li>Soft, mobile, unchanged for years</li><li>Young adult, forearm, weeks after trauma (nodular fasciitis)</li></ul></div>
+ <div><p class="sub">Worrying</p><ul><li>&gt;5 cm, <b>deep</b> to fascia</li><li>Rapid or recent growth, fixed</li><li><b>Retroperitoneum</b>, deep thigh</li><li>Prior radiation or lymphedema</li></ul></div>
+</div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>IHC lineage: <b>desmin, myogenin/MyoD1</b> = skeletal muscle; <b>S-100</b> = nerve sheath (and melanoma); <b>CD31</b> = endothelium; <b>vimentin</b> = mesenchymal (nonspecific).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Discuss basic principles of surgical resection and grading of soft tissue tumors</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q15</span><span>What is the most important prognostic factor for a sarcoma?</span></summary><div class="a">Histologic grade (incorporated into TNM staging) — along with size, depth and margins.</div></details></li><li><details><summary><span class="qn">Q16</span><span>How are sarcomas graded?</span></summary><div class="a">By necrosis, cellularity, pleomorphism and mitotic count (atypical mitoses point to high grade). Low grade = bland, few mitoses; high grade = pleomorphic, mitotically active, necrotic.</div></details></li><li><details><summary><span class="qn">Q17</span><span>Which sarcomas have an inherent grade?</span></summary><div class="a">Many: well-differentiated liposarcoma is grade 1 by definition; rhabdomyosarcoma, Ewing sarcoma and (by convention) synovial sarcoma are high grade.</div></details></li><li><details><summary><span class="qn">Q18</span><span>What is the surgical principle?</span></summary><div class="a">Wide excision with a cuff of normal tissue around the tumor (limb-sparing when possible) — never &quot;shell out&quot; along the pseudocapsule. Radiation adds local control; chemotherapy is standard for metastatic (stage IV) disease, adjuvant use is controversial.</div></details></li><li><details><summary><span class="qn">Q19</span><span>How do sarcomas spread?</span></summary><div class="a">Hematogenously — most often to the lungs, then bone. Lymph node spread is unusual.</div></details></li><li><details><summary><span class="qn">Q20</span><span>Which sarcomas break the rule and go to lymph nodes?</span></summary><div class="a">Rhabdomyosarcoma, clear cell sarcoma, synovial sarcoma, epithelioid sarcoma (and angiosarcoma).</div></details></li></ol></div>
+    <p class="bottom-line"><b>Grade</b> (necrosis, cellularity, pleomorphism, mitoses) is the key prognostic factor; some sarcomas are graded by definition. Treat with <b>wide excision</b> (cuff of normal tissue, limb-sparing) ± radiation. Sarcomas spread <b>hematogenously to lung</b>; <b>lymph node</b> exceptions: <b>rhabdomyosarcoma, clear cell, synovial, epithelioid</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Grading parameter</th><th>Low grade</th><th>High grade</th></tr></thead>
+ <tbody>
+  <tr><td>Cellularity</td><td>Low</td><td>High</td></tr>
+  <tr><td>Pleomorphism</td><td>Bland</td><td>Marked</td></tr>
+  <tr><td>Mitoses</td><td>Rare</td><td>Frequent, atypical</td></tr>
+  <tr><td>Necrosis</td><td>Absent</td><td>Present</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>Sarcomas spread by <b>blood</b> (to lung), carcinomas by <b>lymph</b>. The lymph-node exceptions are "<b>SCARE</b>": <b>S</b>ynovial, <b>C</b>lear cell, <b>A</b>ngiosarcoma, <b>R</b>habdomyosarcoma, <b>E</b>pithelioid.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Sarcoma = mesenchymal malignancy; metastasizes hematogenously → <b>lung</b> (cannonball nodules).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4A</span><h3>Lesions: FIBROUS (nodular fasciitis, fibromatosis) and LIPOMATOUS (lipoma and variants, liposarcoma), with Gardner syndrome</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q21</span><span>What is nodular fasciitis?</span></summary><div class="a">A benign, self-limited reactive (pseudosarcomatous) proliferation of fibroblasts/myofibroblasts, often after trauma. Rapidly growing, small (1–3 cm), sometimes tender nodule in the subcutis — most often the forearm — of young adults (20–40).</div></details></li><li><details><summary><span class="qn">Q22</span><span>How is nodular fasciitis recognized under the microscope?</span></summary><div class="a">Plump, uniform (myo)fibroblasts in a loose &quot;tissue culture–like,&quot; feathery pattern with microcystic spaces, extravasated red cells and scattered lymphocytes; mitoses may be frequent but are not atypical. It carries t(17;22) MYH9-USP6. Often mistaken for sarcoma and sent for second opinion; does not recur after excision.</div></details></li><li><details><summary><span class="qn">Q23</span><span>What are fibromatoses?</span></summary><div class="a">Benign but infiltrative fibroblastic proliferations of adults with a tendency to recur and never metastasize: firm, poorly circumscribed masses of bland fibroblasts in long sweeping fascicles with abundant collagen that infiltrate surrounding muscle.</div></details></li><li><details><summary><span class="qn">Q24</span><span>What are the superficial fibromatoses?</span></summary><div class="a">Small, slow, arising from fascia/aponeuroses: palmar (Dupuytren — flexion contracture of the 4th/5th fingers), plantar (Ledderhose — non–weight-bearing sole) and penile (Peyronie — plaque on dorsal/lateral shaft → curvature).</div></details></li><li><details><summary><span class="qn">Q25</span><span>What are the deep fibromatoses (desmoid tumors)?</span></summary><div class="a">Large, faster-growing, infiltrative: extra-abdominal (shoulder, chest wall, pelvis, thigh of adolescents/young adults), abdominal wall (pregnant or postpartum women, often within a year of childbirth) and intra-abdominal (mesentery/pelvis — associated with FAP/Gardner). Locally aggressive, recur, do not metastasize; mutations in β-catenin (CTNNB1) or APC.</div></details></li><li><details><summary><span class="qn">Q26</span><span>What is Gardner syndrome?</span></summary><div class="a">An autosomal dominant FAP variant (APC mutation): colorectal adenomatous polyps with near-certain colon cancer, plus osteomas (skull/jaw), soft tissue tumors (fibromas, lipomas, desmoids), epidermal cysts, dental abnormalities (unerupted/supernumerary teeth) and congenital hypertrophy of the retinal pigment epithelium (bilateral pigmented fundus lesions). Loss of APC → β-catenin accumulates → uncontrolled proliferation.</div></details></li><li><details><summary><span class="qn">Q27</span><span>What is a lipoma?</span></summary><div class="a">The most common soft tissue tumor: benign, encapsulated, soft, mobile, slowly growing subcutaneous mass of mature fat (back, shoulder, neck, proximal extremities), usually adults 40–60. Simple excision cures it; it does not recur.</div></details></li><li><details><summary><span class="qn">Q28</span><span>Which lipoma variants should you know?</span></summary><div class="a">Angiolipoma (fat + small capillaries with fibrin thrombi; young adults, forearm; often multiple and painful), chondroid lipoma (cartilage-like matrix; rare, women) and spindle cell/pleomorphic lipoma (spindle cells and &quot;floret&quot; giant cells; posterior neck/shoulder of older men).</div></details></li><li><details><summary><span class="qn">Q29</span><span>What is liposarcoma and how is it diagnosed?</span></summary><div class="a">The most common adult sarcoma: a malignant fatty tumor of deep tissues (thigh, retroperitoneum), never arising from a lipoma. The key cell is the lipoblast — a primitive fat cell with bubbly, vacuolated cytoplasm scalloping a compressed nucleus.</div></details></li><li><details><summary><span class="qn">Q30</span><span>What are the liposarcoma types?</span></summary><div class="a">Well-differentiated (looks like fat with fibrous bands and atypical stromal cells; MDM2 amplification; recurs, especially retroperitoneal) ↔ dedifferentiated (high grade, aggressive). Myxoid ↔ round cell (t(12;16) FUS-DDIT3; 30–40s, thigh; gelatinous myxoid matrix, lipoblasts, delicate &quot;chicken-wire&quot; capillaries; the more round cells, the worse the prognosis; tends to metastasize to other soft tissue sites). Pleomorphic (rare, high grade).</div></details></li><li><details><summary><span class="qn">Q31</span><span>How does round cell liposarcoma differ grossly from myxoid?</span></summary><div class="a">Round cell is solid and opaque on cut section; myxoid is gelatinous.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Nodular fasciitis</b>: young adult, forearm, grows fast, <b>tissue-culture</b> fibroblasts with extravasated RBCs, <b>benign, no recurrence</b>. <b>Fibromatosis</b>: bland fibroblasts + collagen that <b>infiltrate</b> and <b>recur</b> — Dupuytren (palm), Ledderhose, Peyronie; <b>desmoid</b> = deep (postpartum abdominal wall; <b>Gardner/FAP</b> mesentery). <b>Lipoma</b>: most common, superficial, cured by excision. <b>Liposarcoma</b>: deep thigh/<b>retroperitoneum</b>, <b>lipoblasts</b>; myxoid type = <b>t(12;16)</b>, chicken-wire capillaries.</p>
+<p class="sub">DDx: the fibrous lesions</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Nodular fasciitis</th><th>Superficial fibromatosis</th><th>Deep fibromatosis (desmoid)</th></tr></thead>
+ <tbody>
+  <tr><td>Nature</td><td><b>Reactive</b>, self-limited</td><td>Benign neoplasm</td><td>Benign, <b>locally aggressive</b></td></tr>
+  <tr><td>Patient / site</td><td>20–40, <b>forearm</b>, after trauma</td><td>Adults; palm, sole, penis</td><td>Young adults (shoulder, thigh); <b>postpartum</b> abdominal wall; <b>FAP/Gardner</b> mesentery</td></tr>
+  <tr><td>Growth</td><td><b>Weeks</b>, 1–3 cm</td><td>Slow, small</td><td>Larger, faster</td></tr>
+  <tr><td>Histology</td><td>Plump myofibroblasts, <b>tissue culture</b> look, microcysts, <b>extravasated RBCs</b></td><td>Bland fibroblasts, dense collagen</td><td><b>Sweeping fascicles</b> of bland fibroblasts <b>infiltrating muscle</b></td></tr>
+  <tr><td>Genetics</td><td>t(17;22) MYH9-USP6</td><td>—</td><td>CTNNB1 or APC</td></tr>
+  <tr><td>Outcome</td><td><b>Does not recur</b></td><td>Contracture; recurs</td><td><b>Recurs</b>; never metastasizes</td></tr>
+ </tbody></table></div>
+<p class="sub">DDx: fatty tumors</p>
+<div class="tbl"><table>
+ <thead><tr><th>Lesion</th><th>Who / where</th><th>Look</th><th>Behavior</th></tr></thead>
+ <tbody>
+  <tr><td><b>Lipoma</b></td><td>40–60; subcutaneous back, shoulder, neck</td><td>Encapsulated mature fat</td><td>Cured by excision</td></tr>
+  <tr><td>Angiolipoma</td><td>Young adults, forearm; <b>multiple</b></td><td>Fat + capillaries with fibrin thrombi</td><td><b>Painful</b>; benign</td></tr>
+  <tr><td>Spindle cell / pleomorphic lipoma</td><td><b>Older men, posterior neck/shoulder</b></td><td>Spindle cells, ropey collagen, <b>floret giant cells</b></td><td>Benign</td></tr>
+  <tr><td>Chondroid lipoma</td><td>Women (rare)</td><td>Cartilage-like matrix</td><td>Benign</td></tr>
+  <tr><td>Well-differentiated liposarcoma</td><td>Deep thigh, <b>retroperitoneum</b></td><td>Fat + fibrous bands + atypical cells, lipoblasts; <b>MDM2</b></td><td>Recurs; may dedifferentiate</td></tr>
+  <tr><td><b>Myxoid / round cell liposarcoma</b></td><td>30–40s, <b>thigh</b></td><td>Gelatinous; lipoblasts, <b>chicken-wire capillaries</b>; round cells = worse</td><td><b>t(12;16) FUS-DDIT3</b>; mets to other soft tissue</td></tr>
+  <tr><td>Pleomorphic liposarcoma</td><td>Older adults</td><td>Bizarre pleomorphic lipoblasts</td><td>High grade</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Retroperitoneal fat = liposarcoma, not lipoma.</b> Nodular fasciitis is "fast but friendly" — grows in weeks, never comes back. Desmoid is "slow but stubborn" — infiltrates and recurs.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Gardner syndrome = FAP (APC) + <b>osteomas</b> + <b>desmoids</b> + epidermoid cysts + dental anomalies + CHRPE.</li>
+ <li>Dupuytren contracture: palmar fascia → flexion of ring/little fingers; associations include alcohol use, diabetes, Northern European men.</li>
+ <li>Lipoblast = diagnostic cell of liposarcoma (vacuoles indent the nucleus).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4B</span><h3>Lesions: SKELETAL MUSCLE (rhabdomyosarcoma) and VASCULAR (hemangioma, angiosarcoma)</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q32</span><span>What is rhabdomyosarcoma?</span></summary><div class="a">The most common soft tissue sarcoma of childhood: a malignant tumor showing skeletal muscle differentiation, often in sites with little skeletal muscle (head and neck, genitourinary tract). Desmin and myogenin/MyoD1 positive; rhabdomyoblasts may show cross-striations. High grade by definition.</div></details></li><li><details><summary><span class="qn">Q33</span><span>What is embryonal rhabdomyosarcoma?</span></summary><div class="a">The most common subtype (~50%), children under 10: head and neck (orbit, nasopharynx) and genitourinary tract; resembles stages of developing skeletal muscle, from small round blue cells to strap cells.</div></details></li><li><details><summary><span class="qn">Q34</span><span>What is the botryoid variant?</span></summary><div class="a">An embryonal subtype arising beneath the mucosa of hollow organs (vagina of young girls, urinary bladder): grape-like polypoid mass; defined by a cambium layer — a dense subepithelial band of tumor cells separated from intact surface epithelium by a loose zone.</div></details></li><li><details><summary><span class="qn">Q35</span><span>What is alveolar rhabdomyosarcoma?</span></summary><div class="a">~20%; adolescents and young adults (10–25); deep soft tissue of the extremities and head and neck; discohesive tumor cells clustered around fibrous septa, mimicking lung alveoli; t(2;13) PAX3-FOXO1 or t(1;13) PAX7-FOXO1.</div></details></li><li><details><summary><span class="qn">Q36</span><span>What is pleomorphic rhabdomyosarcoma?</span></summary><div class="a">Rare adult form (men &gt;60), deep thigh; large, bizarre eosinophilic cells. Spindle cell type occurs at any age and site.</div></details></li><li><details><summary><span class="qn">Q37</span><span>What is a hemangioma?</span></summary><div class="a">A benign tumor of endothelial cells, most common in infancy/childhood, usually head and neck and superficial (can occur in the liver). Classified by vessel caliber.</div></details></li><li><details><summary><span class="qn">Q38</span><span>Capillary vs cavernous hemangioma?</span></summary><div class="a">Capillary (including infantile &quot;strawberry&quot; hemangioma): red, raised, appears soon after birth, grows then usually regresses; small, plump endothelial cells with inconspicuous lumens. Cavernous: less common, larger, deeper, poorly circumscribed, bluish; large dilated blood-filled channels with flat endothelium; does not regress; large lesions can trap platelets (consumptive thrombocytopenia).</div></details></li><li><details><summary><span class="qn">Q39</span><span>What is angiosarcoma?</span></summary><div class="a">An aggressive malignant tumor of blood or lymphatic endothelium: atypical endothelial cells forming irregular, anastomosing vascular channels; as grade rises the lumens become poorly formed and atypia increases. CD31/ERG positive.</div></details></li><li><details><summary><span class="qn">Q40</span><span>What are the clinical settings of angiosarcoma?</span></summary><div class="a">1) Primary cutaneous — elderly, scalp/face, bruise-like indurated patches. 2) Lymphedema-associated — chronic lymphedema after mastectomy/axillary dissection (Stewart-Treves): red-brown nodules that ulcerate and bleed, or skin discoloration. 3) Post-radiation — breast, usually within ~5 years. 4) Deep soft tissue — any age; 1/3 with predisposing conditions. 5) Parenchymal organs — liver (vinyl chloride, arsenic, Thorotrast), bone.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Rhabdomyosarcoma</b>: child's most common sarcoma; <b>head and neck</b> + GU; desmin/myogenin. <b>Embryonal</b> (most common; <b>botryoid</b> = grape-like, <b>cambium layer</b>, vagina/bladder) vs <b>alveolar</b> (teens, extremities, cells around septa, <b>t(2;13)</b>). <b>Hemangioma</b>: infant, capillary regresses, cavernous doesn't. <b>Angiosarcoma</b>: elderly scalp, <b>chronic lymphedema</b>, post-radiation; ulcerating red-brown nodules.</p>
+<p class="sub">Rhabdomyosarcoma subtypes</p>
+<div class="tbl"><table>
+ <thead><tr><th>Subtype</th><th>Age</th><th>Site</th><th>Histology</th><th>Molecular</th></tr></thead>
+ <tbody>
+  <tr><td><b>Embryonal</b> (50%, most common)</td><td>&lt;10</td><td><b>Head &amp; neck</b>, GU</td><td>Primitive small round cells → strap cells; resembles developing muscle</td><td>Heterogeneous</td></tr>
+  <tr><td>· Botryoid variant</td><td>Young children</td><td>Vagina, bladder (mucosa-lined)</td><td><b>Cambium layer</b>; grape-like gross</td><td>—</td></tr>
+  <tr><td><b>Alveolar</b> (20%)</td><td>10–25</td><td>Deep extremities, head &amp; neck</td><td>Discohesive clusters around <b>fibrous septa</b></td><td><b>t(2;13) PAX3-FOXO1</b>; t(1;13)</td></tr>
+  <tr><td>Pleomorphic (20%)</td><td>Adults (&gt;60)</td><td>Thigh</td><td>Large, very atypical eosinophilic cells</td><td>Heterogeneous</td></tr>
+  <tr><td>Spindle cell (10%)</td><td>All</td><td>Various</td><td>Fusiform cells in fascicles</td><td>Heterogeneous</td></tr>
+ </tbody></table></div>
+<p class="sub">DDx: vascular tumors</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Capillary hemangioma</th><th>Cavernous hemangioma</th><th>Angiosarcoma</th></tr></thead>
+ <tbody>
+  <tr><td>Who</td><td>Infant (appears after birth)</td><td>Infant/child</td><td><b>Elderly</b>; lymphedema; post-radiation</td></tr>
+  <tr><td>Where</td><td>Head/neck skin ("strawberry")</td><td>Upper body, deep; liver</td><td>Scalp/face; lymphedematous arm; irradiated breast; liver</td></tr>
+  <tr><td>Look</td><td>Red, raised, polypoid</td><td>Bluish, large, poorly circumscribed</td><td>Bruise-like patches, red-brown nodules that <b>ulcerate and bleed</b></td></tr>
+  <tr><td>Histology</td><td>Small capillaries, plump endothelium</td><td>Large dilated blood-filled spaces</td><td>Atypical endothelium in anastomosing channels → solid sheets</td></tr>
+  <tr><td>Course</td><td><b>Regresses</b></td><td><b>Does not regress</b></td><td>Aggressive, poor prognosis</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Botryoid</b> = Greek for <b>grapes</b>; the <b>cambium</b> layer is the dense rim just under the surface, like the growing layer under tree bark. <b>Al</b>veolar = <b>ol</b>der kids, <b>2;13</b>.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Rhabdomyosarcoma: <b>desmin, myogenin, MyoD1</b>; most common sarcoma in children; botryoid in the vagina of girls &lt;5.</li>
+ <li>Stewart-Treves: angiosarcoma in chronic post-mastectomy lymphedema.</li>
+ <li>Hepatic angiosarcoma: vinyl chloride, arsenic, Thorotrast. Kaposi sarcoma: HHV-8.</li>
+ <li>Cavernous hemangioma of the liver is the most common benign liver tumor; don't biopsy (bleeds).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4C</span><h3>Lesions: PERIPHERAL NERVE SHEATH (schwannoma, neurofibroma) with NF1 and NF2, and UNKNOWN HISTOGENESIS (synovial sarcoma)</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q41</span><span>What is a schwannoma?</span></summary><div class="a">A benign, encapsulated nerve sheath tumor made entirely of Schwann cells, growing eccentrically on the side of the nerve (the nerve can be spared at surgery). S-100 positive.</div></details></li><li><details><summary><span class="qn">Q42</span><span>What does a schwannoma look like?</span></summary><div class="a">Alternating cellular Antoni A areas (spindle cells with nuclear palisading — Verocay bodies) and loose, myxoid Antoni B areas; hyalinized vessels. Usually solitary and sporadic; vestibular (acoustic) schwannomas at the cerebellopontine angle; bilateral = NF2.</div></details></li><li><details><summary><span class="qn">Q43</span><span>What is a neurofibroma?</span></summary><div class="a">A benign, unencapsulated tumor of mixed cells — Schwann cells, fibroblasts and perineurial cells — that grows through the nerve and incorporates axons, in a loose myxoid/collagenous (&quot;shredded carrot&quot;) stroma.</div></details></li><li><details><summary><span class="qn">Q44</span><span>What forms do neurofibromas take?</span></summary><div class="a">Localized cutaneous (soft, solitary, common, often sporadic), localized intraneural (fusiform nerve enlargement with residual axons), diffuse, and plexiform (many fascicles of a large nerve expanded — &quot;bag of worms&quot;). Plexiform neurofibromas are essentially diagnostic of NF1 and can become malignant (MPNST); diffuse neurofibromas are sometimes NF1-associated.</div></details></li><li><details><summary><span class="qn">Q45</span><span>What is NF1?</span></summary><div class="a">Autosomal dominant (1 in ~2,500–3,000), 17q11.2, neurofibromin — a GTPase-activating protein that turns off RAS; loss → RAS stuck &quot;on.&quot; Variable expressivity, complete penetrance.</div></details></li><li><details><summary><span class="qn">Q46</span><span>What are the features of NF1?</span></summary><div class="a">Café-au-lait macules, axillary/inguinal freckling (by age 3–5), neurofibromas (cutaneous and plexiform), Lisch nodules (iris melanocytic hamartomas, highly specific), optic pathway glioma, skeletal dysplasia (tibial bowing, sphenoid wing dysplasia), scoliosis; learning disabilities/ADHD in ~50%; ~10% lifetime risk of MPNST; also pheochromocytoma, GIST, glomus tumor, arterial stenoses.</div></details></li><li><details><summary><span class="qn">Q47</span><span>What is NF2?</span></summary><div class="a">Autosomal dominant, much rarer (1 in ~35,000), chromosome 22, merlin (schwannomin) — a cytoskeletal/Hippo-pathway protein needed for contact inhibition. Hallmark: bilateral vestibular (acoustic) schwannomas; also meningiomas, ependymomas, cutaneous schwannomas and juvenile posterior subcapsular cataracts.</div></details></li><li><details><summary><span class="qn">Q48</span><span>What is synovial sarcoma?</span></summary><div class="a">A sarcoma of uncertain histogenesis — despite the name it does not arise from synovium. Young adults (15–40), deep soft tissue near large joints (especially around the knee). Biphasic (epithelial glands + spindle cells) or monophasic spindle; calcifications common. Keratin/EMA and TLE1 positive; t(X;18) SS18-SSX in &gt;90%. High grade; can spread to lymph nodes and lungs.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Schwannoma</b>: encapsulated, <b>pure Schwann cells</b>, eccentric on the nerve, <b>Antoni A (Verocay) / Antoni B</b>; bilateral acoustic = <b>NF2</b> (chr 22, merlin). <b>Neurofibroma</b>: mixed cells <b>through</b> the nerve; <b>plexiform = NF1</b> (chr 17, neurofibromin → RAS), café-au-lait, freckling, <b>Lisch nodules</b>, MPNST risk. <b>Synovial sarcoma</b>: young adult near the knee, biphasic, <b>t(X;18) SS18-SSX</b>.</p>
+<p class="sub">DDx: nerve sheath tumors</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Schwannoma</th><th>Neurofibroma</th></tr></thead>
+ <tbody>
+  <tr><td>Cells</td><td><b>Only Schwann cells</b></td><td>Schwann cells + fibroblasts + perineurial cells + axons</td></tr>
+  <tr><td>Relation to nerve</td><td><b>Eccentric</b>, pushes nerve aside (surgically separable)</td><td>Grows <b>through</b> nerve, axons run within it</td></tr>
+  <tr><td>Capsule</td><td>Encapsulated</td><td>Unencapsulated (intraneural: thin epineurium)</td></tr>
+  <tr><td>Histology</td><td><b>Antoni A</b> (cellular, <b>Verocay bodies</b>) + <b>Antoni B</b> (loose, myxoid); hyalinized vessels</td><td>Wavy, "shredded carrot" collagen in myxoid stroma</td></tr>
+  <tr><td>Syndrome</td><td><b>NF2</b> (bilateral vestibular)</td><td><b>NF1</b> (plexiform, diffuse)</td></tr>
+  <tr><td>Malignant change</td><td>Very rare</td><td>Plexiform → <b>MPNST</b> (~10% lifetime in NF1)</td></tr>
+ </tbody></table></div>
+<p class="sub">DDx: NF1 vs NF2</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>NF1 (von Recklinghausen)</th><th>NF2</th></tr></thead>
+ <tbody>
+  <tr><td>Frequency</td><td>1 in 2,500–3,000</td><td>1 in 35,000</td></tr>
+  <tr><td>Gene</td><td><b>Chr 17</b>, neurofibromin (RAS-GAP)</td><td><b>Chr 22</b>, merlin (Hippo, contact inhibition)</td></tr>
+  <tr><td>Signature tumors</td><td>Neurofibromas (plexiform), optic glioma, MPNST, pheochromocytoma, GIST</td><td><b>Bilateral acoustic schwannomas</b>, meningiomas, ependymomas</td></tr>
+  <tr><td>Skin / eye</td><td>Café-au-lait, axillary/inguinal freckling, <b>Lisch nodules</b></td><td>Few café-au-lait; <b>juvenile posterior subcapsular cataract</b></td></tr>
+  <tr><td>Skeleton / brain</td><td>Tibial bowing, sphenoid wing dysplasia, scoliosis; learning disability (~50%)</td><td>Hearing loss, tinnitus, imbalance</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>NF1 loss</span><i>→</i><span>No GTPase activation</span><i>→</i><span>RAS stays GTP-bound (on)</span><i>→</i><span>MAPK proliferation → neurofibromas</span></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>NF1 = chromosome 17</b> (17 letters in "von Recklinghausen"); <b>NF2 = chromosome 22</b>, <b>2</b> ears (bilateral acoustic schwannomas). Synovial sarcoma: "<b>X</b> marks the knee of an <b>18</b>-year-old."</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Schwannoma and neurofibroma are <b>S-100+</b> (neural crest). Verocay bodies = schwannoma.</li>
+ <li>Lisch nodules are specific for NF1; café-au-lait spots alone are not.</li>
+ <li>Synovial sarcoma: t(X;18), biphasic, near joints but not from synovium; keratin+ (epithelial differentiation).</li></ul></div>
+  </article>
+  <div class="vign" aria-label="MSK16 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A 20-year-old woman has a 6-cm firm, poorly demarcated mass in the rectus abdominis that must be excised with a muscle margin. It shows bland fibroblasts in broad sweeping fascicles amid dense collagen. She and a sibling had colectomies for polyposis. Diagnosis?</p>
+      <ol class="opts"><li>Desmoid tumor (deep fibromatosis)</li><li>Myositis ossificans</li><li>Neurofibroma</li><li>Nodular fasciitis</li><li>Undifferentiated pleomorphic sarcoma</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>A.</b> Gardner syndrome/FAP: intra-/abdominal desmoids — infiltrative, recur, never metastasize.</div></details></article>
+    <article><p><b>2.</b> A 57-year-old woman cannot fully extend her left middle finger; a firm cord is palpable in the palm. What is most abundant in the lesion?</p>
+      <ol class="opts"><li>Atypical spindle cells</li><li>Dystrophic calcification</li><li>Fibroblasts with collagen</li><li>Granulation tissue</li><li>Lipoblasts</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Dupuytren contracture = superficial (palmar) fibromatosis: bland fibroblasts and dense collagen.</div></details></article>
+    <article><p><b>3.</b> A 47-year-old man has a 10-cm solid mass deep to the quadriceps. Karyotype shows t(12;16)(q13;p11). Most likely diagnosis?</p>
+      <ol class="opts"><li>Chondrosarcoma</li><li>Liposarcoma</li><li>Metastatic adenocarcinoma</li><li>Nodular fasciitis</li><li>Rhabdomyosarcoma</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Myxoid/round cell liposarcoma: t(12;16) FUS-DDIT3, deep thigh; lipoblasts and chicken-wire capillaries.</div></details></article>
+    <article><p><b>4.</b> A 33-year-old man has a 2.5-cm tender forearm lump that appeared within the past 2 weeks. Biopsy shows plump fibroblasts in a loose, tissue-culture–like pattern with extravasated red cells and some mitoses. Best next step?</p>
+      <ol class="opts"><li>Wide excision with radiation</li><li>Chemotherapy</li><li>Reassurance: this is a benign reactive lesion</li><li>Amputation</li><li>Genetic testing for APC</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Nodular fasciitis: fast-growing, benign, reactive; commonly mistaken for sarcoma; does not recur.</div></details></article>
+    <article><p><b>5.</b> A 4-year-old girl has a grape-like mass protruding from the vagina. Biopsy shows a dense layer of primitive tumor cells just beneath intact epithelium. Which stain would be positive?</p>
+      <ol class="opts"><li>S-100</li><li>Myogenin/desmin</li><li>CD31</li><li>Cytokeratin</li><li>CD99 only</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Embryonal rhabdomyosarcoma, botryoid variant (cambium layer); skeletal muscle markers desmin and myogenin.</div></details></article>
+    <article><p><b>6.</b> A 74-year-old woman had a mastectomy with axillary dissection 15 years ago and has had arm lymphedema since. Red-brown nodules now appear on the arm, some ulcerating and bleeding. Diagnosis?</p>
+      <ol class="opts"><li>Kaposi sarcoma</li><li>Angiosarcoma</li><li>Cavernous hemangioma</li><li>Recurrent breast carcinoma only</li><li>Pyogenic granuloma</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Lymphedema-associated angiosarcoma (Stewart-Treves).</div></details></article>
+    <article><p><b>7.</b> A 25-year-old man has a slowly enlarging mass near the knee joint. Biopsy shows both gland-like epithelial structures and spindle cells; keratin is positive. Which genetic change is expected?</p>
+      <ol class="opts"><li>t(X;18) SS18-SSX</li><li>t(11;22) EWSR1-FLI1</li><li>t(2;13) PAX3-FOXO1</li><li>MDM2 amplification</li><li>NF1 loss</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>A.</b> Biphasic synovial sarcoma — young adult, near large joints, t(X;18).</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · MSK16 · Soft Tissue · Revision 1.2 · Updated September 30, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>

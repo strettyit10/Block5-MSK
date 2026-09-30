@@ -1,0 +1,253 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inflammation Conference LO Answers</title><meta name="description" content="HoyaDocs MSK24 pharmacology learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22; --h11:#1f6f8b; --h15:#8a2f5b; --h16:#4d6b1f; --m04:#1f6f8b; --m07:#9a4a1c; --m12:#6a45a6; --m22:#1f7a6b; --m24:#b02a22; --m10:#7a4a14; --m11:#1f5f8b; --m14:#8a2f5b; --m16:#3d6b1f; --m18:#5a3fa0; --m19:#a0302a;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80; --m10:#e0b27a; --m11:#7cb6e0; --m14:#e79ac0; --m16:#b5d67a; --m18:#c3a9f2; --m19:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80; --m10:#e0b27a; --m11:#7cb6e0; --m14:#e79ac0; --m16:#b5d67a; --m18:#c3a9f2; --m19:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)} #hnss11{--c:var(--h11)} #hnss15{--c:var(--h15)} #hnss16{--c:var(--h16)} #msk04{--c:var(--m04)} #msk07{--c:var(--m07)} #msk12{--c:var(--m12)} #msk22{--c:var(--m22)} #msk24{--c:var(--m24)} #msk10{--c:var(--m10)} #msk11{--c:var(--m11)} #msk14{--c:var(--m14)} #msk16{--c:var(--m16)} #msk18{--c:var(--m18)} #msk19{--c:var(--m19)}
+.figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+figure.lab{margin:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface,transparent);display:grid}
+figure.lab img{width:100%;height:180px;object-fit:cover;display:block;background:#000}
+figure.lab figcaption{padding:8px 10px;font-size:.85rem;display:grid;gap:4px}
+figure.lab .lq{font-weight:600}
+figure.lab summary{cursor:pointer;color:var(--c);font-weight:700}
+figure.lab details p{margin:4px 0 0}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;min-width:7em}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 MSK · Pharmacology · Updated Sep 30, 2026 · Revision 1.1</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="msk24" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">MSK24 · 4 learning objectives</p>
+    <h1>Rheumatology Inflammation Conference</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Understand the presentations of prototypic inflammatory diseases</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>What are the four categories of arthritis?</span></summary><div class="a">Mechanical, inflammatory, crystalline and infectious. Deciding the category is the first step in every case.</div></details></li><li><details><summary><span class="qn">Q2</span><span>How does mechanical (osteoarthritis) pain behave?</span></summary><div class="a">Worse with activity, better with rest; morning stiffness under 30 minutes; bony swelling of DIP/PIP (Heberden/Bouchard) and thumb CMC; X-ray shows osteophytes and joint-space narrowing.</div></details></li><li><details><summary><span class="qn">Q3</span><span>A man with bilateral nagging great-toe pain, worse with activity, no redness or warmth, and high uric acid — gout?</span></summary><div class="a">No — mechanical (osteoarthritis). Crystalline arthritis is acute, intermittent, severe, red and warm; a high uric acid alone does not make it gout.</div></details></li><li><details><summary><span class="qn">Q4</span><span>How does rheumatoid arthritis present?</span></summary><div class="a">Symmetric small-joint (wrists, MCPs) and ankle synovitis, morning stiffness &gt;1 hour, RF and anti-CCP positive; X-ray shows regional (periarticular) osteopenia and erosions.</div></details></li><li><details><summary><span class="qn">Q5</span><span>How does dermatomyositis present?</span></summary><div class="a">Heliotrope rash (eyelids), cheek rash, periungual/nailbed changes, proximal weakness (hips, neck flexors, biceps), dysphonia/dysphagia, ↑ CPK, +ANA. Over age 50: ~10% associated cancer.</div></details></li><li><details><summary><span class="qn">Q6</span><span>How does lupus present, and what signals nephritis?</span></summary><div class="a">Young woman: Raynaud, photosensitive rash, arthralgia with long morning stiffness, fatigue, mild cytopenias, ANA high. Nephritis: proteinuria, RBC casts, edema, new hypertension, low complement, high anti-dsDNA; biopsy shows &quot;lumpy-bumpy&quot; immune complexes.</div></details></li><li><details><summary><span class="qn">Q7</span><span>How does polymyalgia rheumatica present?</span></summary><div class="a">Over 50 (usually &gt;60): bilateral shoulder and hip girdle pain and stiffness worse in the morning, very high ESR/CRP, RF/CCP negative, often mild anemia/thrombocytosis; dramatic response to moderate-dose prednisone (10–20 mg).</div></details></li><li><details><summary><span class="qn">Q8</span><span>How does axial spondyloarthritis present?</span></summary><div class="a">Young adult with inflammatory back pain: morning stiffness improving with activity and NSAIDs; sacroiliitis on MRI; ↓ lumbar flexion on Schober test (may be masked by hypermobility); associated IBD and uveitis.</div></details></li><li><details><summary><span class="qn">Q9</span><span>How does psoriatic arthritis present?</span></summary><div class="a">Psoriasis (scalp, behind ears, gluteal cleft, umbilicus), nail pitting/onycholysis (&quot;fungus&quot; that won&#x27;t heal), dactylitis, DIP involvement, RF negative; patterns include asymmetric oligoarthritis and arthritis mutilans.</div></details></li><li><details><summary><span class="qn">Q10</span><span>How does granulomatosis with polyangiitis present?</span></summary><div class="a">Recurrent sinusitis, saddle-nose deformity, lacrimal gland swelling, lung findings, glomerulonephritis (RBC casts, ↑ creatinine), c-ANCA / anti-PR3.</div></details></li><li><details><summary><span class="qn">Q11</span><span>How does sarcoidosis present?</span></summary><div class="a">Uveitis with iris synechiae, purple raised facial rash (lupus pernio), arthritis, hilar lymphadenopathy on CXR, hypercalcemia; non-caseating granulomas.</div></details></li><li><details><summary><span class="qn">Q12</span><span>How does Sjögren differ from GPA with a swollen lacrimal gland?</span></summary><div class="a">Sjögren: exocrine dysfunction (dry eyes/mouth), ANA, SSA/SSB, RF, polyclonal gammopathy; primary or secondary (with RA/SLE). GPA: destructive sinus/nose, lung and kidney disease, c-ANCA.</div></details></li><li><details><summary><span class="qn">Q13</span><span>What kind of vasculitis is GPA?</span></summary><div class="a">A small-vessel (sometimes medium-vessel) necrotizing granulomatous vasculitis, c-ANCA/PR3.</div></details></li></ol></div>
+    <p class="bottom-line">First sort the arthritis: <b>mechanical</b> (OA: worse with use, bony nodes), <b>inflammatory</b> (RA, SLE, PMR, SpA, PsA: long morning stiffness), <b>crystalline</b> (gout: acute, red, severe), <b>infectious</b>. Then match the vignette to the disease.</p>
+<p class="sub">DDx: the conference cases</p>
+<div class="tbl"><table>
+ <thead><tr><th>Disease</th><th>Vignette clues</th><th>Labs / imaging</th></tr></thead>
+ <tbody>
+  <tr><td><b>Osteoarthritis</b></td><td>Older; stiffness &lt;30 min; thumb CMC, PIP, DIP pain worse with use</td><td>Osteophytes, joint-space narrowing; bony (Heberden) nodes</td></tr>
+  <tr><td>Mechanical toe pain (not gout)</td><td>Nagging bilateral toe pain, worse with activity, <b>no redness/warmth</b></td><td>Uric acid high but irrelevant</td></tr>
+  <tr><td><b>Gout</b></td><td><b>Acute, intermittent, severe</b>; red, hot joint (1st MTP)</td><td>Needle-shaped, negatively birefringent crystals</td></tr>
+  <tr><td><b>Dermatomyositis</b></td><td>Heliotrope + cheek rash, nailfold changes, <b>proximal weakness</b>, dysphagia, nasal voice</td><td><b>↑ CPK</b>, +ANA; screen for cancer if &gt;50</td></tr>
+  <tr><td><b>Rheumatoid arthritis</b></td><td>Symmetric wrist/MCP/ankle; stiffness &gt;1 h</td><td><b>RF, anti-CCP</b>; <b>regional osteopenia</b>, erosions</td></tr>
+  <tr><td><b>SLE</b></td><td>Young woman, Raynaud, photosensitive rash, arthralgia, fatigue</td><td>ANA ↑↑; nephritis: RBC casts, proteinuria, ↓ C3/C4, ↑ anti-dsDNA</td></tr>
+  <tr><td><b>Polymyalgia rheumatica</b></td><td>&gt;50; bilateral <b>shoulder + hip</b> pain, morning stiffness</td><td><b>↑↑ ESR/CRP</b>, RF/ANA negative; responds to low-dose prednisone</td></tr>
+  <tr><td><b>Axial spondyloarthritis</b></td><td>Young; back pain better with activity/NSAIDs; IBD, uveitis</td><td>Sacroiliitis on MRI; Schober &lt;5 cm (unless hypermobile)</td></tr>
+  <tr><td><b>Psoriatic arthritis</b></td><td>Scalp/gluteal plaques, <b>nail pitting</b>, dactylitis, DIP</td><td>RF negative (CASPAR ≥3)</td></tr>
+  <tr><td><b>GPA</b></td><td>Sinusitis, <b>saddle nose</b>, lacrimal swelling, lung + kidney</td><td><b>c-ANCA / PR3</b>, RBC casts</td></tr>
+  <tr><td><b>Sarcoidosis</b></td><td>Uveitis/synechiae, purple facial rash, arthritis</td><td>Hilar nodes, ↑ Ca²⁺, non-caseating granulomas</td></tr>
+  <tr><td><b>Sjögren</b></td><td>Dry eyes/mouth, gland swelling</td><td>ANA, <b>SSA/SSB</b>, RF</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Joint pain</span><i>→ worse with use, bony →</i><span>Mechanical</span><i>· long AM stiffness, swelling →</i><span>Inflammatory</span><i>· acute, red, severe →</i><span>Crystalline</span><i>· fever, single hot joint →</i><span>Infectious</span></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Morning stiffness clock</b>: &lt;30 min = mechanical (OA); &gt;1 hour = inflammatory (RA, PMR, SpA, PsA).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>RA X-ray: <b>periarticular osteopenia</b> and marginal erosions; OA X-ray: <b>osteophytes</b>, subchondral sclerosis.</li>
+ <li>Dermatomyositis over 50 → search for malignancy (ovary, lung, GI).</li>
+ <li>PMR is linked to <b>giant cell arteritis</b> — ask about headache, jaw claudication, vision loss.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Understand the mechanisms of therapeutic options for rheumatologic disease</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q14</span><span>How do glucocorticoids work, and what are their toxicities?</span></summary><div class="a">Broad anti-inflammatory/immunosuppressive (↓ NF-κB, ↓ cytokines, ↓ phospholipase A2). Toxicities: glucose intolerance/diabetes, central obesity, acne, ↑ lipids, cataracts, osteoporosis and fractures, avascular necrosis (hips, knees, shoulders), infection.</div></details></li><li><details><summary><span class="qn">Q15</span><span>How does cyclophosphamide work, and what are its toxicities?</span></summary><div class="a">Alkylating agent (cross-links DNA). Oral daily is more potent than periodic IV. Toxicities: high infection risk, hemorrhagic cystitis and bladder cancer (acrolein), premature ovarian failure/infertility. Give mesna to protect the bladder; low-dose &quot;Euro-Lupus&quot; IV protocols preferred.</div></details></li><li><details><summary><span class="qn">Q16</span><span>How does mycophenolate mofetil work?</span></summary><div class="a">Reversible inhibitor of inosine monophosphate dehydrogenase → blocks de novo guanosine synthesis; T and B cells depend on this pathway (other cells use salvage).</div></details></li><li><details><summary><span class="qn">Q17</span><span>How does azathioprine work?</span></summary><div class="a">Purine analog converted to 6-MP and 6-thioguanine, incorporated into DNA; targets lymphocytes; mainly a maintenance drug after cyclophosphamide.</div></details></li><li><details><summary><span class="qn">Q18</span><span>What newer agents treat lupus?</span></summary><div class="a">Calcineurin inhibitors (cyclosporine, tacrolimus, voclosporin) reduce proteinuria; belimumab (BLyS/BAFF) helps joints, skin and kidneys; anifrolumab (type I interferon receptor blocker) helps skin and joints; rituximab for refractory disease; anti-TNF is usually avoided (can induce lupus).</div></details></li><li><details><summary><span class="qn">Q19</span><span>How does hydroxychloroquine help lupus long term?</span></summary><div class="a">Probably reduces antigen presentation by macrophages (↑ lysosomal pH, ↓ TLR signaling); maintained in almost all lupus patients.</div></details></li><li><details><summary><span class="qn">Q20</span><span>What is methotrexate&#x27;s role outside RA?</span></summary><div class="a">Lupus skin and joints (not kidneys), GPA limited disease and maintenance, sarcoidosis, psoriatic arthritis; unsafe with advanced renal disease.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Steroids</b> = broad and fast, but diabetes, obesity, cataracts, osteoporosis, <b>AVN</b>. <b>Cyclophosphamide</b> = alkylator: <b>hemorrhagic cystitis</b> (mesna), bladder cancer, <b>ovarian failure</b>. <b>MMF</b> = IMP dehydrogenase (lymphocyte guanosine). <b>AZA</b> = purine analog. <b>HCQ</b> ↓ antigen presentation. Lupus add-ons: calcineurin inhibitors, belimumab, anifrolumab, rituximab.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Drug</th><th>Mechanism</th><th>Key toxicity</th></tr></thead>
+ <tbody>
+  <tr><td><b>Glucocorticoids</b></td><td>↓ NF-κB, cytokines, PLA2</td><td>Hyperglycemia, Cushingoid, ↑ lipids, cataracts, <b>osteoporosis</b>, <b>avascular necrosis</b> (hip), infection</td></tr>
+  <tr><td><b>Cyclophosphamide</b></td><td>Alkylating agent (DNA cross-links)</td><td>Infection, <b>hemorrhagic cystitis</b> + bladder cancer (acrolein → <b>mesna</b>), <b>premature ovarian failure</b></td></tr>
+  <tr><td><b>Mycophenolate</b></td><td>↓ <b>IMP dehydrogenase</b> → ↓ guanosine in lymphocytes</td><td>GI, cytopenias, teratogen</td></tr>
+  <tr><td><b>Azathioprine</b></td><td>Purine analog (6-MP, 6-TG) into DNA</td><td>Marrow suppression (TPMT), GI</td></tr>
+  <tr><td>Calcineurin inhibitors</td><td>↓ Calcineurin → ↓ IL-2</td><td>Nephrotoxicity, HTN</td></tr>
+  <tr><td>Belimumab</td><td>Anti-BLyS/BAFF</td><td>Infection</td></tr>
+  <tr><td>Anifrolumab</td><td>Type I IFN receptor blocker</td><td>Infection (zoster)</td></tr>
+  <tr><td>Hydroxychloroquine</td><td>↓ Antigen presentation, TLR</td><td>Retinal toxicity</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Cyclo</b>phosphamide: "<b>C</b>ystitis, <b>C</b>ancer (bladder), <b>C</b>an't conceive" — protect with <b>mesna</b>.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Long-term glucocorticoids → Cushing features and avascular necrosis</b> (especially the femoral head).</li>
+ <li>Cyclophosphamide → hemorrhagic cystitis (prevent with mesna, hydration) and <b>ovarian failure</b>.</li>
+ <li>Azathioprine + allopurinol → toxic 6-MP levels (xanthine oxidase); check TPMT.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Understand the use of DMARDs and emerging biologic therapies in select systemic inflammatory illnesses</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q21</span><span>How is mild lupus (rash, oral ulcers, arthralgia) treated?</span></summary><div class="a">Hydroxychloroquine (± short-term low-dose prednisone).</div></details></li><li><details><summary><span class="qn">Q22</span><span>How is lupus nephritis treated?</span></summary><div class="a">Induction: glucocorticoids plus mycophenolate mofetil or cyclophosphamide; maintenance MMF or azathioprine; continue hydroxychloroquine; add-ons belimumab or calcineurin inhibitors. Steroids alone do not improve renal survival.</div></details></li><li><details><summary><span class="qn">Q23</span><span>How is dermatomyositis treated?</span></summary><div class="a">Glucocorticoids first, with steroid-sparing agents (methotrexate, azathioprine, mycophenolate), IVIG or rituximab for refractory disease; screen for cancer.</div></details></li><li><details><summary><span class="qn">Q24</span><span>How is RA treated in the conference case?</span></summary><div class="a">Early DMARD (methotrexate), treat to target, add biologics (anti-TNF, abatacept, rituximab, tocilizumab) or JAK inhibitor if needed.</div></details></li><li><details><summary><span class="qn">Q25</span><span>How is polymyalgia rheumatica treated?</span></summary><div class="a">Moderate-dose prednisone (10–20 mg) with dramatic response; taper; watch for giant cell arteritis; tocilizumab is used for GCA.</div></details></li><li><details><summary><span class="qn">Q26</span><span>How is axial spondyloarthritis treated?</span></summary><div class="a">NSAIDs first; then anti-TNF (e.g., adalimumab) or IL-17 inhibitors. Monoclonal anti-TNFs also treat associated IBD and uveitis.</div></details></li><li><details><summary><span class="qn">Q27</span><span>How is psoriatic arthritis treated?</span></summary><div class="a">NSAIDs, methotrexate, then biologics: anti-TNF, IL-17, IL-12/23 (skin), T-cell co-stimulation blockade, or JAK inhibitors.</div></details></li><li><details><summary><span class="qn">Q28</span><span>How is GPA treated?</span></summary><div class="a">Induction: glucocorticoids plus cyclophosphamide or rituximab (± plasma exchange for pulmonary hemorrhage; methotrexate for limited disease). Maintenance: rituximab every 6 months, methotrexate (if GFR ≥50) or azathioprine (if GFR &lt;50). Consider PCP prophylaxis.</div></details></li><li><details><summary><span class="qn">Q29</span><span>How is sarcoidosis treated?</span></summary><div class="a">Glucocorticoids, with methotrexate as a steroid-sparing agent (also HCQ, anti-TNF monoclonals for refractory disease).</div></details></li></ol></div>
+    <p class="bottom-line">Disease → drug: <b>mild SLE</b> HCQ · <b>lupus nephritis</b> steroids + <b>MMF or cyclophosphamide</b> · <b>dermatomyositis</b> steroids (+ MTX/AZA, IVIG) · <b>RA</b> MTX → biologic · <b>PMR</b> low-dose prednisone · <b>SpA</b> NSAID → anti-TNF · <b>PsA</b> MTX/anti-TNF/IL-17 · <b>GPA</b> steroids + <b>rituximab or cyclophosphamide</b>, maintain with RTX/MTX/AZA · <b>sarcoid</b> steroids + MTX.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Disease</th><th>First-line</th><th>Escalation / maintenance</th><th>Watch for</th></tr></thead>
+ <tbody>
+  <tr><td>Mild SLE</td><td><b>Hydroxychloroquine</b></td><td>Low-dose steroid, MTX (skin/joints), belimumab</td><td>Retina</td></tr>
+  <tr><td><b>Lupus nephritis</b></td><td>Steroids + <b>MMF</b> or <b>cyclophosphamide</b></td><td>MMF/AZA maintenance; belimumab; calcineurin inhibitor; continue HCQ</td><td>Ovarian failure, cystitis, infection</td></tr>
+  <tr><td>Dermatomyositis</td><td><b>Glucocorticoids</b></td><td>MTX, AZA, MMF, IVIG, rituximab</td><td>Occult cancer; steroid myopathy</td></tr>
+  <tr><td>RA</td><td><b>Methotrexate</b></td><td>Anti-TNF, abatacept, rituximab, tocilizumab, JAKi</td><td>TB, HBV, liver</td></tr>
+  <tr><td>PMR</td><td><b>Prednisone 10–20 mg</b></td><td>Taper; tocilizumab if GCA</td><td>GCA symptoms; steroid toxicity</td></tr>
+  <tr><td>Axial SpA</td><td>NSAIDs</td><td><b>Anti-TNF</b>, IL-17</td><td>IBD, uveitis (mAbs help)</td></tr>
+  <tr><td>Psoriatic arthritis</td><td>NSAIDs, MTX</td><td>Anti-TNF, IL-17, IL-12/23, abatacept, JAKi</td><td>—</td></tr>
+  <tr><td><b>GPA</b></td><td>Steroids + <b>rituximab</b> or <b>cyclophosphamide</b></td><td>Rituximab q6mo, MTX (GFR ≥50) or AZA (GFR &lt;50)</td><td>PCP prophylaxis; MTX unsafe in renal failure</td></tr>
+  <tr><td>Sarcoidosis</td><td>Steroids</td><td>Methotrexate, HCQ, anti-TNF mAb</td><td>—</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>Kidney on fire</b> (lupus nephritis, GPA) → <b>steroid + a cytotoxic</b> (cyclophosphamide/MMF) or <b>B-cell killer</b> (rituximab).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Anti-TNF can <b>induce lupus</b> (and is usually avoided in SLE).</li>
+ <li>Only monoclonal anti-TNFs (not etanercept) treat <b>IBD and uveitis</b>.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>Be able to discuss a therapeutic approach to clinical cases</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q30</span><span>What is the general approach to each case?</span></summary><div class="a">Pattern recognition → differential diagnosis → accurate diagnosis → confirmatory testing → treatment (empiric vs specific) → measure success and toxicity.</div></details></li><li><details><summary><span class="qn">Q31</span><span>What are the goals of treating autoimmune inflammatory disease?</span></summary><div class="a">Reduce pain, dysfunction/damage and disability, and avoid complications — weighing the consequences of the disease against those of treatment.</div></details></li><li><details><summary><span class="qn">Q32</span><span>Case: 59-year-old with 15–30 min stiffness, thumb-base and PIP/DIP pain worse with knitting. Diagnosis and approach?</span></summary><div class="a">Osteoarthritis (mechanical). No true disease-modifying drug — analgesics/NSAIDs, exercise, joint protection; measure function and pain.</div></details></li><li><details><summary><span class="qn">Q33</span><span>Case: 24-year-old with cheek/eyelid/nailbed rash, proximal weakness, nasal voice, CPK 2000. Diagnosis and therapy?</span></summary><div class="a">Dermatomyositis → glucocorticoids (plus steroid-sparing agent); follow CPK and strength; watch steroid toxicity; long-term treatment needed.</div></details></li><li><details><summary><span class="qn">Q34</span><span>Case: 35-year-old flight attendant, wrist/ankle/knuckle stiffness for hours, RF and anti-CCP positive, periarticular osteopenia. Diagnosis and therapy?</span></summary><div class="a">Rheumatoid arthritis → early DMARD (methotrexate), treat to target with DAS/ACR/RAPID3, add biologic if needed.</div></details></li><li><details><summary><span class="qn">Q35</span><span>Case: 20-year-old with Raynaud, photosensitive rash, 2-hour stiffness, ANA 1:1280, normal kidneys. Diagnosis and first therapy?</span></summary><div class="a">Lupus → hydroxychloroquine.</div></details></li><li><details><summary><span class="qn">Q36</span><span>Same patient a year later: proteinuria, RBC casts, low complement, high anti-dsDNA, cytopenias, new hypertension. Therapy?</span></summary><div class="a">Lupus nephritis → prednisone plus mycophenolate mofetil (or cyclophosphamide); maintain hydroxychloroquine.</div></details></li><li><details><summary><span class="qn">Q37</span><span>That patient later develops hip pain; MRI shows a necrotic femoral head. Principal cause?</span></summary><div class="a">Her therapy — corticosteroids → avascular necrosis.</div></details></li><li><details><summary><span class="qn">Q38</span><span>Case: 68-year-old with 3 months of neck, shoulder and hip pain, worse in the morning, ESR 60, CRP 15, RF/ANA negative. Diagnosis and therapy?</span></summary><div class="a">Polymyalgia rheumatica → prednisone 10–20 mg with dramatic response; monitor ESR/CRP and steroid toxicity.</div></details></li><li><details><summary><span class="qn">Q39</span><span>Case: 29-year-old dancer with morning back pain improving with activity and naproxen, hypermobile, normal Schober, MRI sacroiliitis. Diagnosis, therapy and later GI complication?</span></summary><div class="a">Axial spondyloarthritis (hypermobility masks the Schober test) → adalimumab (anti-TNF). After stopping, bloody diarrhea with neutrophilic colitis = inflammatory bowel disease (associated with SpA; anti-TNF had been treating it).</div></details></li><li><details><summary><span class="qn">Q40</span><span>Case: 35-year-old with non-healing &quot;toenail fungus,&quot; dandruff, scalp/gluteal plaques, 3-hour stiffness of fingers and toes. Diagnosis?</span></summary><div class="a">Psoriatic arthritis (CASPAR: psoriasis, nail lesions, dactylitis, RF negative) → NSAIDs/MTX → anti-TNF or IL-17/IL-12/23 biologics.</div></details></li><li><details><summary><span class="qn">Q41</span><span>Case: 55-year-old with lacrimal gland swelling, recurrent sinusitis, saddle nose, RBC casts, c-ANCA/PR3. Diagnosis and therapy?</span></summary><div class="a">Granulomatosis with polyangiitis (not Sjögren) → glucocorticoids + rituximab or cyclophosphamide; maintenance rituximab/MTX/AZA; PCP prophylaxis.</div></details></li><li><details><summary><span class="qn">Q42</span><span>Case: 40-year-old with bilateral uveitis with synechiae, purple facial rash, PIP swelling, mild hypercalcemia, hilar nodes. Diagnosis and therapy?</span></summary><div class="a">Sarcoidosis → systemic steroids with methotrexate as a steroid-sparing agent.</div></details></li><li><details><summary><span class="qn">Q43</span><span>What are the options for an acute gout attack?</span></summary><div class="a">High-dose short-acting NSAID until the attack resolves, colchicine, or a glucocorticoid (oral or an intramuscular long-acting injection). Start urate-lowering therapy (allopurinol) only after the flare.</div></details></li></ol></div>
+    <p class="bottom-line">Every case: <b>category of arthritis → diagnosis → confirm → treat → measure success and toxicity</b>. Weigh <b>disease consequences vs treatment consequences</b> (e.g., steroid-induced AVN in a lupus patient).</p>
+<div class="flow"><span>Pattern recognition</span><i>→</i><span>Differential</span><i>→</i><span>Confirmatory tests</span><i>→</i><span>Treatment</span><i>→</i><span>Measure success</span><i>+</i><span>Measure toxicity</span></div>
+<p class="sub">Case walkthrough: diagnosis → therapy → watch</p>
+<div class="tbl"><table>
+ <thead><tr><th>#</th><th>Key clues</th><th>Diagnosis</th><th>Therapy</th><th>Watch</th></tr></thead>
+ <tbody>
+  <tr><td>1</td><td>59 F, 15–30 min stiffness, CMC/PIP/DIP, worse with use</td><td>Osteoarthritis</td><td>Analgesics, exercise (no DMARD)</td><td>Function</td></tr>
+  <tr><td>1B</td><td>Nagging toe pain, no warmth, ↑ urate</td><td>Mechanical, not gout</td><td>Supportive</td><td>—</td></tr>
+  <tr><td>2</td><td>Rash + proximal weakness, CPK 2000</td><td>Dermatomyositis</td><td>Steroids ± MTX/AZA</td><td>CPK, cancer, steroid toxicity</td></tr>
+  <tr><td>3</td><td>RF/CCP+, regional osteopenia</td><td>RA</td><td>MTX → biologic</td><td>LFTs, CBC, TB</td></tr>
+  <tr><td>4</td><td>Raynaud, rash, ANA 1:1280</td><td>SLE (mild)</td><td><b>HCQ</b></td><td>Retina</td></tr>
+  <tr><td>4 later</td><td>RBC casts, ↓ C3/C4, ↑ anti-dsDNA</td><td>Lupus nephritis</td><td>Prednisone + <b>MMF</b> (or CYC)</td><td>Infection, <b>AVN</b>, ovarian failure</td></tr>
+  <tr><td>5</td><td>68 M, shoulders/hips, ESR 60</td><td>PMR</td><td><b>Prednisone 10–20 mg</b></td><td>GCA, steroid effects</td></tr>
+  <tr><td>6</td><td>Young dancer, AM back pain, sacroiliitis</td><td>Axial SpA</td><td>NSAID → <b>anti-TNF</b></td><td>IBD, uveitis</td></tr>
+  <tr><td>7</td><td>Nail pitting, scalp/gluteal plaques, dactylitis</td><td>Psoriatic arthritis</td><td>MTX / anti-TNF / IL-17</td><td>—</td></tr>
+  <tr><td>8</td><td>Saddle nose, sinusitis, RBC casts, c-ANCA</td><td>GPA</td><td>Steroids + <b>rituximab</b> or <b>CYC</b></td><td>PCP, infection</td></tr>
+  <tr><td>9</td><td>Uveitis, facial rash, ↑ Ca²⁺, hilar nodes</td><td>Sarcoidosis</td><td>Steroids + MTX</td><td>—</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>Always ask <b>two questions</b>: "Is it working?" (disease activity) and "Is it hurting?" (toxicity).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Acute gout: <b>NSAID</b> (short-acting, high dose), colchicine or steroids first; start urate-lowering therapy (allopurinol) only after the attack.</li>
+ <li>Glucocorticoids → avascular necrosis of the femoral head (MRI is most sensitive).</li></ul></div>
+  </article>
+  <div class="vign" aria-label="MSK24 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A 64-year-old man has bilateral dull great-toe pain that worsens with walking and improves with rest. There is no redness or warmth. Serum uric acid is 8.4 mg/dL. Most likely cause?</p>
+      <ol class="opts"><li>Acute gout</li><li>Osteoarthritis</li><li>Septic arthritis</li><li>Pseudogout</li><li>Rheumatoid arthritis</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Mechanical pattern without inflammation = osteoarthritis; hyperuricemia alone does not make it gout, which is acute, severe and red.</div></details></article>
+    <article><p><b>2.</b> A 24-year-old has a violaceous eyelid rash, nailfold changes, difficulty climbing stairs, a nasal voice and CPK 2000. Best initial therapy?</p>
+      <ol class="opts"><li>Hydroxychloroquine</li><li>Glucocorticoids</li><li>Allopurinol</li><li>Etanercept</li><li>Colchicine</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Dermatomyositis is treated with glucocorticoids (plus steroid-sparing agents); screen for malignancy in older patients.</div></details></article>
+    <article><p><b>3.</b> A 22-year-old with lupus develops 4+ proteinuria, RBC casts, low complement and high anti-dsDNA. Best therapy?</p>
+      <ol class="opts"><li>Hydroxychloroquine alone</li><li>Prednisone plus mycophenolate mofetil</li><li>Propranolol</li><li>NSAIDs</li><li>Anti-TNF</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Lupus nephritis requires steroids plus MMF or cyclophosphamide; continue hydroxychloroquine.</div></details></article>
+    <article><p><b>4.</b> A 30-year-old woman treated for lupus nephritis with prednisone for 18 months now has groin pain; MRI shows femoral head necrosis. Principal cause?</p>
+      <ol class="opts"><li>Lupus vasculitis</li><li>Genetics</li><li>Monoclonal antibody therapy</li><li>Corticosteroid therapy</li><li>Caloric excess</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>D.</b> Long-term glucocorticoids cause avascular necrosis of the hip.</div></details></article>
+    <article><p><b>5.</b> A 70-year-old has morning shoulder and hip girdle pain for 3 months, ESR 70, RF and ANA negative, and no headache. Expected response?</p>
+      <ol class="opts"><li>Dramatic improvement on low-dose prednisone</li><li>Needs cyclophosphamide</li><li>Responds only to allopurinol</li><li>Requires anti-TNF first</li><li>Self-limited in a week</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>A.</b> Polymyalgia rheumatica responds dramatically to prednisone 10–20 mg.</div></details></article>
+    <article><p><b>6.</b> A 55-year-old with sinusitis, saddle nose, hematuria with RBC casts and c-ANCA (anti-PR3) needs induction therapy. Best regimen?</p>
+      <ol class="opts"><li>Hydroxychloroquine</li><li>Glucocorticoids plus rituximab</li><li>NSAIDs alone</li><li>Allopurinol</li><li>Etanercept alone</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> GPA induction: glucocorticoids plus rituximab or cyclophosphamide.</div></details></article>
+    <article><p><b>7.</b> A young woman receives IV cyclophosphamide for severe lupus. Which drug protects against its bladder toxicity?</p>
+      <ol class="opts"><li>Leucovorin</li><li>Mesna</li><li>Allopurinol</li><li>Folic acid</li><li>Amifostine</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Mesna binds acrolein in the urinary tract, reducing hemorrhagic cystitis and later bladder cancer.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · MSK24 · Inflammation Conference · Revision 1.1 · Updated September 30, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>

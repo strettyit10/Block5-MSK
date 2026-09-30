@@ -1,0 +1,377 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bone Development &amp; Histology LO Answers</title><meta name="description" content="HoyaDocs MSK07 histology learning objective answers.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,650&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single reading column, sticky lecture switcher, each LO a numbered block (numbers are the real LO numbers) */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --ink:#18212b; --muted:#56616d; --line:#dde2e7;
+  --h09:#2c55a0; --h12:#9a4a1c; --h07:#a8325e; --h08:#6a45a6; --h17:#b02a22; --h11:#1f6f8b; --h15:#8a2f5b; --h16:#4d6b1f; --m04:#1f6f8b; --m07:#9a4a1c; --m12:#6a45a6; --m22:#1f7a6b; --m24:#b02a22; --m10:#7a4a14; --m11:#1f5f8b; --m14:#8a2f5b; --m16:#3d6b1f; --m18:#5a3fa0; --m19:#a0302a;
+  --hy-bg:#fff6cc; --hy-line:#c9a227; --hy-ink:#4a3a00;
+  --chip:#eef1f4; --ans:#f1f6f5;
+  --f-display:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-body:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80; --m10:#e0b27a; --m11:#7cb6e0; --m14:#e79ac0; --m16:#b5d67a; --m18:#c3a9f2; --m19:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --ink:#e6eaee; --muted:#9aa6b2; --line:#2c3642;
+  --h09:#8fb1f0; --h12:#e7a37a; --h07:#ec8fb4; --h08:#b99bef; --h17:#f08a80; --h11:#7cc6e0; --h15:#e79ac0; --h16:#b5d67a; --m04:#7cc6e0; --m07:#e7a37a; --m12:#b99bef; --m22:#7ad6c5; --m24:#f08a80; --m10:#e0b27a; --m11:#7cb6e0; --m14:#e79ac0; --m16:#b5d67a; --m18:#c3a9f2; --m19:#f08a80;
+  --hy-bg:#3a3110; --hy-line:#b8952a; --hy-ink:#f5e6a8; --chip:#232c36; --ans:#18262a; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.6 var(--f-body);margin:0}
+.wrap{max-width:900px;margin:0 auto;padding-inline:18px;padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
+h1{font-size:2.1rem;font-weight:650}
+h2{font-size:1.6rem;font-weight:650}
+h3{font-size:1.15rem;font-weight:650}
+p{margin:0}
+.meta{font:500 .78rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:65ch;margin-top:8px}
+header.top{display:grid;gap:6px;margin-bottom:18px}
+
+nav.switch{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px}
+nav.switch a{font:600 .85rem var(--f-body);text-decoration:none;color:var(--ink);background:var(--chip);border-radius:999px;padding:6px 14px;border:1px solid transparent}
+nav.switch a:hover,nav.switch a:focus-visible{border-color:var(--ink);outline:none}
+nav.switch a span{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);margin-right:6px}
+
+section.lecture{margin-top:40px;display:grid;gap:20px;scroll-margin-top:70px}
+.lec-head{display:grid;gap:6px;border-left:5px solid var(--c);padding-left:14px}
+.lec-head .meta{color:var(--c)}
+#hnss09{--c:var(--h09)} #hnss12{--c:var(--h12)} #hnss07{--c:var(--h07)} #hnss08{--c:var(--h08)} #hnss17{--c:var(--h17)} #hnss11{--c:var(--h11)} #hnss15{--c:var(--h15)} #hnss16{--c:var(--h16)} #msk04{--c:var(--m04)} #msk07{--c:var(--m07)} #msk12{--c:var(--m12)} #msk22{--c:var(--m22)} #msk24{--c:var(--m24)} #msk10{--c:var(--m10)} #msk11{--c:var(--m11)} #msk14{--c:var(--m14)} #msk16{--c:var(--m16)} #msk18{--c:var(--m18)} #msk19{--c:var(--m19)}
+.figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+figure.lab{margin:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface,transparent);display:grid}
+figure.lab img{width:100%;height:180px;object-fit:cover;display:block;background:#000}
+figure.lab figcaption{padding:8px 10px;font-size:.85rem;display:grid;gap:4px}
+figure.lab .lq{font-weight:600}
+figure.lab summary{cursor:pointer;color:var(--c);font-weight:700}
+figure.lab details p{margin:4px 0 0}
+
+article.lo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:14px;scroll-margin-top:70px}
+.lo-q{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.lo-num{font:500 .8rem var(--f-mono);color:var(--surface);background:var(--c);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.lo-q h3{font-size:1.08rem}
+.bottom-line{background:var(--ans);border-radius:8px;padding:10px 14px;font-weight:600}
+.bottom-line b{color:var(--c)}
+ul,ol{margin:0;padding-left:1.3em;display:grid;gap:4px}
+ul ul{margin-top:4px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.two>div{min-width:0}
+.sub{font:700 .78rem var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-bottom:4px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{background:var(--chip);font-weight:700;font-size:.8rem;letter-spacing:.03em}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700;min-width:7em}
+.num{font-variant-numeric:tabular-nums}
+
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.9rem}
+.flow span{background:var(--chip);border-radius:6px;padding:3px 9px}
+.flow i{font-style:normal;color:var(--muted)}
+
+.hy{background:var(--hy-bg);border:2px solid var(--hy-line);border-radius:8px;padding:12px 14px;color:var(--hy-ink);display:grid;gap:6px}
+.hy .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.hy ul{gap:3px}
+.mem{border:1px dashed var(--c);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.mem .tag{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.note{font-size:.85rem;color:var(--muted)}
+
+details.check{border-top:1px solid var(--line);padding-top:10px}
+details.check summary{cursor:pointer;font-weight:600;list-style:none;display:flex;gap:8px;align-items:baseline}
+details.check summary::-webkit-details-marker{display:none}
+details.check summary::before{content:"Check yourself";font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+details.check summary:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+details.check .a{margin-top:8px;padding-left:12px;border-left:3px solid var(--c)}
+
+.vign{display:grid;gap:12px}
+.vign article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:8px}
+.vign ol.opts{list-style:upper-alpha;gap:2px}
+footer{margin-top:48px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:520px){ h1{font-size:1.7rem} article.lo{padding:16px} }
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+
+.kq{background:var(--ans);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.kq .kq-h{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.kq ol{list-style:none;padding:0;gap:6px;counter-reset:none}
+.kq li details summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:8px;font-weight:600}
+.kq li details summary::-webkit-details-marker{display:none}
+.kq li details summary .qn{font:500 .8rem var(--f-mono);color:var(--c);padding-top:2px}
+.kq li details summary:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:4px}
+.kq li details summary::after{content:"Show answer";grid-column:2;font:500 .7rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kq li details[open] summary::after{content:"Answer"}
+.kq li details .a{margin:6px 0 4px;padding-left:12px;border-left:3px solid var(--c);margin-left:34px}
+.kq-bar{display:flex;gap:8px;flex-wrap:wrap}
+.kq-bar button{font:600 .8rem var(--f-body);background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.kq-bar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+</style></head><body>
+<div class="wrap">
+<p class="meta" style="margin-bottom:14px">HoyaDocs · Block 5 MSK · Histology · Updated Sep 30, 2026 · Revision 1.1</p>
+<div class="kq-bar" aria-label="Key question controls"><button type="button" data-kq="open">Show all answers</button><button type="button" data-kq="close">Hide all answers</button></div>
+<section class="lecture" id="msk07" style="margin-top:0">
+  <div class="lec-head">
+    <p class="meta">MSK07 · 9 learning objectives</p>
+    <h1>Bone Development and Histology</h1>
+  </div>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 1</span><h3>Know the cellular components and extracellular components, both organic and inorganic, that make up bone</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q1</span><span>How is bone similar to and different from cartilage?</span></summary><div class="a">Similar: hard tissues, living cells in lacunae, common mesenchymal progenitor. Different: bone is heavily vascularized and calcified, and its cells reach vessels through canaliculi; cartilage is avascular, uncalcified and relies on long-range diffusion.</div></details></li><li><details><summary><span class="qn">Q2</span><span>What makes up the organic matrix of bone?</span></summary><div class="a">About 25% of bone mass, mostly fibrous: type I collagen (~90%, gives elasticity and tensile strength) plus ground substance — GAGs (chondroitin and keratan sulfate) and glycoproteins.</div></details></li><li><details><summary><span class="qn">Q3</span><span>Which glycoproteins matter and what do they do?</span></summary><div class="a">Osteonectin and osteopontin anchor mineral to collagen and start mineralization/crystal formation. Osteocalcin and bone sialoprotein are calcium-binding proteins.</div></details></li><li><details><summary><span class="qn">Q4</span><span>What is osteoid?</span></summary><div class="a">Newly secreted organic matrix that is not yet mineralized, sitting between the osteoblast layer and existing bone.</div></details></li><li><details><summary><span class="qn">Q5</span><span>What makes up the inorganic matrix?</span></summary><div class="a">About 65–70% of bone mass: calcium phosphate as hydroxyapatite crystals Ca10(PO4)6(OH)2, plus citrate, bicarbonate and fluoride. Water is ~10–15%; the hydration shell around crystals allows calcium exchange. Mineral gives compressive strength.</div></details></li><li><details><summary><span class="qn">Q6</span><span>Where do osteoprogenitor cells come from and what commits them?</span></summary><div class="a">Mesenchymal stem cells lining inner and outer bone surfaces. BMPs (and osteogenin) commit them; PDGF, TGF-β and IGF drive self-renewal; BMP and vitamin D3 drive differentiation.</div></details></li><li><details><summary><span class="qn">Q7</span><span>Describe the osteoblast.</span></summary><div class="a">Bone-forming, non-dividing cell on the bone surface; abundant RER and Golgi (secretory); secretes osteoid; activated by GH and sex steroids; also secretes factors (RANKL) that promote osteoclast activity.</div></details></li><li><details><summary><span class="qn">Q8</span><span>Describe the osteocyte.</span></summary><div class="a">Terminally differentiated osteoblast trapped in its own mineralized matrix, sitting in a lacuna; extends filopodia through canaliculi joined by gap junctions to exchange nutrients and waste; can do limited osteocytic osteolysis.</div></details></li><li><details><summary><span class="qn">Q9</span><span>Describe the osteoclast.</span></summary><div class="a">Large, multinucleated, mobile cell of monocyte/macrophage lineage (fusion promoted by vitamin D) sitting in a Howship lacuna; has a ruffled border (resorption zone) surrounded by a clear (sealing) zone.</div></details></li><li><details><summary><span class="qn">Q10</span><span>How does the osteoclast resorb bone?</span></summary><div class="a">Acidification decalcifies (citric acid, carbonic anhydrase makes H+), then hydrolytic enzymes digest the matrix (collagenase, acid phosphatase, sulfatase).</div></details></li></ol></div>
+    <p class="bottom-line">Bone = cells + matrix. <b>Organic</b> (~25%): <b>type I collagen</b> (90%) + GAGs + glycoproteins (osteonectin, osteopontin, osteocalcin) → tensile strength. <b>Inorganic</b> (majority): <b>hydroxyapatite</b> → compressive strength. Cells: osteoprogenitor (BMP) → <b>osteoblast</b> (makes osteoid) → <b>osteocyte</b> (lacuna + canaliculi); <b>osteoclast</b> (multinucleated, monocyte lineage, ruffled border) resorbs.</p>
+<p class="sub">Matrix</p>
+<div class="tbl"><table>
+ <thead><tr><th>Part</th><th>Contents</th><th>Gives bone…</th></tr></thead>
+ <tbody>
+  <tr><td><b>Organic</b> (~25%)</td><td><b>Type I collagen</b> (~90%); GAGs (chondroitin, keratan sulfate); glycoproteins: <b>osteonectin, osteopontin</b> (anchor mineral, start crystals), <b>osteocalcin, bone sialoprotein</b> (bind Ca²⁺); <b>osteoid</b> = unmineralized new matrix</td><td>Elasticity, <b>tensile</b> strength</td></tr>
+  <tr><td><b>Inorganic</b> (majority)</td><td><b>Hydroxyapatite</b> Ca₁₀(PO₄)₆(OH)₂; citrate, bicarbonate, fluoride; water ~15% with a hydration shell for Ca²⁺ exchange</td><td><b>Compressive</b> strength</td></tr>
+ </tbody></table></div>
+<p class="sub">Cells</p>
+<div class="tbl"><table>
+ <thead><tr><th>Cell</th><th>Origin</th><th>Location / look</th><th>Job</th></tr></thead>
+ <tbody>
+  <tr><td>Osteoprogenitor</td><td>Mesenchymal stem cell (committed by <b>BMP</b>)</td><td>Periosteum, endosteum, marrow edges</td><td>Self-renews (PDGF, TGF-β, IGF) or differentiates (BMP, vit D3)</td></tr>
+  <tr><td><b>Osteoblast</b></td><td>Osteoprogenitor</td><td>Cuboidal row on bone surface; basophilic (RER)</td><td>Secretes osteoid + ALP; promotes osteoclasts (RANKL); non-dividing</td></tr>
+  <tr><td><b>Osteocyte</b></td><td>Trapped osteoblast</td><td>In <b>lacunae</b>; filopodia in <b>canaliculi</b> (gap junctions)</td><td>Maintains matrix; limited osteocytic osteolysis</td></tr>
+  <tr><td><b>Osteoclast</b></td><td><b>Monocyte/macrophage</b> (fusion; vit D)</td><td><b>Multinucleated</b>, in <b>Howship lacunae</b>; ruffled border + clear zone</td><td>Resorbs: acid (carbonic anhydrase) + enzymes (collagenase, acid phosphatase)</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Mesenchymal cell</span><i>→ BMP →</i><span>Osteoprogenitor</span><i>→</i><span>Osteoblast (secretes osteoid)</span><i>→ trapped →</i><span>Osteocyte in lacuna</span></div>
+<div class="flow"><span>Monocyte/macrophage</span><i>→ fusion (RANKL, M-CSF, vit D) →</i><span>Multinucleated osteoclast</span><i>→ ruffled border →</i><span>Howship lacuna</span></div>
+<div class="mem"><span class="tag">Memory hooks</span><ul>
+ <li>Osteo<b>B</b>last <b>B</b>uilds; osteo<b>C</b>last <b>C</b>arves (and is a <b>C</b>ousin of macrophages).</li>
+ <li>Collagen = <b>T</b>ension (type I); crystal = <b>C</b>ompression (hydroxyapatite).</li></ul></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Osteoclasts are multinucleated</b> and come from the <b>monocyte/macrophage</b> line; osteoblasts come from mesenchyme.</li>
+ <li>Markers: <b>alkaline phosphatase</b> and <b>osteocalcin</b> = bone formation (osteoblasts); <b>TRAP</b> (tartrate-resistant acid phosphatase) = osteoclasts.</li>
+ <li><b>Osteogenesis imperfecta</b> = defective <b>type I collagen</b> (COL1A1/COL1A2) → fractures, blue sclerae, hearing loss.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 2</span><h3>Know the hormones that stimulate bone deposition and resorption</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q11</span><span>Which hormone increases bone resorption?</span></summary><div class="a">Parathyroid hormone (from parathyroid chief cells) — it increases both osteoclastic and osteocytic osteolysis.</div></details></li><li><details><summary><span class="qn">Q12</span><span>Does PTH act directly on osteoclasts?</span></summary><div class="a">No — indirectly. PTH binds receptors on osteoblasts, which release factors (RANKL; less OPG) that activate osteoclasts.</div></details></li><li><details><summary><span class="qn">Q13</span><span>Which hormones decrease resorption?</span></summary><div class="a">Calcitonin (thyroid parafollicular C cells) and estrogens.</div></details></li><li><details><summary><span class="qn">Q14</span><span>Which hormones stimulate osteoblast secretion/deposition?</span></summary><div class="a">Growth hormone (somatotropin) and sex steroids.</div></details></li><li><details><summary><span class="qn">Q15</span><span>What is osteocytic vs osteoclastic osteolysis?</span></summary><div class="a">Osteocytic = limited calcium release by osteocytes inside their lacunae. Osteoclastic = true matrix resorption by osteoclasts. Both are increased by PTH and decreased by calcitonin.</div></details></li><li><details><summary><span class="qn">Q16</span><span>What happens with hyperparathyroidism?</span></summary><div class="a">Excess PTH → excess resorption and bone loss, fragile bones, high blood calcium, and calcium deposits in soft tissue (kidney stones).</div></details></li></ol></div>
+    <p class="bottom-line"><b>PTH ↑ resorption</b> (indirectly, via osteoblast RANKL) → ↑ blood Ca²⁺. <b>Calcitonin</b> and <b>estrogen ↓ resorption</b>. <b>GH</b> and <b>sex steroids</b> stimulate osteoblast deposition.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Hormone</th><th>Source</th><th>Effect on bone</th><th>Target</th></tr></thead>
+ <tbody>
+  <tr><td><b>PTH</b></td><td>Parathyroid chief cells</td><td><b>↑ Resorption</b> → ↑ serum Ca²⁺</td><td>Osteoblasts (→ RANKL → osteoclasts); osteocytes</td></tr>
+  <tr><td><b>Calcitonin</b></td><td>Thyroid parafollicular (C) cells</td><td><b>↓ Resorption</b> → ↓ serum Ca²⁺</td><td>Osteoclasts directly</td></tr>
+  <tr><td><b>Estrogen</b></td><td>Ovary</td><td>↓ Resorption; closes growth plates</td><td>Osteoclasts (↑ OPG, ↓ RANKL)</td></tr>
+  <tr><td><b>Growth hormone</b></td><td>Anterior pituitary</td><td>↑ Deposition; growth-plate proliferation (via IGF-1)</td><td>Osteoblasts; chondrocytes</td></tr>
+  <tr><td>Sex steroids</td><td>Gonads</td><td>↑ Osteoblast secretion; time ossification centers and plate closure</td><td>Osteoblasts; growth plate</td></tr>
+  <tr><td>Vitamin D (calcitriol)</td><td>Kidney</td><td>↑ Gut Ca²⁺ absorption; promotes osteoclast fusion</td><td>Gut, bone</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>↓ Serum Ca²⁺</span><i>→</i><span>↑ PTH</span><i>→ osteoblast RANKL →</i><span>Osteoclast activation</span><i>→</i><span>Resorption → Ca²⁺ released</span></div>
+<div class="mem"><span class="tag">Memory hook</span><p>Calci<b>TONE</b>-in <b>tones down</b> blood calcium. <b>PTH</b> = <b>P</b>ulls calcium <b>T</b>o the <b>H</b>ighway (bloodstream).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>PTH and calcitonin</b> in bone are Step 1 favorites: PTH acts on <b>osteoblasts</b> (which express the PTH receptor) → RANKL → osteoclasts. Intermittent PTH (teriparatide) is <b>anabolic</b>; continuous PTH is catabolic.</li>
+ <li><b>Denosumab</b> = anti-RANKL antibody; <b>bisphosphonates</b> inhibit osteoclasts.</li>
+ <li>Primary hyperparathyroidism: "stones, bones, groans, psychiatric overtones"; osteitis fibrosa cystica (brown tumors).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 3</span><h3>Know the organization and architecture of spongy bone and compact bone</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q17</span><span>Woven vs lamellar bone?</span></summary><div class="a">Woven (primary, immature): random collagen fibrils and amorphous calcium phosphate; seen in embryos and fracture repair. Lamellar (secondary, mature): collagen organized in lamellae with crystalline mineral; comes from remodeling woven bone; adult bone.</div></details></li><li><details><summary><span class="qn">Q18</span><span>What are the two forms of lamellar bone?</span></summary><div class="a">Cancellous (spongy) and compact (cortical).</div></details></li><li><details><summary><span class="qn">Q19</span><span>Describe spongy bone.</span></summary><div class="a">A network of irregular lamellae forming trabeculae (spicules) with large spaces filled with marrow (hematopoietic tissue). Found in epiphyses, short bones, flat-bone diploë. Anastomosing trabeculae trap vessels; it can be converted to compact bone.</div></details></li><li><details><summary><span class="qn">Q20</span><span>Where is compact bone?</span></summary><div class="a">Diaphysis of long bones, a thin shell around epiphyses, and the inner and outer &quot;tables&quot; of flat skull bones.</div></details></li><li><details><summary><span class="qn">Q21</span><span>What lamellar systems make up compact bone?</span></summary><div class="a">Outer and inner circumferential lamellae, Haversian systems (osteons) and interstitial lamellae (remnants of old osteons between the current ones).</div></details></li><li><details><summary><span class="qn">Q22</span><span>What is an osteon (Haversian system)?</span></summary><div class="a">A cylinder of 4–15 concentric lamellae around a central Haversian canal carrying blood vessels, lymphatics and nerves; osteocytes in lacunae connected by canaliculi.</div></details></li><li><details><summary><span class="qn">Q23</span><span>Haversian vs Volkmann canals?</span></summary><div class="a">Haversian canals run longitudinally in the center of osteons. Volkmann canals run at right angles, connecting Haversian canals to each other and to the periosteum and marrow.</div></details></li><li><details><summary><span class="qn">Q24</span><span>Describe the periosteum.</span></summary><div class="a">Tough connective tissue on the outer surface (except articular surfaces and tendon insertions): outer fibrous layer (vascular) and inner osteogenic layer (osteoprogenitors, osteoblasts). Anchored by Sharpey fibers (type I collagen); Volkmann canals originate here.</div></details></li><li><details><summary><span class="qn">Q25</span><span>Describe the endosteum.</span></summary><div class="a">A thin single layer of progenitor cells, osteoblasts and osteoclasts lining internal surfaces (trabeculae, marrow cavity, Haversian canals); important for nutrition and maintenance.</div></details></li><li><details><summary><span class="qn">Q26</span><span>Which structure is NOT mineralized: Haversian system, circumferential lamellae, interstitial lamellae or endosteum?</span></summary><div class="a">The endosteum — it is a cell layer, not mineralized bone.</div></details></li><li><details><summary><span class="qn">Q27</span><span>How do periosteal/endosteal progenitors decide their fate?</span></summary><div class="a">With blood supply (oxygen) → osteoprogenitor → osteoblast. Without blood supply → chondroprogenitor → chondroblast. This drives cartilage-first fracture repair.</div></details></li><li><details><summary><span class="qn">Q28</span><span>How does spongy bone become compact bone?</span></summary><div class="a">The spaces between trabeculae fill in and the irregular lamellae are remodeled into organized concentric cylinders — osteons (Haversian systems).</div></details></li></ol></div>
+    <p class="bottom-line"><b>Woven</b> (immature, random collagen; embryo + repair) → remodeled into <b>lamellar</b>. Lamellar = <b>spongy</b> (trabeculae + marrow) or <b>compact</b> (<b>osteons</b>: concentric lamellae around a <b>Haversian canal</b>, linked by transverse <b>Volkmann canals</b>; + circumferential + interstitial lamellae). <b>Periosteum</b> outside (fibrous + osteogenic, Sharpey fibers); <b>endosteum</b> inside.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Woven (primary)</th><th>Lamellar (secondary)</th></tr></thead>
+ <tbody>
+  <tr><td>Collagen</td><td>Random</td><td>Organized lamellae</td></tr>
+  <tr><td>Mineral</td><td>Amorphous</td><td>Crystalline</td></tr>
+  <tr><td>When</td><td>Embryo, <b>fracture repair</b>, Paget</td><td>Adult bone (after remodeling)</td></tr>
+ </tbody></table></div>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Spongy (cancellous)</th><th>Compact (cortical)</th></tr></thead>
+ <tbody>
+  <tr><td>Structure</td><td>Irregular <b>trabeculae</b>; spaces with <b>marrow</b></td><td>Organized <b>osteons</b> + circumferential + interstitial lamellae</td></tr>
+  <tr><td>Where</td><td>Epiphyses, short bones, vertebral bodies, skull diploë</td><td><b>Diaphysis</b>, shell around epiphyses, skull tables</td></tr>
+  <tr><td>Vessels</td><td>In marrow spaces</td><td>Haversian + Volkmann canals</td></tr>
+ </tbody></table></div>
+<p class="sub">Compact bone, outside → in</p>
+<div class="flow"><span>Periosteum (fibrous + osteogenic; Sharpey fibers)</span><i>→</i><span>Outer circumferential lamellae</span><i>→</i><span>Osteons + interstitial lamellae</span><i>→</i><span>Inner circumferential lamellae</span><i>→</i><span>Endosteum</span><i>→</i><span>Marrow cavity</span></div>
+<div class="tbl"><table>
+ <thead><tr><th>Structure</th><th>Orientation / identity</th><th>Contents</th></tr></thead>
+ <tbody>
+  <tr><td><b>Haversian canal</b></td><td>Longitudinal, center of osteon</td><td>Vessels, lymphatics, nerves</td></tr>
+  <tr><td><b>Volkmann canal</b></td><td><b>Perpendicular</b>; connects Haversian canals and periosteum</td><td>Vessels, nerves</td></tr>
+  <tr><td>Canaliculi</td><td>Tiny channels between lacunae</td><td>Osteocyte filopodia (gap junctions)</td></tr>
+  <tr><td>Interstitial lamellae</td><td>Between osteons</td><td>Remnants of remodeled osteons</td></tr>
+  <tr><td>Sharpey fibers</td><td>Type I collagen bundles</td><td>Anchor periosteum, tendons, ligaments</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>H</b>aversian = <b>H</b>ighway along the bone; <b>V</b>olkmann = <b>V</b>ertical cross-streets connecting them. <b>P</b>eriosteum = <b>P</b>erimeter (outside); <b>E</b>ndosteum = <b>E</b>nclosed (inside).</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Endosteum is not mineralized</b> — the classic "all EXCEPT" answer.</li>
+ <li>Oxygen decides fate: <b>vascular → bone</b>, <b>avascular → cartilage</b>.</li>
+ <li>Woven bone in an adult = something is wrong or healing (fracture callus, Paget disease "mosaic" bone, tumor).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 4</span><h3>Know the mechanism of bone deposition, calcification and remodeling</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q29</span><span>What are the four steps of calcification?</span></summary><div class="a">1) Osteoblasts secrete osteoid. 2) Osteoblasts secrete factors that allow mineralization (alkaline phosphatase, osteonectin, osteocalcin, calcium salts). 3) Osteoblasts become trapped in mineralized matrix as osteocytes in lacunae. 4) Osteocytes keep a limited ability to secrete and resorb bone.</div></details></li><li><details><summary><span class="qn">Q30</span><span>How does alkaline phosphatase help mineralization?</span></summary><div class="a">It raises local inorganic phosphate in the osteoid until calcium phosphate reaches saturation and precipitates.</div></details></li><li><details><summary><span class="qn">Q31</span><span>What role do matrix vesicles play?</span></summary><div class="a">They contain pyrophosphate and enzymes; the enzymes break down the calcification inhibitor pyrophosphate and release phosphate, allowing crystals to form.</div></details></li><li><details><summary><span class="qn">Q32</span><span>What is bone remodeling?</span></summary><div class="a">Constant balance of deposition and resorption: deposition traps new vessels (keeping bone vascular); resorption creates canals and the marrow cavity; it maintains shape in growing bones, adapts to mechanical stress and helps calcium homeostasis. Osteons are constantly remodeled.</div></details></li><li><details><summary><span class="qn">Q33</span><span>How does mechanical stress affect bone?</span></summary><div class="a">Compression and movement are required for proper remodeling (bone lost in space flight or immobilization; orthodontists move teeth using this plasticity). Piezoelectric potential: negative → deposition; positive → resorption.</div></details></li><li><details><summary><span class="qn">Q34</span><span>Which diseases come from an imbalance?</span></summary><div class="a">Osteoporosis: resorption &gt; deposition → bone loss (elderly). Osteopetrosis: deposition &gt; resorption from defective osteoclasts → dense &quot;marble&quot; bone that is thick but brittle.</div></details></li></ol></div>
+    <p class="bottom-line">Calcification: <b>osteoid</b> → <b>ALP</b> raises phosphate + <b>osteonectin/osteocalcin</b> bind Ca²⁺ + <b>matrix vesicles</b> → hydroxyapatite → osteoblasts trapped as osteocytes. <b>Remodeling</b> balances deposition vs resorption. <b>Osteoporosis</b> = resorption > deposition; <b>osteopetrosis</b> = defective osteoclasts.</p>
+<div class="flow"><span>1 · Osteoblast secretes osteoid</span><i>→</i><span>2 · ALP, osteonectin, osteocalcin, matrix vesicles</span><i>→</i><span>Ca-phosphate precipitates (hydroxyapatite)</span><i>→</i><span>3 · Osteoblast trapped → osteocyte</span><i>→</i><span>4 · Osteocyte: limited turnover</span></div>
+<div class="tbl"><table>
+ <thead><tr><th>Factor</th><th>Role in calcification</th></tr></thead>
+ <tbody>
+  <tr><td>Alkaline phosphatase</td><td>↑ Local phosphate → saturation → precipitation</td></tr>
+  <tr><td>Osteonectin, osteopontin</td><td>Anchor mineral to collagen; nucleate crystals</td></tr>
+  <tr><td>Osteocalcin, bone sialoprotein</td><td>High-affinity Ca²⁺ binding</td></tr>
+  <tr><td>Matrix vesicles</td><td>Contain pyrophosphate (inhibitor) + enzymes that release phosphate</td></tr>
+ </tbody></table></div>
+<div class="tbl"><table>
+ <thead><tr><th>Disorder</th><th>Imbalance</th><th>Key feature</th></tr></thead>
+ <tbody>
+  <tr><td><b>Osteoporosis</b></td><td>Resorption &gt; deposition</td><td>Thin trabeculae, normal mineralization; elderly, postmenopausal; vertebral and hip fractures</td></tr>
+  <tr><td><b>Osteopetrosis</b></td><td>Deposition &gt; resorption</td><td><b>Defective osteoclasts</b> (e.g., carbonic anhydrase II); thick, brittle "marble bone"; marrow crowded out</td></tr>
+  <tr><td>Paget disease</td><td>Disordered: resorption then chaotic formation</td><td>Mosaic lamellar bone, ↑ ALP, thick bones, ↑ hat size</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>Osteo<b>PET</b>rosis = bone turns to <b>PET</b>rified stone because the <b>clasts</b> quit. Osteo<b>POR</b>osis = bone full of <b>POR</b>es.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Osteopetrosis</b>: osteoclast failure (carbonic anhydrase II, CLCN7, TCIRG1) → dense bones, pancytopenia, cranial nerve compression; treat with bone marrow transplant (osteoclasts come from marrow monocytes).</li>
+ <li>Osteoporosis labs are <b>normal</b> (Ca, phosphate, PTH, ALP).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 5</span><h3>Know the vitamins and hormones that control bone formation</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q35</span><span>What does vitamin C deficiency do to bone?</span></summary><div class="a">Scurvy: poor hydroxylation of procollagen → unstable collagen → fragile bone and fractures (plus bleeding gums, poor wound healing).</div></details></li><li><details><summary><span class="qn">Q36</span><span>What does vitamin D deficiency do?</span></summary><div class="a">Impaired intestinal calcium absorption → poor mineralization: rickets in children (bowed legs, knock-knee) and osteomalacia in adults (weak bones, fractures).</div></details></li><li><details><summary><span class="qn">Q37</span><span>What does excess vitamin D do?</span></summary><div class="a">Abnormal calcification of soft tissues; toxic.</div></details></li><li><details><summary><span class="qn">Q38</span><span>What does excess vitamin A do?</span></summary><div class="a">Slows cartilage growth and accelerates ossification (premature growth-plate closure).</div></details></li><li><details><summary><span class="qn">Q39</span><span>What happens with GH deficiency or excess?</span></summary><div class="a">Deficiency in childhood → pituitary dwarfism. Excess in childhood → gigantism. Excess in adults (pituitary tumor) → acromegaly (enlarged hands, feet, jaw).</div></details></li><li><details><summary><span class="qn">Q40</span><span>How do sex steroids affect bone growth?</span></summary><div class="a">They set the timing of ossification centers and epiphyseal closure. Early puberty or sex-steroid tumor → early closure → short stature. Delayed puberty or sex-hormone deficiency → late closure → tall stature.</div></details></li><li><details><summary><span class="qn">Q41</span><span>What does hyperparathyroidism do to bone?</span></summary><div class="a">Excess resorption and bone loss, fragile bones, hypercalcemia and soft-tissue (kidney) calcium deposits.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Vit C</b> ↓ → scurvy (bad collagen). <b>Vit D</b> ↓ → rickets/osteomalacia (poor mineral); excess → soft-tissue calcification. <b>Vit A</b> excess → early ossification. <b>GH</b>: ↓ dwarfism, ↑ gigantism/acromegaly. <b>Sex steroids</b> time plate closure (early puberty → short). <b>PTH</b> excess → bone loss.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Factor</th><th>Deficiency</th><th>Excess</th></tr></thead>
+ <tbody>
+  <tr><td><b>Vitamin C</b></td><td><b>Scurvy</b>: defective collagen hydroxylation → fragile bone, fractures, bleeding gums</td><td>—</td></tr>
+  <tr><td><b>Vitamin D</b></td><td><b>Rickets</b> (child: bowing, knock-knee) / <b>osteomalacia</b> (adult): ↓ Ca²⁺ absorption → unmineralized osteoid</td><td>Soft-tissue calcification, toxic</td></tr>
+  <tr><td><b>Vitamin A</b></td><td>Growth-plate defects</td><td>Slows cartilage growth, <b>accelerates ossification</b></td></tr>
+  <tr><td><b>Growth hormone</b></td><td>Childhood → <b>pituitary dwarfism</b></td><td>Child → <b>gigantism</b>; adult → <b>acromegaly</b></td></tr>
+  <tr><td><b>Sex steroids</b></td><td>Delayed puberty → late plate closure → <b>tall</b></td><td>Precocious puberty → early closure → <b>short</b></td></tr>
+  <tr><td><b>PTH</b></td><td>Hypocalcemia</td><td><b>Hyperparathyroidism</b>: bone loss, hypercalcemia, kidney deposits</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>Vitamin <b>C</b> = <b>C</b>ollagen; vitamin <b>D</b> = <b>D</b>eposit mineral; vitamin <b>A</b> = <b>A</b>ccelerates ossification.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Rickets: craniotabes, rachitic rosary (costochondral beading), bowed legs; osteomalacia labs: ↓ Ca²⁺, ↓ phosphate, ↑ PTH, ↑ ALP.</li>
+ <li>Acromegaly: ↑ IGF-1; diagnose with failure of GH suppression after oral glucose.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 6</span><h3>Know the mechanisms of bone ossification</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q42</span><span>What are the two ways primary (woven) bone forms?</span></summary><div class="a">Intramembranous ossification (direct: mesenchyme → osteoblasts) and endochondral ossification (indirect: a hyaline cartilage model is replaced by bone).</div></details></li><li><details><summary><span class="qn">Q43</span><span>Which bones form by intramembranous ossification?</span></summary><div class="a">Flat bones of the skull vault and face (and the clavicle, in part); also the subperiosteal bone collar that widens long bones.</div></details></li><li><details><summary><span class="qn">Q44</span><span>List the steps of intramembranous ossification.</span></summary><div class="a">1) Mesenchymal condensation. 2) Blood vessels appear. 3) Mesenchymal cells differentiate into osteoblasts (primary ossification center). 4) Mineralization; osteoblasts become osteocytes. 5) Spicules/trabeculae form. 6) Trabeculae interweave → spongy bone and marrow cavities.</div></details></li><li><details><summary><span class="qn">Q45</span><span>Which bones form by endochondral ossification?</span></summary><div class="a">Long and short bones of the limbs and the axial skeleton (vertebrae, ribs, sternum, skull base).</div></details></li><li><details><summary><span class="qn">Q46</span><span>List the steps of endochondral ossification.</span></summary><div class="a">Hyaline cartilage model → subperiosteal bone collar forms around the shaft (intramembranous) → central chondrocytes hypertrophy, calcify the matrix and die → vessels invade bringing osteoprogenitors → primary ossification center (diaphysis) → secondary ossification centers in the epiphyses → growth plates remain until adulthood.</div></details></li><li><details><summary><span class="qn">Q47</span><span>What determines bone width vs length?</span></summary><div class="a">Width: the intramembranous subperiosteal bone collar (appositional). Length: endochondral cartilage replacement at the growth plate.</div></details></li><li><details><summary><span class="qn">Q48</span><span>When do ossification centers appear?</span></summary><div class="a">Primary centers around week 12 of gestation; secondary centers around birth; long-bone growth continues into early adulthood.</div></details></li><li><details><summary><span class="qn">Q49</span><span>What decides whether a mesenchymal precursor becomes bone or cartilage?</span></summary><div class="a">The vascular environment: with blood/oxygen → osteoprogenitor; without → chondroprogenitor. The differentiation is reversible.</div></details></li><li><details><summary><span class="qn">Q50</span><span>What does a forming trabecula look like on a slide?</span></summary><div class="a">Mineralized matrix with osteocytes in lacunae, edged by a pale band of osteoid, then a continuous row of osteoblasts (with occasional osteoclasts). That osteoblast row separates the trabecula from the surrounding mesenchyme, whose cells keep differentiating into new osteoblasts that join the row.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Intramembranous</b> = <b>direct</b> (mesenchyme → osteoblast): skull vault, face, bone collar (<b>width</b>). <b>Endochondral</b> = <b>indirect</b> (hyaline cartilage model replaced by bone): long bones, axial skeleton, skull base (<b>length</b>). Primary centers ~wk 12, secondary centers ~birth.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Intramembranous</th><th>Endochondral</th></tr></thead>
+ <tbody>
+  <tr><td>Route</td><td><b>Direct</b>: mesenchyme → osteoblast</td><td><b>Indirect</b>: hyaline cartilage template → bone</td></tr>
+  <tr><td>Bones</td><td>Skull vault (flat bones), face, part of clavicle</td><td>Long and short limb bones, vertebrae, ribs, sternum, skull base</td></tr>
+  <tr><td>Growth dimension</td><td><b>Width</b> (subperiosteal collar)</td><td><b>Length</b> (growth plate)</td></tr>
+  <tr><td>Fracture repair</td><td>Stable / hairline fractures</td><td>Unstable (mobile) fractures via cartilage callus</td></tr>
+ </tbody></table></div>
+<p class="sub">Intramembranous steps</p>
+<div class="flow"><span>1 Mesenchymal condensation</span><i>→</i><span>2 Vessels appear</span><i>→</i><span>3 Osteoblasts (primary center)</span><i>→</i><span>4 Mineralization → osteocytes</span><i>→</i><span>5 Spicules/trabeculae</span><i>→</i><span>6 Interwoven spongy bone + marrow</span></div>
+<p class="sub">Endochondral steps</p>
+<div class="flow"><span>Hyaline cartilage model</span><i>→</i><span>Bone collar (intramembranous)</span><i>→</i><span>Chondrocytes hypertrophy, calcify, die</span><i>→</i><span>Vessels + osteoprogenitors invade</span><i>→</i><span>Primary center (diaphysis, ~wk 12)</span><i>→</i><span>Secondary centers (epiphyses, ~birth)</span><i>→</i><span>Growth plates → close in adulthood</span></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>M</b>embrane = <b>M</b>ake bone directly (flat skull, <b>M</b>andible/face). <b>Endo-CHONDR-al</b> = goes through <b>CARTILAGE</b> first.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Achondroplasia</b> (FGFR3 activation) affects <b>endochondral</b> ossification → short limbs; intramembranous skull vault is normal → relatively large head.</li>
+ <li>Cleidocranial dysplasia (RUNX2) affects <b>intramembranous</b> bones → absent clavicles, open fontanelles.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 7</span><h3>Know the mechanism by which endochondral ossification leads to bone elongation</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q51</span><span>What provides growth in length?</span></summary><div class="a">The epiphyseal growth plate (hyaline cartilage without perichondrium) growing by interstitial growth.</div></details></li><li><details><summary><span class="qn">Q52</span><span>List the zones of the growth plate from epiphysis to diaphysis.</span></summary><div class="a">Resting (reserve) → proliferative → hypertrophic (maturation) → calcified → ossification zone.</div></details></li><li><details><summary><span class="qn">Q53</span><span>What happens in each zone?</span></summary><div class="a">Resting: small quiescent chondrocytes. Proliferative: chondrocytes divide in stacked columns (interstitial mitosis). Hypertrophic: cells enlarge and store glycogen. Calcified: matrix calcifies and chondrocytes die. Ossification: vessels and osteoprogenitors invade; osteoblasts lay bone on calcified cartilage spicules; chondroclasts/osteoclasts remodel.</div></details></li><li><details><summary><span class="qn">Q54</span><span>Which zone determines height and is the GH target?</span></summary><div class="a">The proliferative zone — GH (via somatomedin C/IGF-1) drives chondroblast and chondrocyte mitosis there.</div></details></li><li><details><summary><span class="qn">Q55</span><span>How does the bone get longer?</span></summary><div class="a">Chondrocytes keep proliferating on the epiphyseal side while cartilage is replaced by bone on the diaphyseal side, so the plate moves away from the shaft and the diaphysis lengthens; epiphyseal spicules are incorporated into the diaphysis.</div></details></li><li><details><summary><span class="qn">Q56</span><span>What controls growth-plate proliferation long term?</span></summary><div class="a">FGF-dependent proliferation of chondrocytes (FGFR3 signaling restrains it) plus GH/IGF-1; sex steroids close the plate at puberty.</div></details></li></ol></div>
+    <p class="bottom-line">Length comes from the <b>growth plate</b>: <b>Resting → Proliferative → Hypertrophic → Calcified → Ossification</b>. The <b>proliferative zone</b> (interstitial mitosis, <b>GH/IGF-1 target</b>) sets height; cartilage is replaced by bone on the diaphyseal side.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Zone (epiphysis → diaphysis)</th><th>What happens</th><th>Clinical link</th></tr></thead>
+ <tbody>
+  <tr><td>1 · Resting (reserve)</td><td>Small quiescent chondrocytes; stem pool</td><td>—</td></tr>
+  <tr><td>2 · <b>Proliferative</b></td><td>Chondrocytes divide in <b>stacked columns</b> (interstitial growth)</td><td><b>GH/IGF-1 target</b>; <b>achondroplasia</b> (FGFR3)</td></tr>
+  <tr><td>3 · Hypertrophic (maturation)</td><td>Cells enlarge, store glycogen, secrete type X collagen</td><td>—</td></tr>
+  <tr><td>4 · Calcified</td><td>Matrix calcifies; chondrocytes die</td><td>Rickets: fails to mineralize → wide, disorganized plate</td></tr>
+  <tr><td>5 · Ossification</td><td>Vessels invade; osteoblasts lay bone on cartilage spicules</td><td>—</td></tr>
+ </tbody></table></div>
+<div class="flow"><span>Epiphysis</span><i>→</i><span>Resting</span><i>→</i><span>Proliferative</span><i>→</i><span>Hypertrophic</span><i>→</i><span>Calcified</span><i>→</i><span>Ossification</span><i>→</i><span>Diaphysis (longer)</span></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>"Real People Have Calcified Osteons"</b> — Resting, Proliferative, Hypertrophic, Calcified, Ossification.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li><b>Proliferative zone = height</b>: GH deficiency and achondroplasia both act here.</li>
+ <li>Salter-Harris fractures run through the growth plate (usually the hypertrophic zone, the weakest) and can stop growth.</li>
+ <li>Estrogen closes growth plates in both sexes (aromatase deficiency → tall stature).</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 8</span><h3>Know the steps of bone repair after a break</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q57</span><span>How are unstable (mobile) fractures repaired?</span></summary><div class="a">By endochondral ossification: a cartilage callus forms first and is later replaced by bone.</div></details></li><li><details><summary><span class="qn">Q58</span><span>Walk through the steps of endochondral fracture repair.</span></summary><div class="a">Fracture → blood supply interrupted → necrosis and blood clot (hematoma) → low oxygen; macrophages and fibroblasts form fibrous tissue → periosteal osteoprogenitors become chondrogenic → cartilage bridge (callus) as early as 4 days → blood vessels reappear → osteogenic potential rises; cartilage replaced by bone (primary woven bone by ~2 weeks) → remodeled to secondary lamellar bone; mechanical stress and muscle activity restore shape.</div></details></li><li><details><summary><span class="qn">Q59</span><span>Why does cartilage form first?</span></summary><div class="a">The fracture site is avascular/hypoxic, and progenitors without oxygen become chondroprogenitors. When vessels return, they become osteogenic.</div></details></li><li><details><summary><span class="qn">Q60</span><span>What changes when blood vessels reappear during fracture repair?</span></summary><div class="a">Osteogenic potential increases — progenitors become osteoblasts and replace the cartilage callus with bone (endochondral).</div></details></li><li><details><summary><span class="qn">Q61</span><span>How are hairline or non-weight-bearing fractures repaired?</span></summary><div class="a">Directly by intramembranous ossification (no cartilage stage).</div></details></li><li><details><summary><span class="qn">Q62</span><span>What are the clinical stages of fracture healing?</span></summary><div class="a">Hematoma (0–1 day: platelets, fibrin, inflammatory cells) → soft callus (fibrocartilage, ~2 weeks) → hard callus (woven bone) → remodeling to lamellar bone (months).</div></details></li></ol></div>
+    <p class="bottom-line"><b>Unstable fracture</b> → hematoma, hypoxia → periosteal progenitors become <b>chondrogenic</b> → <b>cartilage callus</b> (~4 days) → <b>vessels return → osteogenic</b> → woven bone (~2 weeks) → lamellar bone, shaped by stress. <b>Hairline/stable</b> fractures heal by <b>intramembranous</b> ossification.</p>
+<div class="flow"><span>Fracture</span><i>→</i><span>Vessels torn → necrosis + hematoma</span><i>→ ↓ O₂ →</i><span>Progenitors → <b>chondrogenic</b></span><i>→</i><span>Cartilage callus (≥4 days)</span><i>→ vessels return →</i><span><b>Osteogenic</b>: woven bone (~2 wk)</span><i>→</i><span>Lamellar bone; remodeled by stress</span></div>
+<div class="tbl"><table>
+ <thead><tr><th>Stage</th><th>Timing</th><th>Tissue</th></tr></thead>
+ <tbody>
+  <tr><td>Hematoma / inflammation</td><td>0–1 day</td><td>Clot, platelets, fibrin, inflammatory cells</td></tr>
+  <tr><td>Soft callus</td><td>Days → ~2 weeks</td><td>Fibrous tissue + <b>hyaline/fibrocartilage</b></td></tr>
+  <tr><td>Hard callus</td><td>~2 weeks on</td><td><b>Woven</b> bone replacing cartilage</td></tr>
+  <tr><td>Remodeling</td><td>Months–years</td><td><b>Lamellar</b> bone; shape restored by load</td></tr>
+ </tbody></table></div>
+<div class="tbl"><table>
+ <thead><tr><th>Fracture</th><th>Repair route</th></tr></thead>
+ <tbody>
+  <tr><td>Unstable / mobile, weight-bearing</td><td><b>Endochondral</b> (cartilage callus first)</td></tr>
+  <tr><td>Hairline / stable / non-weight-bearing</td><td><b>Intramembranous</b> (direct bone)</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p><b>No blood → cartilage; blood back → bone.</b> "Cartilage first, then bone" repeats in evolution, development and fracture repair.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>Poor blood supply delays healing: <b>scaphoid</b> (retrograde supply) and femoral neck → nonunion and avascular necrosis.</li>
+ <li>NSAIDs, smoking, diabetes and steroids impair fracture healing.</li></ul></div>
+  </article>
+  <article class="lo">
+    <div class="lo-q"><span class="lo-num">LO 9</span><h3>Know the structure of articulating joints</h3></div>
+    <div class="kq"><p class="kq-h">Key questions</p><ol><li><details><summary><span class="qn">Q63</span><span>What is a diarthrosis?</span></summary><div class="a">A freely movable synovial joint between long bones.</div></details></li><li><details><summary><span class="qn">Q64</span><span>What are its components?</span></summary><div class="a">Articular cartilage (hyaline, no perichondrium), synovial fluid, a two-layer capsule (outer fibrous layer, inner synovial membrane), reinforcing ligaments, and stabilizing muscles and tendons.</div></details></li><li><details><summary><span class="qn">Q65</span><span>What cells line the synovial membrane?</span></summary><div class="a">Type A cells (macrophage-like, phagocytic) and type B cells (fibroblast-like, secrete synovial fluid — hyaluronic acid and lubricin).</div></details></li><li><details><summary><span class="qn">Q66</span><span>What anchors ligaments and tendons to bone?</span></summary><div class="a">Sharpey fibers (type I collagen). Tendon: muscle to bone. Ligament: bone to bone.</div></details></li><li><details><summary><span class="qn">Q67</span><span>Describe articular cartilage.</span></summary><div class="a">Hyaline cartilage with type II collagen fibers arched parallel to the surface, no perichondrium, grows interstitially, nourished by synovial fluid.</div></details></li><li><details><summary><span class="qn">Q68</span><span>How do RA and OA differ at the joint?</span></summary><div class="a">Rheumatoid arthritis: autoimmune inflammation of the synovial membrane (aggregates of inflammatory cells, pannus) that secondarily destroys cartilage. Osteoarthritis: degeneration of articular cartilage with aging and wear; fragments break off into the joint.</div></details></li></ol></div>
+    <p class="bottom-line"><b>Synovial joint (diarthrosis)</b>: <b>articular hyaline cartilage (no perichondrium)</b> + synovial fluid + capsule (<b>fibrous</b> outer, <b>synovial membrane</b> inner with <b>type A</b> phagocytic and <b>type B</b> fluid-secreting cells) + ligaments/tendons anchored by <b>Sharpey fibers</b>.</p>
+<div class="tbl"><table>
+ <thead><tr><th>Component</th><th>Features</th></tr></thead>
+ <tbody>
+  <tr><td>Articular cartilage</td><td>Hyaline, type II collagen arched to the surface; <b>no perichondrium</b>; interstitial growth</td></tr>
+  <tr><td>Synovial fluid</td><td>Hyaluronic acid + lubricin; nourishes cartilage, lubricates</td></tr>
+  <tr><td>Fibrous capsule (outer)</td><td>Dense connective tissue, continuous with periosteum</td></tr>
+  <tr><td>Synovial membrane (inner)</td><td><b>Type A</b> = macrophage-like, <b>phagocytic</b>; <b>Type B</b> = fibroblast-like, <b>secretes synovial fluid</b>; no basement membrane</td></tr>
+  <tr><td>Ligaments / tendons</td><td>Ligament bone→bone; tendon muscle→bone; <b>Sharpey fibers</b> (type I collagen)</td></tr>
+ </tbody></table></div>
+<p class="sub">RA vs OA at the tissue level</p>
+<div class="tbl"><table>
+ <thead><tr><th>Feature</th><th>Rheumatoid arthritis</th><th>Osteoarthritis</th></tr></thead>
+ <tbody>
+  <tr><td>Primary target</td><td><b>Synovial membrane</b> (inflammation, pannus)</td><td><b>Articular cartilage</b> (degeneration)</td></tr>
+  <tr><td>Cause</td><td>Autoimmune</td><td>Aging, wear, mechanical</td></tr>
+  <tr><td>Joints</td><td>Symmetric, small joints (MCP, PIP)</td><td>Weight-bearing, DIP; asymmetric</td></tr>
+  <tr><td>Stiffness</td><td>Morning &gt; 1 hour</td><td>Worse with use; brief after rest</td></tr>
+ </tbody></table></div>
+<div class="mem"><span class="tag">Memory hook</span><p>Synovial <b>A</b> cells = <b>A</b>te (phagocytic); <b>B</b> cells = <b>B</b>rew the fluid.</p></div>
+<div class="hy"><span class="tag">HY · Step 1</span><ul>
+ <li>RA: pannus, anti-CCP and RF, ulnar deviation, swan-neck/boutonnière; spares DIP.</li>
+ <li>OA: osteophytes, Heberden (DIP) and Bouchard (PIP) nodes, joint-space narrowing, subchondral sclerosis.</li></ul></div>
+  </article>
+  <div class="vign" aria-label="MSK07 application questions">
+    <h3>Application questions</h3>
+    <article><p><b>1.</b> A pathology assistant marks a large cell with many nuclei sitting in a shallow pit on a bone trabecula. What is it?</p>
+      <ol class="opts"><li>Osteocyte</li><li>Mesenchymal cell</li><li>Osteoblast</li><li>Periosteal cell</li><li>Osteoclast</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>E.</b> Osteoclasts are multinucleated and sit in Howship lacunae.</div></details></article>
+    <article><p><b>2.</b> All of the following are mineralized components of bone EXCEPT:</p>
+      <ol class="opts"><li>Haversian system</li><li>Outer circumferential lamellae</li><li>Endosteum</li><li>Interstitial lamellae</li><li>Inner circumferential lamellae</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> The endosteum is a single layer of cells lining internal bone surfaces, not mineralized matrix.</div></details></article>
+    <article><p><b>3.</b> A femur fragment shows a canal running at right angles to two osteons and connecting their central canals. Identify it.</p>
+      <ol class="opts"><li>Canaliculus</li><li>Osteon</li><li>Volkmann&#x27;s canal</li><li>Interstitial lamellae</li><li>Outer circumferential lamellae</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>C.</b> Volkmann&#x27;s canals run perpendicular and connect adjacent Haversian canals.</div></details></article>
+    <article><p><b>4.</b> A 10-year-old is much shorter than expected and has low growth hormone. Which growth-plate component is responsible?</p>
+      <ol class="opts"><li>Resting zone</li><li>Proliferation zone</li><li>Hypertrophic zone</li><li>Calcified zone</li><li>Bone marrow</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Chondroblasts and chondrocytes of the proliferative zone are the target of GH (via IGF-1).</div></details></article>
+    <article><p><b>5.</b> A 50-year-old breaks her fibula; it is reset and casted. What occurs when blood vessels reappear during repair?</p>
+      <ol class="opts"><li>Increase in chondrogenic potential</li><li>Increased necrosis</li><li>Intramembranous ossification</li><li>Increase in osteogenic potential</li><li>Periosteum becomes chondrogenic</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>D.</b> Returning vascularity (oxygen) switches progenitors to osteogenic, replacing the cartilage callus by endochondral ossification.</div></details></article>
+    <article><p><b>6.</b> An infant has dense, brittle bones, anemia and hepatosplenomegaly; biopsy shows abundant bone with nonfunctional osteoclasts. Which enzyme defect is classic?</p>
+      <ol class="opts"><li>Alkaline phosphatase</li><li>Carbonic anhydrase II</li><li>Collagenase</li><li>Lysyl hydroxylase</li><li>Aromatase</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Osteopetrosis: osteoclasts cannot acidify the resorption pit (carbonic anhydrase II), so deposition exceeds resorption.</div></details></article>
+    <article><p><b>7.</b> A child with short limbs, normal trunk length and a large head has a gain-of-function mutation in a growth factor receptor. Which process is impaired?</p>
+      <ol class="opts"><li>Intramembranous ossification of the skull vault</li><li>Endochondral ossification at the growth plate</li><li>Osteoclast fusion</li><li>Type I collagen synthesis</li><li>Hydroxyapatite deposition</li></ol>
+      <details class="check"><summary>Answer</summary><div class="a"><b>B.</b> Achondroplasia (FGFR3) impairs chondrocyte proliferation in growth plates → failure of long-bone lengthening.</div></details></article>
+  </div>
+</section>
+<p class="note" style="margin-top:18px">Each objective opens with the one-line answer. <strong>Yellow boxes</strong> are high-yield Step 1 add-ons and may go beyond the lecture.</p>
+<footer>HoyaDocs · MSK07 · Bone Development &amp; Histology · Revision 1.1 · Updated September 30, 2026</footer>
+</div>
+<script>
+document.querySelectorAll('[data-kq]').forEach(function(b){b.addEventListener('click',function(){
+  var open=b.getAttribute('data-kq')==='open';
+  document.querySelectorAll('.kq details').forEach(function(d){d.open=open;});
+});});
+</script>
+</body></html>
