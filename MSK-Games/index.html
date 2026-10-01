@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HoyaDocs &middot; HNSS Games</title>
-<meta name="description" content="HoyaDocs Block 5 HNSS — embryology, histology and neuro review games: structure builders, boss gauntlets and creature-battle campaigns.">
+<title>HoyaDocs &middot; MSK Games</title>
+<meta name="description" content="HoyaDocs Block 5 MSK — pathology and pharmacology review games: structure builders, boss gauntlets, creature-battle campaigns and bell ringers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Graduate&family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap">
@@ -14,13 +14,14 @@
   --ink:#1A3363; --muted:#5B6274;
   --silver:#6E7787; --silver-hi:#C5CBD6;
   --navy:#0F2244; --navy-2:#1A3363; --navy-ink:#F4F1EA; --navy-muted:#A9B3C7;
-  --tan:#C9A27A; --tan-ink:#7B5A35;
+  --tan:#DE6A7C; --tan-ink:#9C2539;
   --hy-bg:#FFF4C2; --hy-line:#D4A300; --hy-ink:#1A3363;
-  --g:#5B4BC4; --s:#C4631B; --d:#1F7F78; --a:#B07F0A;
+  --g:#5B4BC4; --s:#C4631B; --d:#1F7F78; --a:#B8324A;
   --emb:#C4631B; --emb-ink:#8F4510; --emb-soft:#FBE9DA;
   --his:#B83B72; --his-ink:#8C1F55; --his-soft:#F8DDEA;
   --neu:#5B4BC4; --neu-ink:#3F2F9E; --neu-soft:#ECE9FA;
   --pat:#1F7F78; --pat-ink:#0F5F59; --pat-soft:#DCF1EE;
+  --pha:#5B4BC4; --pha-ink:#3F2F9E; --pha-soft:#ECE9FA;
   --varsity:"Graduate","Rockwell","Georgia",serif;
   --cond:"Barlow Condensed","Arial Narrow",sans-serif;
   --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -30,28 +31,30 @@
     --ground:#0B1424; --panel:#13203A; --sunk:#0F1A30; --line:#26365A;
     --ink:#E8E4DA; --muted:#9BA5B9;
     --navy:#060D1A; --navy-2:#13254A; --navy-ink:#EEE9DE; --navy-muted:#8E98AE;
-    --tan:#D9B48C; --tan-ink:#E3C29E;
+    --tan:#EE8C9B; --tan-ink:#F4A9B5;
     --silver:#C3C9D4; --silver-hi:#C5CBD6;
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
-    --g:#9B8DE0; --s:#F0914A; --d:#4FC1B6; --a:#F2C230;
+    --g:#9B8DE0; --s:#F0914A; --d:#4FC1B6; --a:#F07186;
     --emb:#F0914A; --emb-ink:#F6B07A; --emb-soft:#3A2515;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#BDB2F0; --neu-soft:#262043;
     --pat:#4FC1B6; --pat-ink:#7FD6CD; --pat-soft:#13332F;
+    --pha:#9B8DE0; --pha-ink:#BDB2F0; --pha-soft:#262043;
   }
 }
 :root[data-theme="dark"]{
     --ground:#0B1424; --panel:#13203A; --sunk:#0F1A30; --line:#26365A;
     --ink:#E8E4DA; --muted:#9BA5B9;
     --navy:#060D1A; --navy-2:#13254A; --navy-ink:#EEE9DE; --navy-muted:#8E98AE;
-    --tan:#D9B48C; --tan-ink:#E3C29E;
+    --tan:#EE8C9B; --tan-ink:#F4A9B5;
     --silver:#C3C9D4; --silver-hi:#C5CBD6;
     --hy-bg:#342D0E; --hy-line:#C9A227; --hy-ink:#F4E3A1;
-    --g:#9B8DE0; --s:#F0914A; --d:#4FC1B6; --a:#F2C230;
+    --g:#9B8DE0; --s:#F0914A; --d:#4FC1B6; --a:#F07186;
     --emb:#F0914A; --emb-ink:#F6B07A; --emb-soft:#3A2515;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#BDB2F0; --neu-soft:#262043;
     --pat:#4FC1B6; --pat-ink:#7FD6CD; --pat-soft:#13332F;
+    --pha:#9B8DE0; --pha-ink:#BDB2F0; --pha-soft:#262043;
 }
 *{box-sizing:border-box}
 html,body{background:var(--ground);color:var(--ink)}
@@ -90,7 +93,7 @@ html{scroll-behavior:smooth}
 .hero::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
   background:
     repeating-linear-gradient(90deg, transparent 0 calc(10% - 1px), rgba(255,255,255,.045) calc(10% - 1px) 10%),
-    radial-gradient(ellipse at 85% 110%, rgba(201,162,122,.28), transparent 55%);}
+    radial-gradient(ellipse at 85% 110%, rgba(222,106,124,.30), transparent 55%);}
 .hero{z-index:3}
 .hero > *{position:relative}
 .hero > .ctas{z-index:2}
@@ -115,8 +118,8 @@ html{scroll-behavior:smooth}
 .btn svg{width:16px;height:16px;transition:transform .12s}
 .btn:hover{transform:translateY(-2px)}
 .btn:hover svg{transform:translateX(3px)}
-.btn.pri{background:var(--tan);color:var(--navy);box-shadow:0 4px 0 #8A6A45}
-.btn.pri:hover{box-shadow:0 6px 0 #8A6A45}
+.btn.pri{background:var(--tan);color:var(--navy);box-shadow:0 4px 0 #8E2B3C}
+.btn.pri:hover{box-shadow:0 6px 0 #8E2B3C}
 .btn.sec{border:2px solid rgba(238,233,222,.5);color:var(--navy-ink)}
 .btn.sec:hover{border-color:var(--navy-ink)}
 .btn i{width:10px;height:10px;border-radius:2px;flex:none}
@@ -137,7 +140,7 @@ html{scroll-behavior:smooth}
 .menu .lec{flex:none;max-width:52%;text-align:right;font-family:var(--cond);font-weight:700;font-size:13.5px;line-height:1.2;color:var(--ink);background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:3px 8px}
 .menu a.all{justify-content:center;margin-top:4px;border-top:1px dashed var(--line);border-radius:0 0 7px 7px;font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .menu a.all:hover{color:var(--ink)}
-/* helpful links (matches HNSS home) */
+/* helpful links (matches MSK home) */
 .bench{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .lk{display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--navy-2);border-radius:10px;padding:13px 16px;text-decoration:none;color:var(--ink);transition:transform .12s,box-shadow .12s}
 :root[data-theme="dark"] .lk{border-left-color:var(--silver)}
@@ -281,20 +284,21 @@ html{scroll-behavior:smooth}
     </div>
   </header>
 
-  <nav class="nav" aria-label="HNSS sections">
+  <nav class="nav" aria-label="MSK sections">
     <a href="../index.html">Home</a>
     <span class="sep"></span>
-    <a href="../HN-Games/index.html" aria-current="page"><i style="background:var(--g)"></i>Head &amp; Neck Games</a>
-    <a href="../HN-Study-Guides/index.html"><i style="background:var(--s)"></i>Study Guides</a>
-    <a href="../HN-Pathology-Database/index.html"><i style="background:var(--d)"></i>Pathology Database</a>
+    <a href="../MSK-Games/index.html" aria-current="page"><i style="background:var(--g)"></i>MSK Games</a>
+    <a href="../MSK-Study-Guides/index.html"><i style="background:var(--s)"></i>Study Guides</a>
+    <a href="../MSK-Databases/HoyaDocs_MSK_Pathology_Database.html"><i style="background:var(--d)"></i>Path Database</a>
+    <a href="../MSK-Databases/HoyaDocs_MSK_Pharm_Drug_Chart.html"><i style="background:var(--d)"></i>Pharm Database</a>
     <span class="sep"></span>
-    <a href="../Anat-Games/"><i style="background:var(--a)"></i>Anatomy Games</a>
-    <a href="../Exam-Day-Lab-Notes/index.html"><i style="background:var(--a)"></i>Lab Notes</a>
+    <a href="../../MSK_Drill_Room.html"><i style="background:var(--a)"></i>Anatomy Drill Room</a>
+    <a href="../../MSK_Structure_Database.html"><i style="background:var(--a)"></i>Structure Database</a>
   </nav>
 
   <section class="hero">
     <div>
-      <div class="eyebrow">Block 5 &middot; Head &amp; Neck</div>
+      <div class="eyebrow">Block 5 &middot; Musculoskeletal</div>
       <h1>Games</h1>
     </div>
     <div class="pickcue" aria-hidden="true">
@@ -302,55 +306,29 @@ html{scroll-behavior:smooth}
       <svg viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h42M34 3l10 9-10 9"/></svg>
     </div>
     <nav class="ctas" aria-label="Choose a game by discipline">
-      <details class="dd" style="--c:var(--emb)">
-        <summary class="btn sec"><i style="background:var(--emb)"></i>Embryology<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
-        <div class="menu">
-          <div class="mh">Embryology &middot; 6 games</div>
-          <a href="hnss-embryo-builder.html"><span class="mt"><strong>Embryo Builder</strong><small>Structure Builder</small></span><span class="lec">HNSS03 &middot; 04 &middot; 18</span></a>
-          <a href="pharyngeal-gauntlet_1.html"><span class="mt"><strong>Pharyngeal Gauntlet</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS03 Pharyngeal Arches</span></a>
-          <a href="fusion-wars_1.html"><span class="mt"><strong>The Fusion Wars</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS04 Craniofacial Development</span></a>
-          <a href="sensory-citadel_1.html"><span class="mt"><strong>The Sensory Citadel</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS18 Eye &amp; Ear Embryology</span></a>
-          <a href="embryomon.html"><span class="mt"><strong>Embryomon</strong><small>Creature Campaign</small></span><span class="lec">HNSS03 &middot; 04 &middot; 18</span></a>
-          <a href="embryohisto-bell-ringer.html"><span class="mt"><strong>HNSS Embryo &amp; Histo Bell Ringer</strong><small>Bell Ringer &middot; USMLE style</small></span><span class="lec">HNSS03 &middot; 04 &middot; 09 &middot; 18</span></a>
-          <a class="all showall" href="#games" data-d="emb">Show all Embryology games below &darr;</a>
-        </div>
-      </details>
-      <details class="dd" style="--c:var(--his)">
-        <summary class="btn sec"><i style="background:var(--his)"></i>Histology<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
-        <div class="menu">
-          <div class="mh">Histology &middot; 6 games</div>
-          <a href="hnss-histo-builder.html"><span class="mt"><strong>Histo Builder</strong><small>Structure Builder</small></span><span class="lec">HNSS09 &middot; 12</span></a>
-          <a href="tunic-siege.html"><span class="mt"><strong>The Tunic Siege</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS09 Eye &amp; Ear Histology</span></a>
-          <a href="enamel-gauntlet.html"><span class="mt"><strong>The Enamel Gauntlet</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS12 Oral Structures</span></a>
-          <a href="histomon.html"><span class="mt"><strong>Histomon</strong><small>Creature Campaign</small></span><span class="lec">HNSS09 &middot; 12</span></a>
-          <a href="embryohisto-bell-ringer.html"><span class="mt"><strong>HNSS Embryo &amp; Histo Bell Ringer</strong><small>Bell Ringer &middot; USMLE style</small></span><span class="lec">HNSS03 &middot; 04 &middot; 09 &middot; 18</span></a>
-          <a href="HoyaDocs_HNSS_Bell_Ringer_II.html"><span class="mt"><strong>HNSS Bell Ringer II</strong><small>Bell Ringer &middot; USMLE style</small></span><span class="lec">HNSS09 &middot; 11 &middot; 12 &middot; 15 &middot; 18</span></a>
-          <a class="all showall" href="#games" data-d="his">Show all Histology games below &darr;</a>
-        </div>
-      </details>
-      <details class="dd" style="--c:var(--neu)">
-        <summary class="btn sec"><i style="background:var(--neu)"></i>Neuro<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
-        <div class="menu">
-          <div class="mh">Neuro &middot; 4 games</div>
-          <a href="hnss-neuro-builder.html"><span class="mt"><strong>Neuro Builder</strong><small>Structure Builder</small></span><span class="lec">HNSS07 &middot; 08 &middot; 17</span></a>
-          <a href="cerebral-siege.html"><span class="mt"><strong>The Cerebral Siege</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS07 The Brain</span></a>
-          <a href="neural-tube-trials.html"><span class="mt"><strong>The Neural Tube Trials</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS08 Brain Development</span></a>
-          <a href="cerebromon.html"><span class="mt"><strong>Cerebromon</strong><small>Creature Campaign</small></span><span class="lec">HNSS07 &middot; 08 &middot; 17</span></a>
-          <a class="all showall" href="#games" data-d="neu">Show all Neuro games below &darr;</a>
-        </div>
-      </details>
       <details class="dd" style="--c:var(--pat)">
         <summary class="btn sec"><i style="background:var(--pat)"></i>Pathology<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
         <div class="menu">
-          <div class="mh">Pathology &middot; 7 games</div>
-          <a href="hnss-path-builder.html"><span class="mt"><strong>Pathology Builder</strong><small>Structure Builder</small></span><span class="lec">HNSS11 &middot; 15 &middot; 16</span></a>
-          <a href="eye-fundus-fortress.html"><span class="mt"><strong>The Fundus Fortress</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS11 Eye Pathology</span></a>
-          <a href="aerodigestive-gauntlet.html"><span class="mt"><strong>The Aerodigestive Gauntlet</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS15 Head &amp; Neck Pathology</span></a>
-          <a href="slide-sanctum.html"><span class="mt"><strong>The Slide Sanctum</strong><small>Boss Gauntlet</small></span><span class="lec">HNSS16 H&amp;N Path Lab</span></a>
-          <a href="HoyaDocs_HNSS_Path_Bell_Ringer.html"><span class="mt"><strong>HNSS Path Bell Ringer</strong><small>Bell Ringer &middot; USMLE style</small></span><span class="lec">HNSS15 Head &amp; Neck Pathology</span></a>
-          <a href="HoyaDocs_HNSS_Eye_HN_Path_Bell_Ringer.html"><span class="mt"><strong>HNSS Eye &amp; H&amp;N Path Bell Ringer</strong><small>Bell Ringer &middot; USMLE style</small></span><span class="lec">HNSS11 &middot; 15</span></a>
-          <a href="HoyaDocs_HNSS_Bell_Ringer_II.html"><span class="mt"><strong>HNSS Bell Ringer II</strong><small>Bell Ringer &middot; USMLE style</small></span><span class="lec">HNSS09 &middot; 11 &middot; 12 &middot; 15 &middot; 18</span></a>
+          <div class="mh">Pathology &middot; 8 games</div>
+          <a href="HoyaDocs_MSK_Path_Builder.html"><span class="mt"><strong>MSK Path Builder</strong><small>Structure Builder</small></span><span class="lec">MSK10 &middot; 11 &middot; 14 &middot; 16 &middot; 18 &middot; 19</span></a>
+          <a href="HoyaDocs_MSK10_Boss_Battle_Mineral_Citadel.html"><span class="mt"><strong>The Mineral Citadel</strong><small>Boss Gauntlet</small></span><span class="lec">MSK10 Metabolic Bone Disease</span></a>
+          <a href="HoyaDocs_MSK11_Boss_Battle_Fractured_Keep.html"><span class="mt"><strong>The Fractured Keep</strong><small>Boss Gauntlet</small></span><span class="lec">MSK11 Fracture &amp; Joint Disease</span></a>
+          <a href="HoyaDocs_MSK14_Boss_Battle_Ossified_Spire.html"><span class="mt"><strong>The Ossified Spire</strong><small>Boss Gauntlet</small></span><span class="lec">MSK14 Bone Neoplasms</span></a>
+          <a href="HoyaDocs_MSK16_Boss_Battle_Soft_Tissue_Siege.html"><span class="mt"><strong>The Soft Tissue Siege</strong><small>Boss Gauntlet</small></span><span class="lec">MSK16 Soft Tissue Tumors</span></a>
+          <a href="HoyaDocs_MSK18_Boss_Battle_Specimen_Vault.html"><span class="mt"><strong>The Specimen Vault</strong><small>Boss Gauntlet</small></span><span class="lec">MSK18 Bone &amp; Soft Tissue Lab</span></a>
+          <a href="HoyaDocs_MSK19_Boss_Battle_Myelin_Gauntlet.html"><span class="mt"><strong>The Myelin Gauntlet</strong><small>Boss Gauntlet</small></span><span class="lec">MSK19 Nerve &amp; Muscle Disease</span></a>
+          <a href="HoyaDocs_MSK_Path_Bell_Ringer.html"><span class="mt"><strong>MSK Path Bell Ringer</strong><small>Bell Ringer</small></span><span class="lec">MSK10 &middot; 11 &middot; 14 &middot; 16 &middot; 19</span></a>
           <a class="all showall" href="#games" data-d="pat">Show all Pathology games below &darr;</a>
+        </div>
+      </details>
+      <details class="dd" style="--c:var(--pha)">
+        <summary class="btn sec"><i style="background:var(--pha)"></i>Pharmacology<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="menu">
+          <div class="mh">Pharmacology &middot; 3 games</div>
+          <a href="HoyaDocs_MSK_Pharm_Builder.html"><span class="mt"><strong>MSK Pharm Builder</strong><small>Structure Builder</small></span><span class="lec">MSK12 &middot; 22 &middot; 24</span></a>
+          <a href="HoyaDocs_MSK_Pharm_Boss_Battle_Apothecary_Keep.html"><span class="mt"><strong>The Apothecary Keep</strong><small>Boss Gauntlet</small></span><span class="lec">MSK12 &middot; 22 &middot; 24</span></a>
+          <a href="HoyaDocs_MSK_Pharmomon.html"><span class="mt"><strong>Pharmomon</strong><small>Creature Campaign</small></span><span class="lec">MSK12 &middot; 22 &middot; 24</span></a>
+          <a class="all showall" href="#games" data-d="pha">Show all Pharmacology games below &darr;</a>
         </div>
       </details>
     </nav>
@@ -362,7 +340,7 @@ html{scroll-behavior:smooth}
     <div><div class="n">01 &middot; Learn</div><h3>Structure Builders</h3><p>Fill in structures box by box; Drill repeats what you miss.</p></div>
     <div><div class="n">02 &middot; Test</div><h3>Boss Gauntlets</h3><p>One per lecture. Clinical vignettes, solo or 2-player co-op.</p></div>
     <div><div class="n">03 &middot; Review</div><h3>Creature Campaigns</h3><p>RPG mixing every lecture in a subject. Best right before the exam.</p></div>
-    <div><div class="n">04 &middot; Exam-ready &middot; USMLE style</div><h3>Ring Runner</h3><p>Most exam-like Step-style Qs from lectures, in-house practice and 3rd party. Solo or 2-player versus.</p></div>
+    <div><div class="n">04 &middot; Exam-ready &middot; USMLE style</div><h3>Bell Ringer</h3><p>Board-style vignettes with gross, X-ray and slide stations. 2-player duel: alternate turns or buzzer race.</p></div>
   </section>
 
   <div class="sh" id="games"><h2>All Games</h2></div>
@@ -370,32 +348,18 @@ html{scroll-behavior:smooth}
   <div class="bar">
     <div class="filters" role="group" aria-label="Filter games">
       <button type="button" class="fall" id="fall" aria-pressed="true">All</button>
-      <details class="fdd" data-d="emb" style="--c:var(--emb)">
-        <summary><i></i><span class="fl">Embryology</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
-        <div class="fmenu">
-          <button type="button" data-d="emb" data-l="">All Embryology</button>
-          <button type="button" data-d="emb" data-l="03"><b>HNSS03</b>Pharyngeal Arches</button><button type="button" data-d="emb" data-l="04"><b>HNSS04</b>Craniofacial Development</button><button type="button" data-d="emb" data-l="18"><b>HNSS18</b>Eye &amp; Ear Embryology</button>
-        </div>
-      </details>
-      <details class="fdd" data-d="his" style="--c:var(--his)">
-        <summary><i></i><span class="fl">Histology</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
-        <div class="fmenu">
-          <button type="button" data-d="his" data-l="">All Histology</button>
-          <button type="button" data-d="his" data-l="09"><b>HNSS09</b>Eye &amp; Ear Histology</button><button type="button" data-d="his" data-l="12"><b>HNSS12</b>Oral Structures</button>
-        </div>
-      </details>
-      <details class="fdd" data-d="neu" style="--c:var(--neu)">
-        <summary><i></i><span class="fl">Neuro</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
-        <div class="fmenu">
-          <button type="button" data-d="neu" data-l="">All Neuro</button>
-          <button type="button" data-d="neu" data-l="07"><b>HNSS07</b>The Brain</button><button type="button" data-d="neu" data-l="08"><b>HNSS08</b>Brain Development</button><button type="button" data-d="neu" data-l="17"><b>HNSS17</b>Vascular &amp; Ventricular Systems</button>
-        </div>
-      </details>
       <details class="fdd" data-d="pat" style="--c:var(--pat)">
         <summary><i></i><span class="fl">Pathology</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
         <div class="fmenu">
           <button type="button" data-d="pat" data-l="">All Pathology</button>
-          <button type="button" data-d="pat" data-l="11"><b>HNSS11</b>Eye Pathology</button><button type="button" data-d="pat" data-l="15"><b>HNSS15</b>Head &amp; Neck Pathology</button><button type="button" data-d="pat" data-l="16"><b>HNSS16</b>H&amp;N Path Lab</button>
+          <button type="button" data-d="pat" data-l="10"><b>MSK10</b>Metabolic Bone Disease</button><button type="button" data-d="pat" data-l="11"><b>MSK11</b>Fracture, Infection &amp; Joint Disease</button><button type="button" data-d="pat" data-l="14"><b>MSK14</b>Bone Neoplasms</button><button type="button" data-d="pat" data-l="16"><b>MSK16</b>Soft Tissue Tumors</button><button type="button" data-d="pat" data-l="18"><b>MSK18</b>Bone &amp; Soft Tissue Lab</button><button type="button" data-d="pat" data-l="19"><b>MSK19</b>Nerve &amp; Muscle Disease</button>
+        </div>
+      </details>
+      <details class="fdd" data-d="pha" style="--c:var(--pha)">
+        <summary><i></i><span class="fl">Pharmacology</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="fmenu">
+          <button type="button" data-d="pha" data-l="">All Pharmacology</button>
+          <button type="button" data-d="pha" data-l="12"><b>MSK12</b>Treatment of Osteoporosis</button><button type="button" data-d="pha" data-l="22"><b>MSK22</b>DMARDs &amp; Biologics</button><button type="button" data-d="pha" data-l="24"><b>MSK24</b>Inflammation Conference</button>
         </div>
       </details>
     </div>
@@ -408,187 +372,107 @@ html{scroll-behavior:smooth}
 
   <div class="list" role="list">
     <div class="lhead" aria-hidden="true"><span>Game</span><span>Category</span><span>Game type</span><span>Questions</span><span>Lectures covered</span><span></span></div>
-    <a class="row" href="hnss-embryo-builder.html" data-d="emb" data-l="03 04 18" style="--c:var(--emb)">
-      <span class="c-name"><span class="disc-l"><i></i>Embryology</span><strong>Embryo Builder</strong></span>
+    <a class="row" href="HoyaDocs_MSK_Path_Builder.html" data-d="pat" data-l="10 11 14 16 18 19" style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>MSK Path Builder</strong></span>
       <span class="c-type"><span class="type tb">Structure Builder</span></span>
       <span class="c-mode">Build + Drill</span>
-      <span class="c-q"><b>183</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS03</b>Pharyngeal Arches</span><span><b>HNSS04</b>Craniofacial Development</span><span><b>HNSS18</b>Eye &amp; Ear Embryology</span></span>
+      <span class="c-q"><b>136</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK10</b>Metabolic Bone Disease</span><span><b>MSK11</b>Fracture, Infection &amp; Joint Disease</span><span><b>MSK14</b>Bone Neoplasms</span><span><b>MSK16</b>Soft Tissue Tumors</span><span><b>MSK18</b>Bone &amp; Soft Tissue Lab</span><span><b>MSK19</b>Nerve &amp; Muscle Disease</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
-    <a class="row" href="pharyngeal-gauntlet_1.html" data-d="emb" data-l="03" style="--c:var(--emb)">
-      <span class="c-name"><span class="disc-l"><i></i>Embryology</span><strong>Pharyngeal Gauntlet</strong></span>
+    <a class="row" href="HoyaDocs_MSK10_Boss_Battle_Mineral_Citadel.html" data-d="pat" data-l="10" style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>The Mineral Citadel</strong></span>
       <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
       <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>43</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS03</b>Pharyngeal Arches</span></span>
+      <span class="c-q"><b>36</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK10</b>Metabolic Bone Disease</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
-    <a class="row" href="fusion-wars_1.html" data-d="emb" data-l="04" style="--c:var(--emb)">
-      <span class="c-name"><span class="disc-l"><i></i>Embryology</span><strong>The Fusion Wars</strong></span>
+    <a class="row" href="HoyaDocs_MSK11_Boss_Battle_Fractured_Keep.html" data-d="pat" data-l="11" style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>The Fractured Keep</strong></span>
       <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
       <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>46</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS04</b>Craniofacial Development</span></span>
+      <span class="c-q"><b>36</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK11</b>Fracture, Infection &amp; Joint Disease</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
-    <a class="row" href="sensory-citadel_1.html" data-d="emb" data-l="18" style="--c:var(--emb)">
-      <span class="c-name"><span class="disc-l"><i></i>Embryology</span><strong>The Sensory Citadel</strong></span>
+    <a class="row" href="HoyaDocs_MSK14_Boss_Battle_Ossified_Spire.html" data-d="pat" data-l="14" style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>The Ossified Spire</strong></span>
       <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
       <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>33</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS18</b>Eye &amp; Ear Embryology</span></span>
+      <span class="c-q"><b>36</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK14</b>Bone Neoplasms</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
-    <a class="row" href="embryomon.html" data-d="emb" data-l="03 04 18" style="--c:var(--emb)">
-      <span class="c-name"><span class="disc-l"><i></i>Embryology</span><strong>Embryomon</strong></span>
-      <span class="c-type"><span class="type tc">Creature Campaign</span></span>
-      <span class="c-mode">Full review</span>
-      <span class="c-q"><b>88</b><small>Structures</small></span>
-      <span class="c-lec"><span><b>HNSS03</b>Pharyngeal Arches</span><span><b>HNSS04</b>Craniofacial Development</span><span><b>HNSS18</b>Eye &amp; Ear Embryology</span></span>
+    <a class="row" href="HoyaDocs_MSK16_Boss_Battle_Soft_Tissue_Siege.html" data-d="pat" data-l="16" style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>The Soft Tissue Siege</strong></span>
+      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
+      <span class="c-mode">Solo or 2-player co-op</span>
+      <span class="c-q"><b>36</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK16</b>Soft Tissue Tumors</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
-    <a class="row" href="embryohisto-bell-ringer.html" data-d="emb his" data-l="03 04 09 18" style="--c:var(--emb)">
-      <span class="c-name"><span class="disc-l"><i></i>Embryology &middot; Histology</span><strong>HNSS Embryo &amp; Histo Bell Ringer</strong></span>
+    <a class="row" href="HoyaDocs_MSK18_Boss_Battle_Specimen_Vault.html" data-d="pat" data-l="18" style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>The Specimen Vault</strong></span>
+      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
+      <span class="c-mode">Solo or 2-player co-op</span>
+      <span class="c-q"><b>36</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK18</b>Bone &amp; Soft Tissue Lab</span></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </a>
+    <a class="row" href="HoyaDocs_MSK19_Boss_Battle_Myelin_Gauntlet.html" data-d="pat" data-l="19" style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>The Myelin Gauntlet</strong></span>
+      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
+      <span class="c-mode">Solo or 2-player co-op</span>
+      <span class="c-q"><b>36</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK19</b>Nerve &amp; Muscle Disease</span></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </a>
+    <a class="row" href="HoyaDocs_MSK_Path_Bell_Ringer.html" data-d="pat" data-l="10 11 14 16 19" style="--c:var(--pat)">
+      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>MSK Path Bell Ringer</strong></span>
       <span class="c-type"><span class="type tr">Bell Ringer</span></span>
-      <span class="c-mode">2-player versus</span>
-      <span class="c-q"><b>118</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS03</b>Pharyngeal Arches</span><span><b>HNSS04</b>Craniofacial Development</span><span><b>HNSS09</b>Eye &amp; Ear Histology</span><span><b>HNSS18</b>Eye &amp; Ear Embryology</span></span>
+      <span class="c-mode">2-player duel &middot; figure stations</span>
+      <span class="c-q"><b>78</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK10</b>Metabolic Bone Disease</span><span><b>MSK11</b>Fracture, Infection &amp; Joint Disease</span><span><b>MSK14</b>Bone Neoplasms</span><span><b>MSK16</b>Soft Tissue Tumors</span><span><b>MSK19</b>Nerve &amp; Muscle Disease</span><span><b>+</b>Step 1 extras</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
-    <a class="row" href="hnss-histo-builder.html" data-d="his" data-l="09 12" style="--c:var(--his)">
-      <span class="c-name"><span class="disc-l"><i></i>Histology</span><strong>Histo Builder</strong></span>
+    <a class="row" href="HoyaDocs_MSK_Pharm_Builder.html" data-d="pha" data-l="12 22 24" style="--c:var(--pha)">
+      <span class="c-name"><span class="disc-l"><i></i>Pharmacology</span><strong>MSK Pharm Builder</strong></span>
       <span class="c-type"><span class="type tb">Structure Builder</span></span>
       <span class="c-mode">Build + Drill</span>
+      <span class="c-q"><b>92</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK12</b>Treatment of Osteoporosis</span><span><b>MSK22</b>DMARDs &amp; Biologics</span><span><b>MSK24</b>Inflammation Conference</span></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </a>
+    <a class="row" href="HoyaDocs_MSK_Pharm_Boss_Battle_Apothecary_Keep.html" data-d="pha" data-l="12 22 24" style="--c:var(--pha)">
+      <span class="c-name"><span class="disc-l"><i></i>Pharmacology</span><strong>The Apothecary Keep</strong></span>
+      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
+      <span class="c-mode">Solo or 2-player co-op</span>
       <span class="c-q"><b>77</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS09</b>Eye &amp; Ear Histology</span><span><b>HNSS12</b>Oral Structures</span></span>
+      <span class="c-lec"><span><b>MSK12</b>Treatment of Osteoporosis</span><span><b>MSK22</b>DMARDs &amp; Biologics</span><span><b>MSK24</b>Inflammation Conference</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
-    <a class="row" href="tunic-siege.html" data-d="his" data-l="09" style="--c:var(--his)">
-      <span class="c-name"><span class="disc-l"><i></i>Histology</span><strong>The Tunic Siege</strong></span>
-      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
-      <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>35</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS09</b>Eye &amp; Ear Histology</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="enamel-gauntlet.html" data-d="his" data-l="12" style="--c:var(--his)">
-      <span class="c-name"><span class="disc-l"><i></i>Histology</span><strong>The Enamel Gauntlet</strong></span>
-      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
-      <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>32</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS12</b>Oral Structures</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="histomon.html" data-d="his" data-l="09 12" style="--c:var(--his)">
-      <span class="c-name"><span class="disc-l"><i></i>Histology</span><strong>Histomon</strong></span>
+    <a class="row" href="HoyaDocs_MSK_Pharmomon.html" data-d="pha" data-l="12 22 24" style="--c:var(--pha)">
+      <span class="c-name"><span class="disc-l"><i></i>Pharmacology</span><strong>Pharmomon</strong></span>
       <span class="c-type"><span class="type tc">Creature Campaign</span></span>
       <span class="c-mode">Full review</span>
-      <span class="c-q"><b>115</b><small>Structures</small></span>
-      <span class="c-lec"><span><b>HNSS09</b>Eye &amp; Ear Histology</span><span><b>HNSS12</b>Oral Structures</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="hnss-neuro-builder.html" data-d="neu" data-l="07 08 17" style="--c:var(--neu)">
-      <span class="c-name"><span class="disc-l"><i></i>Neuro</span><strong>Neuro Builder</strong></span>
-      <span class="c-type"><span class="type tb">Structure Builder</span></span>
-      <span class="c-mode">Build + Drill</span>
-      <span class="c-q"><b>80</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS07</b>The Brain</span><span><b>HNSS08</b>Brain Development</span><span><b>HNSS17</b>Vascular &amp; Ventricular Systems</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="cerebral-siege.html" data-d="neu" data-l="07" style="--c:var(--neu)">
-      <span class="c-name"><span class="disc-l"><i></i>Neuro</span><strong>The Cerebral Siege</strong></span>
-      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
-      <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>26</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS07</b>The Brain</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="neural-tube-trials.html" data-d="neu" data-l="08" style="--c:var(--neu)">
-      <span class="c-name"><span class="disc-l"><i></i>Neuro</span><strong>The Neural Tube Trials</strong></span>
-      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
-      <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>27</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS08</b>Brain Development</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="cerebromon.html" data-d="neu" data-l="07 08 17" style="--c:var(--neu)">
-      <span class="c-name"><span class="disc-l"><i></i>Neuro</span><strong>Cerebromon</strong></span>
-      <span class="c-type"><span class="type tc">Creature Campaign</span></span>
-      <span class="c-mode">Full review</span>
-      <span class="c-q"><b>127</b><small>Structures</small></span>
-      <span class="c-lec"><span><b>HNSS07</b>The Brain</span><span><b>HNSS08</b>Brain Development</span><span><b>HNSS17</b>Vascular &amp; Ventricular Systems</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="hnss-path-builder.html" data-d="pat" data-l="11 15 16" style="--c:var(--pat)">
-      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>Pathology Builder</strong></span>
-      <span class="c-type"><span class="type tb">Structure Builder</span></span>
-      <span class="c-mode">Build + Drill</span>
-      <span class="c-q"><b>99</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS11</b>Eye Pathology</span><span><b>HNSS15</b>Head &amp; Neck Pathology</span><span><b>HNSS16</b>H&amp;N Path Lab</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="eye-fundus-fortress.html" data-d="pat" data-l="11" style="--c:var(--pat)">
-      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>The Fundus Fortress</strong></span>
-      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
-      <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>37</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS11</b>Eye Pathology</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="aerodigestive-gauntlet.html" data-d="pat" data-l="15" style="--c:var(--pat)">
-      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>The Aerodigestive Gauntlet</strong></span>
-      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
-      <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>32</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS15</b>Head &amp; Neck Pathology</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="slide-sanctum.html" data-d="pat" data-l="16" style="--c:var(--pat)">
-      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>The Slide Sanctum</strong></span>
-      <span class="c-type"><span class="type tg">Boss Gauntlet</span></span>
-      <span class="c-mode">Solo or 2-player co-op</span>
-      <span class="c-q"><b>34</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS16</b>H&amp;N Path Lab</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="HoyaDocs_HNSS_Path_Bell_Ringer.html" data-d="pat" data-l="15" style="--c:var(--pat)">
-      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>HNSS Path Bell Ringer</strong></span>
-      <span class="c-type"><span class="type tr">Bell Ringer</span></span>
-      <span class="c-mode">2-player versus</span>
-      <span class="c-q"><b>33</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS15</b>Head &amp; Neck Pathology</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="HoyaDocs_HNSS_Eye_HN_Path_Bell_Ringer.html" data-d="pat" data-l="11 15" style="--c:var(--pat)">
-      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>HNSS Eye &amp; H&amp;N Path Bell Ringer</strong></span>
-      <span class="c-type"><span class="type tr">Bell Ringer</span></span>
-      <span class="c-mode">2-player versus</span>
-      <span class="c-q"><b>49</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS11</b>Eye Pathology</span><span><b>HNSS15</b>Head &amp; Neck Pathology</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
-    <a class="row" href="HoyaDocs_HNSS_Bell_Ringer_II.html" data-d="pat his" data-l="09 11 12 15 18" style="--c:var(--pat)">
-      <span class="c-name"><span class="disc-l"><i></i>Pathology &middot; Histology</span><strong>HNSS Bell Ringer II</strong></span>
-      <span class="c-type"><span class="type tr">Bell Ringer</span></span>
-      <span class="c-mode">2-player versus</span>
-      <span class="c-q"><b>45</b><small>Questions</small></span>
-      <span class="c-lec"><span><b>HNSS09</b>Eye &amp; Ear Histology</span><span><b>HNSS11</b>Eye Pathology</span><span><b>HNSS12</b>Oral Structures</span><span><b>HNSS15</b>Head &amp; Neck Pathology</span><span><b>HNSS18</b>Eye &amp; Ear Embryology</span></span>
+      <span class="c-q"><b>57</b><small>To catch</small></span>
+      <span class="c-lec"><span><b>MSK12</b>Treatment of Osteoporosis</span><span><b>MSK22</b>DMARDs &amp; Biologics</span><span><b>MSK24</b>Inflammation Conference</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
   </div>
   <div class="pick" id="pick">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    <div><strong>Pick a subject or lecture</strong><span>Choose Embryology, Histology, Neuro or Pathology above, or tap All to see every game.</span></div>
+    <div><strong>Pick a subject or lecture</strong><span>Choose Pathology or Pharmacology above, or tap All to see every game.</span></div>
   </div>
   <div class="empty" id="empty">No games match. Try another lecture or clear the search.</div>
 
   <div class="sh" id="helpful-links"><h2>Helpful Links</h2></div>
   <section class="bench" aria-label="Helpful links">
-    <a class="lk feat" href="HoyaDocs_HNSS_Game_LO_Map.pdf">
-      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg></div>
-      <div class="lt"><small>Which game tests which LO</small><strong>Game &rarr; LO Map</strong></div>
-      <span class="pdf">PDF</span>
+    <a class="lk feat" href="../HoyaDocs_MSK_UWorld_QID_Map.xlsx">
+      <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 9h17M3.5 14.5h17M9.5 9v11.5"/></svg></div>
+      <div class="lt"><small>UWorld QIDs by MSK lecture</small><strong>MSK UWorld QID Map</strong></div>
+      <span class="pdf">XLSX</span>
     </a>
     <a class="lk" href="https://drive.google.com/drive/folders/16SVxR2aDhUdc8VJ8mYtz4lukkoLxVuXn" target="_blank" rel="noopener">
       <div class="li" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5H9l2 2.5h8.5A1.5 1.5 0 0 1 21 9v9.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></svg></div>
@@ -603,8 +487,8 @@ html{scroll-behavior:smooth}
   </section>
 
   <footer class="foot">
-    <div class="rev">HoyaDocs &middot; Block 5 &middot; HNSS &middot; Head &amp; Neck Games</div>
-    <div class="rev">Rev 11 &middot; Updated Oct 1, 2026</div>
+    <div class="rev">HoyaDocs &middot; Block 5 &middot; MSK &middot; MSK Games</div>
+    <div class="rev">Rev 4 &middot; Updated Oct 1, 2026</div>
   </footer>
 
 </div>
@@ -631,20 +515,20 @@ html{scroll-behavior:smooth}
       dds=[].slice.call(document.querySelectorAll('.dd')), all=dds.concat(fdds),
       count=document.getElementById('count'), empty=document.getElementById('empty'),
       pick=document.getElementById('pick'), lhead=document.querySelector('.lhead');
-  var LABEL={emb:'Embryology',his:'Histology',neu:'Neuro',pat:'Pathology'};
+  var LABEL={pat:'Pathology',pha:'Pharmacology'};
   var st={d:null,l:''};
   function apply(){
     var term=q.value.trim().toLowerCase(), n=0;
     rows.forEach(function(r){
       var none=st.d===null&&!term;
-      var ok=!none&&(!st.d||(' '+r.dataset.d+' ').indexOf(' '+st.d+' ')>-1)&&(!st.l||(' '+r.dataset.l+' ').indexOf(' '+st.l+' ')>-1)&&(!term||r.textContent.toLowerCase().indexOf(term)>-1);
+      var ok=!none&&(!st.d||r.dataset.d===st.d)&&(!st.l||(' '+r.dataset.l+' ').indexOf(' '+st.l+' ')>-1)&&(!term||r.textContent.toLowerCase().indexOf(term)>-1);
       r.style.display=ok?'':'none'; if(ok)n++;
     });
     fall.setAttribute('aria-pressed',st.d===''?'true':'false');
     lhead.style.display=n?'':'none';
     fdds.forEach(function(f){
       var on=f.dataset.d===st.d; f.classList.toggle('on',on);
-      f.querySelector('.fl').textContent=LABEL[f.dataset.d]+(on&&st.l?' \u00b7 HNSS'+st.l:'');
+      f.querySelector('.fl').textContent=LABEL[f.dataset.d]+(on&&st.l?' \u00b7 MSK'+st.l:'');
       [].forEach.call(f.querySelectorAll('.fmenu button'),function(b){b.setAttribute('aria-current',(on&&b.dataset.l===st.l)?'true':'false');});
     });
     var idle=st.d===null&&!term;
