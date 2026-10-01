@@ -1,0 +1,356 @@
+<title>MSK Pharm Drug Chart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,600;6..72,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600&display=swap">
+<style>
+/* Layout: reference sheet — roster of chips up top, then one scrollable chart per lecture; filter bar sticks. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#1b2130; --muted:#5d6577; --line:#dde1e8; --head:#26324a;
+  --l12:#6d3f8c; --l22:#16736a; --l24:#a4412b;
+  --hy-bg:#fff6cc; --hy-bd:#c9a200; --hy-ink:#4a3a00;
+  --chip:#eef0f4; --focus:#2f5fd0; --warn:#b3261e;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans",-apple-system,"Segoe UI",Arial,sans-serif;
+  --cond:"IBM Plex Sans Condensed","IBM Plex Sans",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12151c; --surface:#1a1f29; --ink:#e6e9f0; --muted:#a2aabb; --line:#2e3544; --head:#dbe3f4;
+  --l12:#c29be0; --l22:#5cc4b8; --l24:#ec8f78;
+  --hy-bg:#3a3212; --hy-bd:#b8940c; --hy-ink:#f7e7a6;
+  --chip:#262c39; --focus:#8fb0ff; --warn:#ff8a80; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151c; --surface:#1a1f29; --ink:#e6e9f0; --muted:#a2aabb; --line:#2e3544; --head:#dbe3f4;
+  --l12:#c29be0; --l22:#5cc4b8; --l24:#ec8f78;
+  --hy-bg:#3a3212; --hy-bd:#b8940c; --hy-ink:#f7e7a6;
+  --chip:#262c39; --focus:#8fb0ff; --warn:#ff8a80; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14px;line-height:1.45;margin:0}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:16px;padding-block:24px 48px}
+header{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+.brand{font-family:var(--cond);font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:12px;color:var(--muted)}
+h1{font-family:var(--display);font-size:clamp(26px,4vw,36px);margin:0;color:var(--head);text-wrap:balance;line-height:1.15}
+.sub{color:var(--muted);max-width:70ch;margin:0}
+.meta{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+h2{font-family:var(--display);font-size:22px;margin:0;color:var(--head);text-wrap:balance}
+.key{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted);margin-top:4px}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+.roster{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:22px}
+.roster h3{margin:0 0 8px;font-family:var(--cond);font-size:13px;letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
+.roster h3 .n{color:var(--muted);font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12.5px;background:var(--chip);border:1px solid transparent;border-radius:999px;padding:3px 10px;color:var(--ink);cursor:pointer;font-family:var(--body)}
+.chip:hover{border-color:var(--line)}
+.chip:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid var(--line);margin-bottom:18px}
+.bar input{flex:1 1 240px;min-width:0;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:500 13px var(--body);padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--head);color:var(--surface);border-color:var(--head)}
+.count{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+section.lec{margin-bottom:28px}
+.lechead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:10px;padding-left:12px;border-left:5px solid var(--c)}
+.lechead .lo{color:var(--muted);font-size:13px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:980px;font-size:13px}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--line)}
+thead th{font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--surface);position:sticky;top:0}
+tr.group td{background:var(--chip);font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--c);padding-block:6px}
+td.drug{width:15%;border-left:4px solid var(--c)}
+.dn{font-weight:700;color:var(--head)}
+.ds{font-size:12px;color:var(--muted);margin-top:2px}
+.also{display:inline-block;margin-top:4px;font-size:11px;font-family:var(--cond);color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+td.moa{width:21%} td.use{width:19%} td.tox{width:21%}
+td.hy{width:24%;background:var(--hy-bg);color:var(--hy-ink);border-left:2px solid var(--hy-bd)}
+.x{color:var(--warn);font-weight:600}
+.s1{display:inline-block;font-family:var(--cond);font-size:10.5px;font-weight:600;letter-spacing:.04em;border:1px solid var(--hy-bd);border-radius:4px;padding:0 4px;margin-right:4px;color:var(--hy-ink)}
+tbody tr:last-child td{border-bottom:none}
+mark{background:transparent;color:inherit;box-shadow:inset 0 -.45em 0 var(--hy-bg)}
+.empty{padding:18px;color:var(--muted)}
+
+.principles{background:var(--hy-bg);border:2px solid var(--hy-bd);color:var(--hy-ink);border-radius:10px;padding:14px 18px;margin-top:6px}
+.principles h2{color:var(--hy-ink);font-size:19px;margin-bottom:6px}
+.principles ul{margin:0;padding-left:20px;display:grid;gap:4px}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;max-width:90ch}
+footer{margin-top:26px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="brand">HoyaDocs · MSK Pharmacology</div>
+  <h1>MSK Pharm Drug Chart</h1>
+  <p class="sub">Every drug covered in the three MSK pharmacology lectures, with its mechanism, uses, key toxicities and the one pearl most likely to be tested. Yellow column = high yield.</p>
+  <div class="meta">Updated September 30, 2026 · Revision 1.0</div>
+  <div class="key">
+    <span><i class="sw" style="background:var(--l12)"></i>Treatment of Osteoporosis</span>
+    <span><i class="sw" style="background:var(--l22)"></i>DMARDs &amp; Biologics</span>
+    <span><i class="sw" style="background:var(--l24)"></i>Inflammation Conference</span>
+    <span><span class="s1">STEP 1</span>added board fact beyond the lecture</span>
+  </div>
+</header>
+
+<div class="roster" id="roster" aria-label="Drug list"></div>
+
+<div class="bar">
+  <label for="q" class="count" style="position:absolute;left:-9999px">Search drugs</label>
+  <input id="q" type="search" placeholder="Search a drug, mechanism or toxicity (e.g. TB, hypocalcemia, JAK)" autocomplete="off">
+  <div class="seg" role="group" aria-label="Filter by lecture">
+    <button type="button" data-f="all" aria-pressed="true">All</button>
+    <button type="button" data-f="12" aria-pressed="false">Osteoporosis</button>
+    <button type="button" data-f="22" aria-pressed="false">DMARDs &amp; Biologics</button>
+    <button type="button" data-f="24" aria-pressed="false">Inflammation Conf.</button>
+  </div>
+  <span class="count" id="count"></span>
+</div>
+
+<div id="charts"></div>
+
+<div class="principles">
+  <h2>Cross-cutting rules that decide exam questions</h2>
+  <ul>
+    <li><b>Only anabolics build bone</b> (teriparatide, abaloparatide, romosozumab). Every anabolic must be <b>followed by an antiresorptive</b>. Very-high fracture risk → start anabolic.</li>
+    <li><b>Drug holiday = bisphosphonates only.</b> Never stop denosumab without a bisphosphonate → rebound multiple vertebral fractures.</li>
+    <li><b>Signature risks:</b> denosumab → hypocalcemia in advanced CKD · raloxifene/estrogen → VTE · romosozumab → MI/stroke · PTH analogs → osteosarcoma-risk patients · bisphosphonates/denosumab → ONJ, atypical femoral fracture.</li>
+    <li><b>Before any biologic:</b> screen latent TB (PPD/IGRA) and hepatitis B. TNF maintains granulomas; rituximab reactivates HBV and causes PML.</li>
+    <li><b>RA ladder:</b> NSAIDs/prednisone → low-dose weekly methotrexate (+ folic acid) → add a biologic (anti-TNF) after a negative TB test. Treat to target (DAS28, ACR20/50/70, RAPID3).</li>
+    <li><b>Anti-drug antibodies</b> cause secondary failure: chimeric drugs and stop-start dosing raise the risk; regular dosing plus methotrexate lowers it.</li>
+    <li><b>Lupus:</b> hydroxychloroquine for nearly everyone; nephritis → steroids + mycophenolate or cyclophosphamide; steroids alone do not protect the kidney.</li>
+  </ul>
+</div>
+
+<p class="note">Colchicine is not in the pharmacology lectures, but the rheumatology cases lecture names it for gout: it binds tubulin → blocks microtubules → stops neutrophil chemotaxis; GI, neuromyopathy and marrow toxicity; avoid with renal/hepatic failure and CYP3A4 inhibitors. Psoriasis/spondyloarthritis biologics (IL-17, IL-12/23) are taught by target only, so they appear here without drug names.</p>
+
+<footer><span>HoyaDocs · MSK Pharm Drug Chart</span><span>Updated September 30, 2026 · Rev 1.0</span></footer>
+</div>
+
+<script>
+const S = '<span class="s1">STEP 1</span>';
+const DRUGS = [
+ // ---------- Treatment of Osteoporosis ----------
+ {l:'12',g:'Foundation — correct in everyone first',n:'Calcium',s:'1,200 mg/day total (diet first)',
+  m:'Substrate for hydroxyapatite; adequate intake suppresses PTH-driven resorption.',
+  u:'Adjunct to every osteoporosis drug.',
+  t:'Constipation (carbonate). Caution: hypercalcemia, calcium stones.',
+  h:'<b>Correct calcium and vitamin D before any antiresorptive or romosozumab</b> — those drugs can precipitate hypocalcemia.'},
+ {l:'12',g:'Foundation — correct in everyone first',n:'Vitamin D',s:'≥1,000 IU/day',
+  m:'↑ Intestinal Ca²⁺ and phosphate absorption; needed for mineralization.',
+  u:'Adjunct; replete deficiency before therapy.',
+  t:'Excess → hypercalcemia.',
+  h:'Pairs with calcium: deficiency must be fixed first to avoid drug-induced hypocalcemia.'},
+ {l:'12',g:'Antiresorptives',n:'Bisphosphonates',s:'Alendronate, risedronate (PO) · ibandronate (PO/IV) · zoledronic acid (IV yearly)',
+  m:'<b>Pyrophosphate analogs</b> bind hydroxyapatite → taken up by osteoclasts. N-containing BPs inhibit <b>farnesyl pyrophosphate synthase</b> (mevalonate pathway) → osteoclast apoptosis.',
+  u:'First-line for postmenopausal, male and glucocorticoid-induced osteoporosis. Also <b>hypercalcemia</b>, <b>Paget disease</b>, bone metastases, osteogenesis imperfecta.',
+  t:'Oral: <b>pill esophagitis</b>. IV: acute-phase flu-like reaction. Rare: <b>ONJ</b>, <b>atypical femoral fracture</b>, hypocalcemia. <span class="x">CI:</span> CrCl &lt;30–35, hypocalcemia, esophageal disease / can\'t stay upright.',
+  h:'Take fasting with plain water, <b>upright 30–60 min</b>. <b>Only class allowed a drug holiday</b> (reassess at 3–5 yr). <b>Ibandronate = vertebral-only → not first line.</b> Cheap/generic → first choice when uninsured.'},
+ {l:'12',g:'Antiresorptives',n:'Denosumab',s:'Anti-RANKL mAb · SC every 6 months',
+  m:'Fully human monoclonal antibody to <b>RANKL</b> → blocks RANKL–RANK → ↓ osteoclast formation, function, survival.',
+  u:'High-risk PMO and men; GIO; bone loss on androgen deprivation (prostate cancer) or aromatase inhibitors (breast cancer).',
+  t:'<b>Hypocalcemia</b>, eczema/dermatitis, cellulitis; rare ONJ/AFF. <span class="x">CI:</span> hypocalcemia, pregnancy.',
+  h:'<b>Boxed warning: severe hypocalcemia in advanced CKD / dialysis</b> (guaranteed on exam) — even though it is not renally cleared. <b>No drug holiday:</b> stopping → rebound resorption and multiple vertebral fractures → switch to a bisphosphonate.'},
+ {l:'12',g:'Antiresorptives',n:'Raloxifene',s:'SERM · PO daily',
+  m:'Estrogen <b>agonist in bone</b>, <b>antagonist in breast</b>, neutral in uterus.',
+  u:'PMO prevention/treatment in younger women with breast-cancer risk. ↓ vertebral fracture only; ↓ ER+ breast cancer 50–75%.',
+  t:'<b>VTE</b>, hot flashes, leg cramps. <span class="x">CI:</span> VTE history.',
+  h:'<b>VTE</b> is the tested risk. No hip benefit — skip after a hip fracture. No ↑ uterine cancer (unlike tamoxifen).'},
+ {l:'12',g:'Antiresorptives',n:'Estrogens',s:'± progestin if uterus intact',
+  m:'↓ RANKL, ↑ OPG → fewer, less active osteoclasts; ↑ osteoblast collagen; ↑ GI calcium absorption.',
+  u:'<b>Prevention</b> of PMO — best in early menopause with vasomotor symptoms.',
+  t:'VTE, breast tenderness, bleeding, ↑ BP, ↑ triglycerides. <span class="x">CI:</span> breast/estrogen-dependent cancer, VTE/stroke/MI, migraine with aura, undiagnosed bleeding, pregnancy.',
+  h:'Estrogen loss is the main driver of postmenopausal bone loss. <b>Stopping it → rapid BMD loss → follow with a bisphosphonate.</b> WHI: ↑ MI, stroke, breast cancer, VTE; ↓ hip fracture.'},
+ {l:'12',g:'Antiresorptives',n:'Conjugated estrogen / bazedoxifene',s:'Tissue-selective estrogen complex (TSEC)',
+  m:'Estrogen for bone and hot flashes + bazedoxifene (a SERM) that shields the endometrium and breast.',
+  u:'PMO prevention with vasomotor symptoms in women <b>with a uterus</b>.',
+  t:'As for estrogen; same contraindications.',
+  h:'<b>Endometrial protection without a progestin.</b>'},
+ {l:'12',g:'Antiresorptives',n:'Calcitonin',s:'Thyroid C-cell hormone',
+  m:'Directly inhibits osteoclasts.',
+  u:'Listed among antiresorptives; weak, vertebral-only benefit.',
+  t:'—',
+  h:'Not first line. Reduces vertebral fractures only (with raloxifene and ibandronate).'},
+ {l:'12',g:'Anabolics — build bone',n:'Teriparatide',s:'PTH(1-34) · SC daily',
+  m:'<b>Intermittent</b> PTH-receptor stimulation → ↓ osteoblast apoptosis, ↑ differentiation → net bone <b>formation</b>. (Continuous PTH → resorption.)',
+  u:'High/very-high-risk PMO, men, GIO. Beat risedronate (VERO).',
+  t:'<b>Hypercalcemia</b>, hypercalciuria/stones, orthostatic hypotension, dizziness, nausea.',
+  h:'Avoid with ↑ <b>osteosarcoma</b> risk: Paget disease, prior skeletal radiation, unexplained ↑ ALP, open epiphyses, bone metastases. <b>Must be followed by an antiresorptive.</b> Choose it over romosozumab after a recent MI/stroke.'},
+ {l:'12',g:'Anabolics — build bone',n:'Abaloparatide',s:'PTHrP analog · SC daily, ≤2 yr',
+  m:'Binds PTH1R in the <b>R0 conformation</b> → maximizes formation with less resorption.',
+  u:'PMO (and men); follow with alendronate.',
+  t:'Orthostatic hypotension, dizziness, palpitations; less hypercalcemia than teriparatide.',
+  h:'Same osteosarcoma-risk cautions as teriparatide. <b>R0-selective = more anabolic, less pro-resorptive.</b>'},
+ {l:'12',g:'Anabolics — build bone',n:'Romosozumab',s:'Anti-sclerostin mAb · SC monthly × 12',
+  m:'Blocks <b>sclerostin</b> (osteocyte Wnt inhibitor) → <b>dual action</b>: ↑ formation and ↓ resorption.',
+  u:'PMO at high fracture risk. Beat alendronate (ARCH); raises BMD more than bisphosphonates.',
+  t:'Arthralgia, headache; rare ONJ/AFF. <span class="x">CI:</span> hypocalcemia.',
+  h:'<b>Boxed warning: MI, stroke, CV death — do not start within 1 year of MI or stroke.</b> Only dual-action agent; 12 doses, then an antiresorptive.'},
+
+ // ---------- DMARDs & Biologics ----------
+ {l:'22',g:'Conventional DMARDs',n:'Methotrexate',s:'Low dose, weekly PO/SC + folic acid',also:'24',
+  m:'Inhibits <b>dihydrofolate reductase</b> (antimetabolite); at low dose also ↑ adenosine (anti-inflammatory).',
+  u:'<b>Cornerstone RA drug</b>; PsA, sarcoid, DM steroid-sparing; lupus joints/skin (not kidneys); GPA maintenance if GFR ≥50.',
+  t:'↑ LFTs, <b>cytopenias</b>, early lung toxicity, teratogenic. <span class="x">CI:</span> renal insufficiency (levels build fast). Monitor CBC + liver enzymes.',
+  h:'Lowest discontinuation rate of the DMARDs. <b>Leucovorin</b> rescues toxicity. Lowers anti-drug antibodies when added to a biologic.'},
+ {l:'22',g:'Conventional DMARDs',n:'Hydroxychloroquine',s:'Antimalarial',also:'24',
+  m:'↑ Lysosomal pH, ↓ TLR signaling → ↓ antigen presentation by macrophages.',
+  u:'<b>Standard in lupus</b> (first therapy for mild SLE; kept in nearly all); RA in combination.',
+  t:'<b>Retinal toxicity</b> → periodic eye exams.',
+  h:'Mild lupus (rash, ulcers, arthralgia, normal kidneys) → <b>hydroxychloroquine</b>.'},
+ {l:'22',g:'Conventional DMARDs',n:'Sulfasalazine',s:'',
+  m:'Sulfa-containing DMARD (sulfapyridine + 5-ASA).',
+  u:'RA, usually in combination; moderately helpful alone.',
+  t:'<b>Sulfa allergy</b>; GI and CNS (headache, fever); rash, ↑ LFTs, leukopenia, <b>agranulocytosis</b>.',
+  h:'Think <b>sulfa allergy</b> and marrow suppression.'},
+ {l:'22',g:'Conventional DMARDs',n:'Azathioprine',s:'Prodrug of 6-mercaptopurine',also:'24',
+  m:'<b>Purine analog</b> → 6-MP/6-TG incorporated into DNA; targets lymphocytes.',
+  u:'Maintenance after cyclophosphamide (lupus nephritis, vasculitis); GPA maintenance if GFR &lt;50; dropped for RA.',
+  t:'<b>Marrow suppression</b>, GI, viral infections, malignancy.',
+  h:'<b>+ allopurinol → 6-MP toxicity</b> (xanthine oxidase blocked). '+S+'Check TPMT activity before starting.'},
+ {l:'22',g:'Conventional DMARDs',n:'Minocycline',s:'Tetracycline',
+  m:'Inhibits matrix <b>metalloproteinases</b>.',
+  u:'RA; safe but low potency.',
+  t:'Dizziness/<b>vestibular toxicity</b>, nausea; rare <b>drug-induced lupus</b> (P-ANCA+), hepatitis.',
+  h:'The tetracycline that causes <b>drug-induced lupus</b> and vestibular symptoms.'},
+ {l:'22',g:'Conventional DMARDs',n:'Leflunomide',s:'',also:'24',
+  m:'Reversibly inhibits <b>dihydroorotate dehydrogenase</b> → ↓ pyrimidine synthesis → ↓ T-cell proliferation.',
+  u:'Methotrexate alternative in RA; PsA.',
+  t:'<b>Hepatotoxicity</b>, diarrhea, hypertension, <b>teratogenic</b>. No marrow suppression.',
+  h:'Very long half-life (enterohepatic) → <b>cholestyramine washout</b> before pregnancy.'},
+ {l:'22',g:'Conventional DMARDs',n:'Mycophenolate mofetil',s:'MMF',also:'24',
+  m:'Reversibly inhibits <b>IMP dehydrogenase</b> → ↓ de novo guanosine synthesis; lymphocytes lack a salvage pathway.',
+  u:'<b>Lupus nephritis</b> induction/maintenance, transplant, DM steroid-sparing (not RA joints).',
+  t:S+'GI upset, cytopenias, infection, teratogenic.',
+  h:'Lupus nephritis induction = <b>steroids + MMF or cyclophosphamide</b>.'},
+ {l:'22',g:'Biologics — know by mechanism',n:'TNF-α inhibitors',s:'Etanercept (decoy receptor + IgG1 Fc) · infliximab (chimeric) · adalimumab, golimumab (human) · certolizumab pegol (PEG Fab)',also:'24',
+  m:'Bind/neutralize <b>TNF-α</b>. "Etaner<b>cept</b> inter<b>cept</b>s TNF."',
+  u:'RA (+ methotrexate), AS/axial SpA, PsA, psoriasis. Monoclonals also <b>IBD and uveitis</b> — etanercept does not.',
+  t:'<b>TB reactivation</b>, hepatitis B reactivation, serious infection, drug-induced lupus, rare demyelination. Infliximab: anti-drug antibodies, <b>serum sickness</b> (type III).',
+  h:'<b>Screen latent TB (PPD/IGRA) first</b> — TNF maintains granulomas. ~70% reach ACR20. Avoid in lupus (drug-induced lupus).'},
+ {l:'22',g:'Biologics — know by mechanism',n:'Anakinra',s:'Recombinant IL-1 receptor antagonist · daily SC',
+  m:'Blocks the <b>IL-1 receptor</b>.',
+  u:'Very effective in periodic fever syndromes (CAPS), systemic JIA/Still, acute gout, pericarditis; moderate in RA.',
+  t:'Injection-site welts, <b>neutropenia</b>, infection.',
+  h:'The "-ra" = receptor antagonist; think <b>IL-1-driven autoinflammatory</b> disease.'},
+ {l:'22',g:'Biologics — know by mechanism',n:'Rituximab',s:'Anti-CD20',also:'24',
+  m:'Depletes <b>CD20+ B cells</b> (complement- and antibody-dependent killing) for ≥6 months.',
+  u:'RA (not PsA/AS), <b>GPA</b> induction/maintenance, refractory lupus, myositis.',
+  t:'Infusion reactions, <b>PML (JC virus)</b>, <b>hepatitis B reactivation</b> (check HBcAb).',
+  h:'New focal deficits + white-matter lesions on rituximab → <b>PML</b>.'},
+ {l:'22',g:'Biologics — know by mechanism',n:'Abatacept',s:'CTLA4-Ig fusion protein',
+  m:'Binds <b>CD80/86 (B7)</b> on APCs → blocks CD28 co-stimulation of T cells.',
+  u:'RA (IV or SC); PsA.',
+  t:'Well tolerated; slow onset; moderately effective.',
+  h:'"Second signal" blocker: <b>CTLA4-Ig → no CD28–B7</b>.'},
+ {l:'22',g:'Biologics — know by mechanism',n:'Tocilizumab',s:'Anti-IL-6 receptor',
+  m:'Blocks the <b>IL-6 receptor</b>.',
+  u:'RA refractory to anti-TNF, systemic JIA, <b>giant cell arteritis</b>, Castleman, COVID-19 inflammation.',
+  t:'Infections, ↑ BP, ↑ liver enzymes.',
+  h:'Think <b>GCA</b>. IL-6 drives CRP, so CRP stays low on tocilizumab even with infection.'},
+ {l:'22',g:'Biologics — know by mechanism',n:'Belimumab',s:'BLyS/BAFF inhibitor',also:'24',
+  m:'Blocks <b>B-lymphocyte stimulator</b> (BAFF), which keeps B cells alive.',
+  u:'<b>Lupus</b> — joints, skin, and appears to help kidneys.',
+  t:'Infection.',
+  h:'First new lupus drug in decades.'},
+ {l:'22',g:'Biologics — know by mechanism',n:'Tofacitinib',s:'JAK inhibitor · oral small molecule',
+  m:'Blocks <b>JAK–STAT</b> cytokine signaling (lecture: JAK3).',
+  u:'RA; PsA.',
+  t:'Infections (<b>zoster</b>), <b>↑ cholesterol</b>.',
+  h:'Congenital JAK3 absence → SCID. The only <b>oral</b> targeted agent on the list.'},
+ {l:'22',g:'Biologics — know by mechanism',n:'IL-17 and IL-12/23 inhibitors',s:'Taught by target only',
+  m:'Block IL-17 (Th17) or the shared p40 of IL-12/23.',
+  u:'IL-17: ankylosing spondylitis, PsA, psoriasis. IL-12/23: psoriasis skin, PsA.',
+  t:S+'IL-17 blockade can worsen/unmask IBD; candidiasis.',
+  h:'Axial SpA: NSAIDs → anti-TNF <b>or IL-17</b>.'},
+ {l:'22',g:'Other immunotherapies',n:'IVIG',s:'Pooled human IgG, IV',
+  m:'Replaces antibodies in immunodeficiency; modulates autoimmunity (Fc-receptor blockade).',
+  u:'Kawasaki, ITP, Guillain-Barré, refractory dermatomyositis.',
+  t:'Infusion reactions, <b>thrombosis</b>, renal injury.',
+  h:'Immunodeficiency replacement <i>and</i> autoimmune modulation.'},
+ {l:'22',g:'Other immunotherapies',n:'Pegloticase',s:'PEGylated porcine uricase · IV',
+  m:'Converts uric acid → soluble <b>allantoin</b>.',
+  u:'<b>Refractory gout</b>; dramatically lowers serum urate.',
+  t:'<b>~50% develop neutralizing antibodies</b>; infusion reactions.',
+  h:'Check serum uric acid: <b>if it isn\'t low, antibodies have neutralized the drug</b>.'},
+
+ // ---------- Inflammation Conference ----------
+ {l:'24',g:'Symptom control',n:'NSAIDs',s:'e.g., naproxen',
+  m:'Reversibly inhibit <b>COX-1 and COX-2</b> → ↓ prostaglandins.',
+  u:'First line for axial SpA symptoms, gout flares, PsA; relieve symptoms, do not modify disease.',
+  t:'<b>Gastric ulcer</b>/GI bleed, <b>renal ischemia</b> (afferent arteriole constricts), interstitial nephritis, aplastic anemia.',
+  h:'Morning back pain that improves with activity and NSAIDs → <b>inflammatory</b> (axial SpA), not mechanical.'},
+ {l:'24',g:'Immunosuppression for systemic disease',n:'Glucocorticoids',s:'e.g., prednisone',
+  m:'Block phospholipase A₂ and NF-κB → broad anti-inflammatory, immunosuppressive effect.',
+  u:'<b>PMR</b> (prednisone 10–20 mg, dramatic response), lupus flares/nephritis, dermatomyositis, GPA, sarcoidosis, acute gout.',
+  t:'Hyperglycemia/diabetes, cushingoid changes, ↑ lipids, <b>cataracts</b>, <b>osteoporosis</b>, <b>avascular necrosis</b> (hip, knee, shoulder), infection.',
+  h:'Lupus patient on long-term prednisone with groin pain → <b>AVN of the femoral head</b>. Steroids alone do not improve renal survival in lupus nephritis.'},
+ {l:'24',g:'Immunosuppression for systemic disease',n:'Cyclophosphamide',s:'Alkylating agent · IV (Euro-Lupus low dose) or PO',
+  m:'<b>Alkylates DNA</b> → kills proliferating lymphocytes.',
+  u:'Severe <b>lupus nephritis</b> induction; <b>GPA</b> induction.',
+  t:'High infection risk, <b>hemorrhagic cystitis</b> and bladder cancer, <b>premature ovarian failure</b>/infertility.',
+  h:'<b>Mesna + hydration</b> protect the bladder (mesna binds the toxic metabolite acrolein in urine). Discuss fertility preservation.'},
+ {l:'24',g:'Immunosuppression for systemic disease',n:'Calcineurin inhibitors',s:'Cyclosporine, tacrolimus, voclosporin',
+  m:S+'Inhibit calcineurin → ↓ NFAT → ↓ IL-2 transcription → ↓ T-cell activation.',
+  u:'Lupus nephritis — <b>reduce proteinuria</b>.',
+  t:S+'<b>Nephrotoxicity</b>, hypertension; tacrolimus: hyperglycemia, neurotoxicity; cyclosporine: gingival hyperplasia, hirsutism.',
+  h:'Newer lupus-nephritis add-on that lowers proteinuria.'},
+ {l:'24',g:'Immunosuppression for systemic disease',n:'Anifrolumab',s:'Anti–type I interferon receptor mAb',
+  m:'Blocks the <b>type I IFN receptor</b>.',
+  u:'Lupus skin and joints; benefit for nephritis unclear.',
+  t:S+'Infections (respiratory, herpes zoster), infusion reactions.',
+  h:'Lupus is an <b>interferon-signature</b> disease — this drug targets it directly.'}
+];
+
+const LEC = {
+  '12':{name:'Treatment of Osteoporosis',c:'var(--l12)',lo:'Classify by mechanism · indications, contraindications, adverse effects · sequencing'},
+  '22':{name:'DMARDs & Biologics',c:'var(--l22)',lo:'Why DMARDs/biologics · treat to target · anti-drug antibodies · key toxicities'},
+  '24':{name:'Inflammation Conference',c:'var(--l24)',lo:'Mechanisms of rheumatologic therapies · approach to cases (drugs not already in the DMARDs lecture)'}
+};
+
+const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const plain = h => h.replace(/<[^>]+>/g,' ').toLowerCase();
+const state = {q:'', f:'all'};
+
+function roster(){
+  const el = document.getElementById('roster'); let html='';
+  for (const k of ['12','22','24']){
+    const L = LEC[k]; const items = DRUGS.filter(d=>d.l===k);
+    html += `<div><h3 style="color:${L.c}"><span>${L.name}</span><span class="n">${items.length}</span></h3><div class="chips">`+
+      items.map(d=>`<button type="button" class="chip" data-go="${esc(d.n)}">${esc(d.n)}</button>`).join('')+`</div></div>`;
+  }
+  const also = DRUGS.filter(d=>d.also==='24').map(d=>d.n);
+  html += `<div><h3 style="color:var(--l24)"><span>Also used in Inflammation Conference cases</span><span class="n">${also.length}</span></h3><div class="chips">`+
+    also.map(n=>`<button type="button" class="chip" data-go="${esc(n)}">${esc(n)}</button>`).join('')+`</div></div>`;
+  el.innerHTML = html;
+  el.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
+    const q=document.getElementById('q'); q.value=b.dataset.go; state.q=b.dataset.go.toLowerCase(); setFilter('all'); render();
+    document.getElementById('charts').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  }));
+}
+
+function render(){
+  const root = document.getElementById('charts'); let html=''; let shown=0;
+  for (const k of ['12','22','24']){
+    if (state.f!=='all' && state.f!==k) continue;
+    const L = LEC[k];
+    const rows = DRUGS.filter(d=>d.l===k && (!state.q || plain([d.n,d.s,d.m,d.u,d.t,d.h].join(' ')).includes(state.q)));
+    shown += rows.length;
+    let body=''; let g=null;
+    for (const d of rows){
+      if (d.g!==g){ g=d.g; body+=`<tr class="group"><td colspan="5">${esc(g)}</td></tr>`; }
+      body += `<tr id="d-${esc(d.n).replace(/\W+/g,'-')}"><td class="drug"><div class="dn">${esc(d.n)}</div>${d.s?`<div class="ds">${esc(d.s)}</div>`:''}${d.also?'<span class="also">also in Inflammation Conf.</span>':''}</td>
+        <td class="moa">${d.m}</td><td class="use">${d.u}</td><td class="tox">${d.t}</td><td class="hy">${d.h}</td></tr>`;
+    }
+    html += `<section class="lec" style="--c:${L.c}"><div class="lechead"><h2>${L.name}</h2><span class="lo">${L.lo}</span></div>
+      <div class="scroll"><table><thead><tr><th>Drug</th><th>Mechanism</th><th>Uses</th><th>Toxicities &amp; contraindications</th><th>High-yield pearl</th></tr></thead>
+      <tbody>${body || `<tr><td colspan="5" class="empty">No drugs in this lecture match “${esc(state.q)}”.</td></tr>`}</tbody></table></div></section>`;
+  }
+  root.innerHTML = html;
+  document.getElementById('count').textContent = `${shown} of ${DRUGS.length} drugs`;
+}
+function setFilter(f){ state.f=f; document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.f===f))); }
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{ setFilter(b.dataset.f); render(); }));
+document.getElementById('q').addEventListener('input',e=>{ state.q=e.target.value.trim().toLowerCase(); render(); });
+roster(); render();
+</script>
