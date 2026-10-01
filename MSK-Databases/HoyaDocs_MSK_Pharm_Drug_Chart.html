@@ -2,6 +2,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,600;6..72,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Graduate&family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap">
 <style>
 /* Layout: reference sheet — roster of chips up top, then one scrollable chart per lecture; filter bar sticks. */
 :root{
@@ -77,14 +78,82 @@ mark{background:transparent;color:inherit;box-shadow:inset 0 -.45em 0 var(--hy-b
 .note{font-size:12.5px;color:var(--muted);margin-top:14px;max-width:90ch}
 footer{margin-top:26px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ===== HoyaDocs title bar, nav & hero (MSK theme) — scoped hd- classes ===== */
+:root{--hd-ink:#1A3363;--hd-muted:#5B6274;--hd-line:#D3D8E0;--hd-silver:#6E7787;--hd-silver-hi:#C5CBD6;
+  --hd-navy:#0F2244;--hd-navy-2:#1A3363;--hd-navy-ink:#F4F1EA;--hd-navy-muted:#A9B3C7;--hd-tan:#DE6A7C;
+  --hd-g:#5B4BC4;--hd-s:#C4631B;--hd-d:#1F7F78;--hd-a:#B8324A;
+  --hd-varsity:"Graduate","Rockwell","Georgia",serif;--hd-cond:"Barlow Condensed","Arial Narrow",sans-serif;--hd-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hd-ink:#E8E4DA;--hd-muted:#9BA5B9;--hd-line:#2E3544;--hd-silver:#C3C9D4;
+  --hd-navy:#060D1A;--hd-navy-2:#13254A;--hd-navy-ink:#EEE9DE;--hd-navy-muted:#8E98AE;--hd-tan:#EE8C9B;
+  --hd-g:#9B8DE0;--hd-s:#F0914A;--hd-d:#4FC1B6;--hd-a:#F07186}}
+:root[data-theme="dark"]{--hd-ink:#E8E4DA;--hd-muted:#9BA5B9;--hd-line:#2E3544;--hd-silver:#C3C9D4;
+  --hd-navy:#060D1A;--hd-navy-2:#13254A;--hd-navy-ink:#EEE9DE;--hd-navy-muted:#8E98AE;--hd-tan:#EE8C9B;
+  --hd-g:#9B8DE0;--hd-s:#F0914A;--hd-d:#4FC1B6;--hd-a:#F07186}
+.hd-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:0 0 12px}
+.hd-word{font-family:var(--hd-varsity);font-size:24px;letter-spacing:.04em;text-decoration:none;color:var(--hd-ink);line-height:1}
+.hd-word span{color:var(--hd-silver)}
+.hd-topr{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.hd-toplink{font-family:var(--hd-cond);font-weight:700;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--hd-ink);text-decoration:none;padding:5px 2px;border-bottom:2px solid transparent}
+.hd-toplink:hover{border-bottom-color:var(--hd-silver)}
+.hd-themebtn{background:transparent;border:1.5px solid var(--hd-line);border-radius:999px;font-family:var(--hd-cond);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--hd-muted);padding:5px 14px;cursor:pointer}
+.hd-themebtn:hover{color:var(--hd-ink);border-color:var(--hd-ink)}
+.hd-nav{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;border-top:3px solid var(--hd-ink);border-bottom:1px solid var(--hd-line)}
+.hd-nav::-webkit-scrollbar{display:none}
+.hd-nav a{flex:none;text-decoration:none;font-family:var(--hd-cond);font-weight:700;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--hd-muted);padding:11px 12px 9px;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:7px}
+.hd-nav a:hover{color:var(--hd-ink)}
+.hd-nav a[aria-current="page"]{color:var(--hd-ink);border-bottom-color:var(--hd-tan)}
+.hd-nav a i{width:9px;height:9px;border-radius:2px;flex:none}
+.hd-nav .hd-sep{flex:none;width:1px;background:var(--hd-line);margin:9px 6px}
+.hd-hero{margin:22px 0 18px;background:var(--hd-navy);color:var(--hd-navy-ink);border-radius:14px;position:relative;
+  display:grid;grid-template-columns:1fr auto;align-items:end;gap:18px 36px;padding:clamp(20px,3vw,32px) clamp(20px,3.5vw,40px)}
+.hd-hero::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),rgba(255,255,255,.045) calc(10% - 1px) 10%),radial-gradient(ellipse at 85% 110%,rgba(222,106,124,.30),transparent 55%)}
+.hd-hero > *{position:relative}
+.hd-eyebrow{font-family:var(--hd-cond);font-weight:700;font-size:16px;letter-spacing:.22em;text-transform:uppercase;color:var(--hd-silver-hi)}
+.hd-hero h1.hd-h1{font-family:var(--hd-varsity);font-weight:400;font-size:clamp(38px,6.2vw,80px);line-height:.92;margin:8px 0 12px;letter-spacing:.02em;color:var(--hd-navy-ink);text-shadow:3px 3px 0 var(--hd-navy-2),5px 5px 0 #C5CBD6;text-wrap:balance}
+.hd-sub{font-family:var(--hd-body);font-size:16px;line-height:1.5;color:var(--hd-navy-muted);max-width:68ch;margin:0}
+.hd-stats{display:flex;flex-wrap:wrap;gap:clamp(16px,3vw,32px)}
+.hd-stats div{display:flex;flex-direction:column;align-items:flex-start}
+.hd-stats b{font-family:var(--hd-varsity);font-weight:400;font-size:clamp(26px,3vw,34px);line-height:1}
+.hd-stats small{font-family:var(--hd-cond);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--hd-navy-muted)}
+.hd-meta{grid-column:1 / -1;font-family:var(--hd-cond);font-weight:600;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--hd-navy-muted);border-top:1px solid rgba(255,255,255,.12);padding-top:12px}
+@media (max-width:760px){.hd-hero{grid-template-columns:1fr}}
+@media print{.hd-top,.hd-nav{display:none}.hd-hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 
 <div class="wrap">
+<div class="hd-top">
+  <a class="hd-word" href="../index.html">HOYA<span>DOCS</span></a>
+  <div class="hd-topr">
+    <a class="hd-toplink" href="#roster">Drug List</a>
+    <a class="hd-toplink" href="#charts">Charts</a>
+    <button type="button" class="hd-themebtn" id="hd-theme" aria-label="Toggle light and dark theme">Theme</button>
+  </div>
+</div>
+<nav class="hd-nav" aria-label="MSK sections">
+  <a href="../index.html">Home</a>
+  <span class="hd-sep"></span>
+  <a href="../MSK-Games/index.html"><i style="background:var(--hd-g)"></i>MSK Games</a>
+  <a href="../MSK-Study-Guides/index.html"><i style="background:var(--hd-s)"></i>Study Guides</a>
+  <a href="../MSK-Databases/index.html" aria-current="page"><i style="background:var(--hd-d)"></i>Databases</a>
+  <span class="hd-sep"></span>
+  <a href="../../MSK%20Anatomy%20Exam/MSK_Drill_Room.html"><i style="background:var(--hd-a)"></i>Anatomy Drill Room</a>
+  <a href="../../MSK%20Anatomy%20Exam/MSK_Structure_Database.html"><i style="background:var(--hd-a)"></i>Structure Database</a>
+</nav>
+<section class="hd-hero">
+  <div>
+    <div class="hd-eyebrow">Block 5 &middot; Musculoskeletal &middot; Pharmacology</div>
+    <h1 class="hd-h1">MSK Pharm Drug Chart</h1>
+    <p class="hd-sub">Every drug covered in the three MSK pharmacology lectures, with its mechanism, uses, key toxicities and the one pearl most likely to be tested. Yellow column = high yield.</p>
+  </div>
+  <div class="hd-stats" aria-label="At a glance">
+    <div><b>33</b><small>Drugs</small></div>
+    <div><b>3</b><small>Lectures</small></div>
+  </div>
+  <div class="hd-meta">HoyaDocs &middot; Updated October 1, 2026 &middot; Revision 1.2</div>
+</section>
 <header>
-  <div class="brand">HoyaDocs · MSK Pharmacology</div>
-  <h1>MSK Pharm Drug Chart</h1>
-  <p class="sub">Every drug covered in the three MSK pharmacology lectures, with its mechanism, uses, key toxicities and the one pearl most likely to be tested. Yellow column = high yield.</p>
-  <div class="meta">Updated October 1, 2026 · Revision 1.1</div>
   <div class="key">
     <span><i class="sw" style="background:var(--l12)"></i>Treatment of Osteoporosis</span>
     <span><i class="sw" style="background:var(--l22)"></i>DMARDs &amp; Biologics</span>
@@ -124,7 +193,7 @@ footer{margin-top:26px;font-size:12px;color:var(--muted);display:flex;flex-wrap:
 
 <p class="note">Colchicine is not in the pharmacology lectures, but the rheumatology cases lecture names it for gout: it binds tubulin → blocks microtubules → stops neutrophil chemotaxis; GI, neuromyopathy and marrow toxicity; avoid with renal/hepatic failure and CYP3A4 inhibitors. Psoriasis/spondyloarthritis biologics (IL-17, IL-12/23) are taught by target only, so they appear here without drug names.</p>
 
-<footer><span>HoyaDocs · MSK Pharm Drug Chart</span><span>Updated October 1, 2026 · Rev 1.1</span></footer>
+<footer><span>HoyaDocs · MSK Pharm Drug Chart</span><span>Updated October 1, 2026 · Rev 1.2</span></footer>
 </div>
 
 <script>
@@ -353,4 +422,15 @@ function setFilter(f){ state.f=f; document.querySelectorAll('.seg button').forEa
 document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{ setFilter(b.dataset.f); render(); }));
 document.getElementById('q').addEventListener('input',e=>{ state.q=e.target.value.trim().toLowerCase(); render(); });
 roster(); render();
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('hd-theme'), root=document.documentElement;
+  try{var s=localStorage.getItem('hoyadocs-theme'); if(s==='light'||s==='dark') root.setAttribute('data-theme',s);}catch(e){}
+  btn.addEventListener('click',function(){
+    var dark=root.getAttribute('data-theme')==='dark'||(!root.hasAttribute('data-theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var n=dark?'light':'dark'; root.setAttribute('data-theme',n);
+    try{localStorage.setItem('hoyadocs-theme',n);}catch(e){}
+  });
+})();
 </script>
