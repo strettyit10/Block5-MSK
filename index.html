@@ -140,7 +140,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   <header class="top">
     <a class="word" href="index.html">HOYA<span>DOCS</span></a>
     <div class="topr">
-      <div class="rev">Block 5 &middot; MSK &middot; Rev 3 &middot; Updated Oct 1, 2026</div>
+      <div class="rev">Block 5 &middot; MSK &middot; Rev 4 &middot; Updated Oct 1, 2026</div>
       <button class="themebtn" id="theme" aria-label="Toggle light and dark theme">Theme</button>
     </div>
   </header>
@@ -150,7 +150,8 @@ button{font:inherit;color:inherit;cursor:pointer}
     <span class="sep"></span>
     <a href="MSK-Games/index.html"><i style="background:var(--g)"></i>MSK Games</a>
     <a href="MSK-Study-Guides/index.html"><i style="background:var(--s)"></i>Study Guides</a>
-    <a href="MSK-Databases/"><i style="background:var(--d)"></i>Databases</a>
+    <a href="MSK-Databases/HoyaDocs_MSK_Pathology_Database.html"><i style="background:var(--d)"></i>Path Database</a>
+    <a href="MSK-Databases/HoyaDocs_MSK_Pharm_Drug_Chart.html"><i style="background:var(--d)"></i>Pharm Database</a>
     <span class="sep"></span>
     <a href="../MSK%20Anatomy%20Exam/MSK_Drill_Room.html"><i style="background:var(--a)"></i>Anatomy Drill Room</a>
     <a href="../MSK%20Anatomy%20Exam/MSK_Structure_Database.html"><i style="background:var(--a)"></i>Structure Database</a>
@@ -163,7 +164,20 @@ button{font:inherit;color:inherit;cursor:pointer}
       <nav class="ctas" aria-label="Choose a resource">
         <a class="btn pri" href="MSK-Games/index.html">Games <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
         <a class="btn sec" href="MSK-Study-Guides/index.html">Study Guides</a>
-        <a class="btn sec" href="MSK-Databases/">Databases</a>
+        <details class="dd" id="dbdd">
+          <summary class="btn sec">Databases
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+          <div class="menu">
+            <a href="MSK-Databases/HoyaDocs_MSK_Pathology_Database.html">
+              <span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/><path d="M8 10.5h5M10.5 8v5"/></svg></span>
+              <span><strong>MSK Pathology Database</strong><small>82 bone, joint, soft tissue, nerve &amp; muscle diseases</small></span>
+            </a>
+            <a href="MSK-Databases/HoyaDocs_MSK_Pharm_Drug_Chart.html">
+              <span class="mi" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8.5" width="18" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="m9.5 9.5 5 5"/></svg></span>
+              <span><strong>MSK Pharm Database</strong><small>33 drugs: mechanism, uses, toxicities, HY pearl</small></span>
+            </a>
+          </div>
+        </details>
         <details class="dd" id="anatdd">
           <summary class="btn sec">Anatomy
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
@@ -204,7 +218,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 
   <footer class="foot">
     <div class="rev">HoyaDocs &middot; Block 5 &middot; MSK</div>
-    <div class="rev">Rev 3 &middot; Updated Oct 1, 2026</div>
+    <div class="rev">Rev 4 &middot; Updated Oct 1, 2026</div>
   </footer>
 </div>
 
@@ -219,9 +233,10 @@ button{font:inherit;color:inherit;cursor:pointer}
   });
 })();
 (function(){
-  var dd=document.getElementById('anatdd');
-  document.addEventListener('click',function(e){ if(dd.open && !dd.contains(e.target)) dd.open=false; });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && dd.open){ dd.open=false; dd.querySelector('summary').focus(); } });
+  var dds=[].slice.call(document.querySelectorAll('.dd'));
+  dds.forEach(function(d){ d.addEventListener('toggle',function(){ if(d.open) dds.forEach(function(x){ if(x!==d) x.open=false; }); }); });
+  document.addEventListener('click',function(e){ dds.forEach(function(d){ if(d.open && !d.contains(e.target)) d.open=false; }); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') dds.forEach(function(d){ if(d.open){ d.open=false; d.querySelector('summary').focus(); } }); });
 })();
 </script>
 </body>
