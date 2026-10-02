@@ -20,6 +20,7 @@
   --emb:#C4631B; --emb-ink:#8F4510; --emb-soft:#FBE9DA;
   --his:#B83B72; --his-ink:#8C1F55; --his-soft:#F8DDEA;
   --neu:#5B4BC4; --neu-ink:#3F2F9E; --neu-soft:#ECE9FA;
+  --ddx:#B3263E; --ddx-ink:#8A1A2E; --ddx-soft:#FBE3E7;
   --pat:#1F7F78; --pat-ink:#0F5F59; --pat-soft:#DCF1EE;
   --pha:#5B4BC4; --pha-ink:#3F2F9E; --pha-soft:#ECE9FA;
   --varsity:"Graduate","Rockwell","Georgia",serif;
@@ -38,6 +39,7 @@
     --emb:#F0914A; --emb-ink:#F6B07A; --emb-soft:#3A2515;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#BDB2F0; --neu-soft:#262043;
+    --ddx:#FF8394; --ddx-ink:#FFADB8; --ddx-soft:#3A1820;
     --pat:#4FC1B6; --pat-ink:#7FD6CD; --pat-soft:#13332F;
     --pha:#9B8DE0; --pha-ink:#BDB2F0; --pha-soft:#262043;
   }
@@ -53,6 +55,7 @@
     --emb:#F0914A; --emb-ink:#F6B07A; --emb-soft:#3A2515;
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#BDB2F0; --neu-soft:#262043;
+    --ddx:#FF8394; --ddx-ink:#FFADB8; --ddx-soft:#3A1820;
     --pat:#4FC1B6; --pat-ink:#7FD6CD; --pat-soft:#13332F;
     --pha:#9B8DE0; --pha-ink:#BDB2F0; --pha-soft:#262043;
 }
@@ -306,10 +309,19 @@ html{scroll-behavior:smooth}
       <svg viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h42M34 3l10 9-10 9"/></svg>
     </div>
     <nav class="ctas" aria-label="Choose a game by discipline">
+      <details class="dd" style="--c:var(--ddx)">
+        <summary class="btn sec"><i style="background:var(--ddx)"></i>DDx<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="menu">
+          <div class="mh">DDx &middot; 2 games</div>
+          <a href="DDx_Case_Files.html"><span class="mt"><strong>DDx Case Files</strong><small>Whodunit</small></span><span class="lec">MSK10 &middot; 11 &middot; 14 &middot; 16 &middot; 19</span></a>
+          <a href="DDx_Slide_Box.html"><span class="mt"><strong>DDx Slide Box</strong><small>DDx Drill</small></span><span class="lec">MSK10 &middot; 11 &middot; 14 &middot; 16 &middot; 19</span></a>
+          <a class="all showall" href="#games" data-d="ddx">Show all DDx games below &darr;</a>
+        </div>
+      </details>
       <details class="dd" style="--c:var(--pat)">
         <summary class="btn sec"><i style="background:var(--pat)"></i>Pathology<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
         <div class="menu">
-          <div class="mh">Pathology &middot; 9 games</div>
+          <div class="mh">Pathology &middot; 8 games</div>
           <a href="HoyaDocs_MSK_Path_Builder.html"><span class="mt"><strong>MSK Path Builder</strong><small>Structure Builder</small></span><span class="lec">MSK10 &middot; 11 &middot; 14 &middot; 16 &middot; 18 &middot; 19</span></a>
           <a href="HoyaDocs_MSK10_Boss_Battle_Mineral_Citadel.html"><span class="mt"><strong>The Mineral Citadel</strong><small>Boss Gauntlet</small></span><span class="lec">MSK10 Metabolic Bone Disease</span></a>
           <a href="HoyaDocs_MSK11_Boss_Battle_Fractured_Keep.html"><span class="mt"><strong>The Fractured Keep</strong><small>Boss Gauntlet</small></span><span class="lec">MSK11 Fracture &amp; Joint Disease</span></a>
@@ -318,7 +330,6 @@ html{scroll-behavior:smooth}
           <a href="HoyaDocs_MSK18_Boss_Battle_Specimen_Vault.html"><span class="mt"><strong>The Specimen Vault</strong><small>Boss Gauntlet</small></span><span class="lec">MSK18 Bone &amp; Soft Tissue Lab</span></a>
           <a href="HoyaDocs_MSK19_Boss_Battle_Myelin_Gauntlet.html"><span class="mt"><strong>The Myelin Gauntlet</strong><small>Boss Gauntlet</small></span><span class="lec">MSK19 Nerve &amp; Muscle Disease</span></a>
           <a href="HoyaDocs_MSK_Path_Bell_Ringer.html"><span class="mt"><strong>MSK Path Bell Ringer</strong><small>Bell Ringer</small></span><span class="lec">MSK10 &middot; 11 &middot; 14 &middot; 16 &middot; 19</span></a>
-          <a href="DDx_Slide_Box.html"><span class="mt"><strong>DDx Slide Box</strong><small>DDx Drill</small></span><span class="lec">MSK10 &middot; 11 &middot; 14 &middot; 16 &middot; 19</span></a>
           <a class="all showall" href="#games" data-d="pat">Show all Pathology games below &darr;</a>
         </div>
       </details>
@@ -349,6 +360,13 @@ html{scroll-behavior:smooth}
   <div class="bar">
     <div class="filters" role="group" aria-label="Filter games">
       <button type="button" class="fall" id="fall" aria-pressed="true">All</button>
+      <details class="fdd" data-d="ddx" style="--c:var(--ddx)">
+        <summary><i></i><span class="fl">DDx</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="fmenu">
+          <button type="button" data-d="ddx" data-l="">All DDx</button>
+          <button type="button" data-d="ddx" data-l="10"><b>MSK10</b>Metabolic Bone Disease</button><button type="button" data-d="ddx" data-l="11"><b>MSK11</b>Fracture, Infection &amp; Joint Disease</button><button type="button" data-d="ddx" data-l="14"><b>MSK14</b>Bone Neoplasms</button><button type="button" data-d="ddx" data-l="16"><b>MSK16</b>Soft Tissue Tumors</button><button type="button" data-d="ddx" data-l="19"><b>MSK19</b>Nerve &amp; Muscle Disease</button>
+        </div>
+      </details>
       <details class="fdd" data-d="pat" style="--c:var(--pat)">
         <summary><i></i><span class="fl">Pathology</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
         <div class="fmenu">
@@ -373,6 +391,22 @@ html{scroll-behavior:smooth}
 
   <div class="list" role="list">
     <div class="lhead" aria-hidden="true"><span>Game</span><span>Category</span><span>Game type</span><span>Questions</span><span>Lectures covered</span><span></span></div>
+    <a class="row" href="DDx_Case_Files.html" data-d="ddx" data-l="10 11 14 16 19" style="--c:var(--ddx)">
+      <span class="c-name"><span class="disc-l"><i></i>DDx</span><strong>DDx Case Files</strong></span>
+      <span class="c-type"><span class="type tb">Whodunit</span></span>
+      <span class="c-mode">Solo &middot; clue-by-clue accusations</span>
+      <span class="c-q"><b>60</b><small>Cases</small></span>
+      <span class="c-lec"><span><b>MSK10</b>Metabolic Bone Disease</span><span><b>MSK11</b>Fracture, Infection &amp; Joint Disease</span><span><b>MSK14</b>Bone Neoplasms</span><span><b>MSK16</b>Soft Tissue Tumors</span><span><b>MSK19</b>Nerve &amp; Muscle Disease</span><span><b>+</b>14 look-alike lineups</span></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </a>
+    <a class="row" href="DDx_Slide_Box.html" data-d="ddx" data-l="10 11 14 16 19" style="--c:var(--ddx)">
+      <span class="c-name"><span class="disc-l"><i></i>DDx</span><strong>DDx Slide Box</strong></span>
+      <span class="c-type"><span class="type tb">DDx Drill</span></span>
+      <span class="c-mode">Solo &middot; 4 modes &middot; optional timer</span>
+      <span class="c-q"><b>18</b><small>Tables + 14 pivots</small></span>
+      <span class="c-lec"><span><b>MSK10</b>Metabolic Bone Disease</span><span><b>MSK11</b>Fracture, Infection &amp; Joint Disease</span><span><b>MSK14</b>Bone Neoplasms</span><span><b>MSK16</b>Soft Tissue Tumors</span><span><b>MSK19</b>Nerve &amp; Muscle Disease</span><span><b>+</b>DDx charts PDF</span></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </a>
     <a class="row" href="HoyaDocs_MSK_Path_Builder.html" data-d="pat" data-l="10 11 14 16 18 19" style="--c:var(--pat)">
       <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>MSK Path Builder</strong></span>
       <span class="c-type"><span class="type tb">Structure Builder</span></span>
@@ -437,14 +471,6 @@ html{scroll-behavior:smooth}
       <span class="c-lec"><span><b>MSK10</b>Metabolic Bone Disease</span><span><b>MSK11</b>Fracture, Infection &amp; Joint Disease</span><span><b>MSK14</b>Bone Neoplasms</span><span><b>MSK16</b>Soft Tissue Tumors</span><span><b>MSK19</b>Nerve &amp; Muscle Disease</span><span><b>+</b>Step 1 extras</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
-    <a class="row" href="DDx_Slide_Box.html" data-d="pat" data-l="10 11 14 16 19" style="--c:var(--pat)">
-      <span class="c-name"><span class="disc-l"><i></i>Pathology</span><strong>DDx Slide Box</strong></span>
-      <span class="c-type"><span class="type tb">DDx Drill</span></span>
-      <span class="c-mode">Solo &middot; 4 modes &middot; optional timer</span>
-      <span class="c-q"><b>18</b><small>Tables + 14 pivots</small></span>
-      <span class="c-lec"><span><b>MSK10</b>Metabolic Bone Disease</span><span><b>MSK11</b>Fracture, Infection &amp; Joint Disease</span><span><b>MSK14</b>Bone Neoplasms</span><span><b>MSK16</b>Soft Tissue Tumors</span><span><b>MSK19</b>Nerve &amp; Muscle Disease</span><span><b>+</b>DDx charts PDF</span></span>
-      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
-    </a>
     <a class="row" href="HoyaDocs_MSK_Pharm_Builder.html" data-d="pha" data-l="12 22 24" style="--c:var(--pha)">
       <span class="c-name"><span class="disc-l"><i></i>Pharmacology</span><strong>MSK Pharm Builder</strong></span>
       <span class="c-type"><span class="type tb">Structure Builder</span></span>
@@ -472,7 +498,7 @@ html{scroll-behavior:smooth}
   </div>
   <div class="pick" id="pick">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    <div><strong>Pick a subject or lecture</strong><span>Choose Pathology or Pharmacology above, or tap All to see every game.</span></div>
+    <div><strong>Pick a subject or lecture</strong><span>Choose DDx, Pathology or Pharmacology above, or tap All to see every game.</span></div>
   </div>
   <div class="empty" id="empty">No games match. Try another lecture or clear the search.</div>
 
@@ -497,7 +523,7 @@ html{scroll-behavior:smooth}
 
   <footer class="foot">
     <div class="rev">HoyaDocs &middot; Block 5 &middot; MSK &middot; MSK Games</div>
-    <div class="rev">Rev 5 &middot; Updated Oct 2, 2026</div>
+    <div class="rev">Rev 6 &middot; Updated Oct 2, 2026</div>
   </footer>
 
 </div>
@@ -524,7 +550,7 @@ html{scroll-behavior:smooth}
       dds=[].slice.call(document.querySelectorAll('.dd')), all=dds.concat(fdds),
       count=document.getElementById('count'), empty=document.getElementById('empty'),
       pick=document.getElementById('pick'), lhead=document.querySelector('.lhead');
-  var LABEL={pat:'Pathology',pha:'Pharmacology'};
+  var LABEL={ddx:'DDx',pat:'Pathology',pha:'Pharmacology'};
   var st={d:null,l:''};
   function apply(){
     var term=q.value.trim().toLowerCase(), n=0;
