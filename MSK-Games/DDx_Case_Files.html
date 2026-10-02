@@ -1,0 +1,375 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0"><title>DDx Case Files</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Courier+Prime:wght@400;700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a detective's desk — case header, a lineup of suspect cards, and an evidence strip of typed clue slips that grows one slip at a time */
+:root{
+  --bg:#e9edf2; --desk:#dfe4eb; --paper:#ffffff; --ink:#152033; --muted:#5b6678; --line:#c9d1dc;
+  --stamp:#c21f32; --stamp-soft:#fbe4e7; --evid:#fff7d6; --evid-line:#e3cf7a; --ok:#17734a; --ok-soft:#dcf1e6; --navy:#1f3354;
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif; --body:"Public Sans","Helvetica Neue",Arial,sans-serif; --type:"Courier Prime","Courier New",monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1522; --desk:#131c2c; --paper:#1a2538; --ink:#e8edf5; --muted:#9aa6ba; --line:#2c3a52;
+  --stamp:#ff5d6e; --stamp-soft:#3a1820; --evid:#2b2716; --evid-line:#6b5d22; --ok:#5fd39a; --ok-soft:#14301f; --navy:#9db8e8; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1522; --desk:#131c2c; --paper:#1a2538; --ink:#e8edf5; --muted:#9aa6ba; --line:#2c3a52;
+  --stamp:#ff5d6e; --stamp-soft:#3a1820; --evid:#2b2716; --evid-line:#6b5d22; --ok:#5fd39a; --ok-soft:#14301f; --navy:#9db8e8; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:980px;margin:0 auto;padding-inline:18px;padding-block:20px 56px;display:flex;flex-direction:column;gap:18px}
+header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;border-bottom:3px solid var(--ink);padding-bottom:10px}
+.brand{font-family:var(--type);font-size:12px;letter-spacing:.2em;color:var(--stamp);font-weight:700}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(34px,6vw,52px);line-height:.95;margin:2px 0 0;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance}
+.rev{font-family:var(--type);font-size:12px;color:var(--muted)}
+.btn{all:unset;cursor:pointer;font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:.04em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:4px;text-align:center}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.red{background:var(--stamp);color:#fff}
+.btn:focus-visible,.chip:focus-visible,.suspect:focus-visible,.x:focus-visible{outline:3px solid var(--stamp);outline-offset:2px}
+.btn[disabled]{opacity:.4;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.sec{font-family:var(--type);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.chip{all:unset;cursor:pointer;font-family:var(--type);font-size:13px;padding:5px 11px;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--navy);color:var(--paper);box-shadow:none}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.rule{display:flex;flex-direction:column;gap:2px}
+.rule b{font-family:var(--display);font-size:20px;text-transform:uppercase;letter-spacing:.02em}
+.rule span{color:var(--muted);font-size:14px}
+.hud{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--type);font-size:13px;color:var(--muted);align-items:center}
+.hud b{color:var(--ink);font-variant-numeric:tabular-nums}
+.pot{margin-left:auto;font-family:var(--display);font-size:22px;font-weight:800;color:var(--stamp)}
+.casehead{display:flex;flex-direction:column;gap:6px}
+.caseno{font-family:var(--type);font-size:12px;letter-spacing:.16em;color:var(--stamp);font-weight:700;text-transform:uppercase}
+.vig{font-size:clamp(19px,2.8vw,23px);font-weight:600;line-height:1.35;margin:0;text-wrap:balance}
+.grp{font-family:var(--type);font-size:13px;color:var(--muted)}
+.lineup{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.suspect{position:relative;background:var(--paper);border:1.5px solid var(--line);border-radius:5px;padding:12px 12px 10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.suspect .nm{font-weight:700;font-size:15px;line-height:1.25}
+.suspect.alibi .nm,.suspect.guilty .nm{padding-right:64px}
+.suspect .acts{display:flex;gap:6px;margin-top:auto}
+.suspect .acc{all:unset;cursor:pointer;flex:1;text-align:center;font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:.05em;text-transform:uppercase;background:var(--ink);color:var(--paper);border-radius:3px;padding:5px 0}
+.suspect .x{all:unset;cursor:pointer;font-family:var(--type);font-size:12px;padding:5px 8px;border-radius:3px;box-shadow:inset 0 0 0 1.5px var(--line);color:var(--muted)}
+.suspect.crossed{opacity:.55}
+.suspect.crossed .nm{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:var(--muted)}
+.suspect.crossed .x{background:var(--muted);color:var(--paper);box-shadow:none}
+.suspect.alibi{border-color:var(--stamp);background:var(--stamp-soft)}
+.suspect.alibi .nm{text-decoration:line-through;text-decoration-color:var(--stamp)}
+.suspect.guilty{border-color:var(--ok);background:var(--ok-soft)}
+.suspect .sig{font-size:13px;color:var(--muted);line-height:1.35}
+.stamp{position:absolute;top:8px;right:-4px;transform:rotate(8deg);font-family:var(--display);font-weight:900;font-size:15px;letter-spacing:.08em;padding:1px 7px;border:2.5px solid currentColor;border-radius:3px;background:var(--paper)}
+.stamp.no{color:var(--stamp)} .stamp.yes{color:var(--ok)}
+.suspect[data-locked] .acts{display:none}
+.evidence{display:flex;flex-direction:column;gap:8px}
+.slip{background:var(--evid);border:1px solid var(--evid-line);border-radius:3px;padding:10px 14px;font-family:var(--type);font-size:15.5px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline}
+.slip.new{animation:drop .28s ease-out}
+.slip .n{font-weight:700;color:var(--stamp);font-size:13px;letter-spacing:.08em}
+@keyframes drop{from{transform:translateY(-6px);opacity:.3}to{transform:none;opacity:1}}
+.locked{font-family:var(--type);font-size:13px;color:var(--muted);border:1.5px dashed var(--line);border-radius:3px;padding:9px 14px}
+.verdict{border-left:5px solid var(--ok);padding:6px 0 6px 14px;display:flex;flex-direction:column;gap:4px}
+.verdict.bad{border-color:var(--stamp)}
+.verdict strong{font-family:var(--display);font-size:24px;text-transform:uppercase;letter-spacing:.02em}
+.msg{font-family:var(--type);font-size:13.5px;color:var(--stamp);min-height:1.2em}
+.score{font-family:var(--display);font-size:72px;font-weight:900;line-height:1;color:var(--stamp);font-variant-numeric:tabular-nums}
+.log{display:flex;flex-direction:column}
+.log div{display:grid;grid-template-columns:1fr auto;gap:10px;border-top:1px solid var(--line);padding:8px 0}
+.log small{display:block;color:var(--muted);font-size:13px}
+.log b{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums}
+footer{font-family:var(--type);font-size:12px;color:var(--muted)}
+@media (max-width:520px){.lineup{grid-template-columns:1fr 1fr}.panel{padding:14px}.pot{margin-left:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+<header class="top">
+  <div><div class="brand">HOYADOCS · MSK PATHOLOGY</div><h1>DDx Case Files</h1></div>
+  <div class="rev">Rev 1.0 · Updated Oct 2, 2026</div>
+</header>
+
+<section id="menu" class="panel">
+  <div class="rules">
+    <div class="rule"><b>Read the case</b><span>A short presentation and a lineup of diseases that boards test against each other.</span></div>
+    <div class="rule"><b>Pull evidence</b><span>One differentiator at a time. Each extra clue costs 20 points.</span></div>
+    <div class="rule"><b>Accuse</b><span>A wrong accusation costs 25 and shows that suspect's alibi. Cross off suspects as you rule them out.</span></div>
+  </div>
+  <div class="sec">Lectures</div>
+  <div class="row" id="lecs"></div>
+  <div class="sec">Cases per round</div>
+  <div class="row" id="lens"></div>
+  <div class="row"><button class="btn red" id="startBtn">Open the first case</button><span class="rev" id="bestLine"></span></div>
+</section>
+
+<section id="game" hidden>
+  <div class="panel">
+    <div class="hud"><span>Case <b id="hN">1</b> / <b id="hT">8</b></span><span>Score <b id="hS">0</b></span><span class="pot">Case worth <span id="hP">100</span></span></div>
+    <div class="casehead">
+      <div class="caseno" id="caseNo"></div>
+      <p class="vig" id="vig"></p>
+      <div class="grp" id="grp"></div>
+    </div>
+    <div class="sec">Evidence</div>
+    <div class="evidence" id="evidence"></div>
+    <div class="row"><button class="btn ghost" id="clueBtn">Pull next clue (−20)</button></div>
+    <div class="sec">Suspects</div>
+    <div class="lineup" id="lineup"></div>
+    <div class="msg" id="msg" aria-live="polite"></div>
+    <div id="after" hidden class="panel" style="padding:14px 16px">
+      <div class="verdict" id="verdict"></div>
+      <div class="row"><button class="btn" id="nextBtn">Next case →</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="results" hidden class="panel">
+  <div class="caseno">Round closed</div>
+  <div class="score" id="rScore">0</div>
+  <div id="rLine"></div>
+  <div class="sec">Case log</div>
+  <div class="log" id="rLog"></div>
+  <div class="row"><button class="btn red" id="againBtn">New round</button><button class="btn ghost" id="menuBtn">Menu</button></div>
+</section>
+
+<footer>HoyaDocs · MSK Pathology DDx Case Files · Rev 1.0 · Updated Oct 2, 2026 · Keys: C = next clue, 1–6 = accuse, Enter = next case</footer>
+</div>
+
+<script>
+const GROUPS = {
+ labs:{name:"Metabolic bone disease — the lab panel", lec:"MSK10", suspects:{
+  "Osteoporosis":"All labs normal; ↓ bone mass with normal mineralization",
+  "Osteomalacia / rickets":"↓ Ca, ↓ PO₄, ↑ ALP, ↑ PTH; unmineralized osteoid",
+  "Paget disease of bone":"Isolated ↑↑ ALP; mosaic cement lines",
+  "1° hyperparathyroidism":"↑ Ca, ↓ PO₄, ↑ PTH; brown tumors, stones",
+  "2° hyperparathyroidism (CKD)":"↓ Ca, ↑ PO₄, ↑ PTH; kidney can't make calcitriol",
+  "Hypervitaminosis D":"↑ Ca, ↑ PO₄, ↓ PTH, normal ALP"}},
+ fragile:{name:"Brittle or abnormal bone", lec:"MSK10", suspects:{
+  "Osteogenesis imperfecta":"Type I collagen (COL1A1/2); blue sclerae, many fractures",
+  "Osteopetrosis":"Carbonic anhydrase II; dense brittle bone, no marrow",
+  "Scurvy":"Vitamin C deficiency; bleeding gums, corkscrew hairs",
+  "Osteoporosis":"Resorption > formation; thin trabeculae, normal mineral"}},
+ joints:{name:"The swollen joint", lec:"MSK11", suspects:{
+  "Osteoarthritis":"Cartilage wear; DIP/PIP, worse with use, fluid WBC <2,000",
+  "Rheumatoid arthritis":"Autoimmune pannus; symmetric MCP/wrist, AM stiffness >1 h, anti-CCP",
+  "Gout":"Needle-shaped, negatively birefringent urate; 1st MTP",
+  "Pseudogout (CPPD)":"Rhomboid, weakly positive crystals; knee; chondrocalcinosis",
+  "Septic arthritis":"Hot monoarthritis, fluid WBC >75,000, positive Gram stain"}},
+ osteo:{name:"Bone infection", lec:"MSK11", suspects:{
+  "S aureus osteomyelitis":"Most common overall; metaphysis in children",
+  "Salmonella osteomyelitis":"Classic in sickle cell disease",
+  "Pseudomonas osteomyelitis":"IV drug use (and puncture wounds)",
+  "Chronic osteomyelitis":"Sequestrum, involucrum, draining sinus, Brodie abscess",
+  "Tuberculous (Pott disease)":"Vertebrae; caseating granulomas, psoas abscess"}},
+ malig:{name:"Malignant bone lesions", lec:"MSK14", suspects:{
+  "Osteosarcoma":"Teens; metaphysis at knee; Codman triangle, sunburst; makes osteoid",
+  "Ewing sarcoma":"Child; diaphysis; onion skin; small round blue cells, t(11;22)",
+  "Chondrosarcoma":"Adult >50; pelvis; ring-and-arc calcification; IDH1/2",
+  "Metastasis":"Older adult; multiple axial lesions; most common bone malignancy"}},
+ benign:{name:"Benign bone tumors", lec:"MSK14", suspects:{
+  "Giant cell tumor":"Adult 20–40; epiphysis; soap bubble; RANKL stromal cells",
+  "Osteochondroma":"Teen; metaphysis; cartilage-capped stalk; EXT1/2",
+  "Osteoid osteoma":"Young man; cortex; nidus <2 cm; night pain relieved by NSAIDs",
+  "Osteoblastoma":"Vertebral posterior elements; >2 cm; NSAIDs don't help",
+  "Enchondroma":"Small bones of hands/feet; medulla; multiple = Ollier/Maffucci",
+  "Aneurysmal bone cyst":"Adolescent; expansile; fluid–fluid levels; USP6"}},
+ fibrous:{name:"Fibrous lesions", lec:"MSK16", suspects:{
+  "Nodular fasciitis":"Rapid growth after trauma; tissue-culture fibroblasts; self-limited",
+  "Superficial fibromatosis (Dupuytren)":"Palm; slow; flexion contracture",
+  "Desmoid (deep fibromatosis)":"Locally aggressive; β-catenin/APC; Gardner; never metastasizes"}},
+ fatty:{name:"Fatty tumors", lec:"MSK16", suspects:{
+  "Lipoma":"Mature fat, thin capsule; most common soft tissue tumor",
+  "Angiolipoma":"Painful, multiple; capillaries with fibrin thrombi",
+  "Spindle / pleomorphic lipoma":"Older man, posterior neck; floret giant cells",
+  "Well-differentiated liposarcoma":"Deep thigh / retroperitoneum; lipoblasts; MDM2 amplification",
+  "Myxoid / round cell liposarcoma":"Thigh; chicken-wire capillaries; t(12;16) FUS-DDIT3"}},
+ rms:{name:"Rhabdomyosarcoma subtypes", lec:"MSK16", suspects:{
+  "Embryonal rhabdomyosarcoma":"Most common; child <10; head & neck, GU; strap cells",
+  "Botryoid rhabdomyosarcoma":"Grape-like mass in bladder/vagina; cambium layer",
+  "Alveolar rhabdomyosarcoma":"10–25 yrs; deep extremity; t(2;13) PAX3-FOXO1",
+  "Pleomorphic rhabdomyosarcoma":"Older man; thigh; large atypical eosinophilic cells"}},
+ vasc:{name:"Vascular tumors", lec:"MSK16", suspects:{
+  "Capillary hemangioma":"Infant; strawberry; grows then involutes",
+  "Cavernous hemangioma":"Large dilated vessels; doesn't regress; can consume platelets",
+  "Angiosarcoma":"Scalp, post-radiation, lymphedema (Stewart-Treves); vinyl chloride"}},
+ nerve:{name:"Nerve sheath tumors", lec:"MSK16", suspects:{
+  "Neurofibroma":"Axons run through it; shredded carrot; NF1 (plexiform)",
+  "Schwannoma":"Encapsulated, eccentric; Antoni A/B, Verocay bodies; NF2",
+  "MPNST":"Malignant; from plexiform neurofibroma in NF1; necrosis"}},
+ myo:{name:"Proximal weakness or pain", lec:"MSK19", suspects:{
+  "Glucocorticoid myopathy":"On steroids; normal CK and ESR; type 2 fiber atrophy",
+  "Polymyalgia rheumatica":"Girdle pain, not weakness; ↑↑ ESR, normal CK; GCA",
+  "Polymyositis":"↑ CK; endomysial CD8⁺ T cells; no rash",
+  "Dermatomyositis":"Heliotrope rash, Gottron papules; perifascicular atrophy; cancer",
+  "Statin myopathy":"Myalgias after a statin; ↑ CK; resolves on stopping"}},
+ dys:{name:"Muscular dystrophies", lec:"MSK19", suspects:{
+  "Duchenne":"Frameshift → absent dystrophin; Gowers, wheelchair by teens",
+  "Becker":"In-frame deletion → reduced dystrophin; milder, later",
+  "Myotonic dystrophy (DM1)":"CTG repeat (DMPK); myotonia, cataracts, frontal balding"}},
+ nmj:{name:"Weakness — junction or nerve", lec:"MSK19", suspects:{
+  "Myasthenia gravis":"Postsynaptic AChR antibodies; ptosis; worse with use; thymoma",
+  "Lambert-Eaton syndrome":"Presynaptic Ca²⁺ channel antibodies; better with use; small cell lung cancer",
+  "Guillain-Barré syndrome":"Ascending, areflexic; post-infection; albuminocytologic dissociation",
+  "Diabetic (axonal) neuropathy":"Stocking-glove; ↓ amplitude, near-normal velocity"}}
+};
+const CASES = [
+ {g:"labs",c:"Paget disease of bone",v:"A 68-year-old man says his hats no longer fit, and he is losing hearing in one ear.",k:["Serum calcium: normal","Phosphate: normal","Alkaline phosphatase: markedly elevated — and nothing else is off","Biopsy: mosaic pattern of irregular cement lines"]},
+ {g:"labs",c:"Osteomalacia / rickets",v:"A 45-year-old woman with celiac disease has diffuse bone pain and proximal muscle weakness.",k:["Serum calcium: low","Phosphate: low","PTH and alkaline phosphatase: both elevated","Biopsy: wide seams of unmineralized osteoid"]},
+ {g:"labs",c:"1° hyperparathyroidism",v:"A 55-year-old woman has kidney stones, constipation, and aching bones.",k:["Serum calcium: high","Phosphate: low","PTH: inappropriately high","Hand X-ray: subperiosteal resorption; a lytic “brown tumor” in the jaw"]},
+ {g:"labs",c:"2° hyperparathyroidism (CKD)",v:"A 62-year-old man on dialysis complains of bone pain.",k:["Serum calcium: low","Phosphate: high","PTH: elevated","Mechanism: the kidney can't make calcitriol or excrete phosphate"]},
+ {g:"labs",c:"Hypervitaminosis D",v:"A bodybuilder taking megadose supplements is confused and urinating constantly.",k:["Serum calcium: high","PTH: suppressed","Phosphate: high","Alkaline phosphatase normal; calcium deposits in soft tissues"]},
+ {g:"labs",c:"Osteoporosis",v:"A 72-year-old woman has lost 2 inches of height after a vertebral compression fracture.",k:["Serum calcium: normal","Alkaline phosphatase: normal","PTH: normal","Biopsy: thin, disconnected trabeculae with normal mineralization"]},
+ {g:"fragile",c:"Osteogenesis imperfecta",v:"A 4-year-old has his third fracture this year; child abuse is being considered.",k:["X-ray: thin, fragile cortex; multiple healing fractures","A parent has early hearing loss","Blue sclerae","Mutation in COL1A1 — defective type I collagen"]},
+ {g:"fragile",c:"Osteopetrosis",v:"A child has repeated fractures and an enlarged liver and spleen.",k:["X-ray: bones are diffusely dense, not thin","CBC: pancytopenia","Facial nerve palsy and vision loss","Osteoclasts can't acidify — carbonic anhydrase II defect"]},
+ {g:"fragile",c:"Scurvy",v:"An elderly man living on tea and toast has leg pain and poor wound healing.",k:["Bruising and subperiosteal hemorrhage","Bleeding, swollen gums","Corkscrew hairs with perifollicular hemorrhage","Defective collagen hydroxylation (vitamin C deficiency)"]},
+ {g:"fragile",c:"Osteoporosis",v:"A 70-year-old woman on long-term prednisone breaks her wrist in a fall from standing.",k:["Labs: calcium, phosphate, ALP, PTH all normal","Bone mineral density: T-score −3.0","Sclerae are white; no bleeding","Biopsy: thin trabeculae, normal mineral"]},
+ {g:"joints",c:"Osteoarthritis",v:"A 70-year-old has knee and hand pain that is worst at the end of the day.",k:["Pain worse with use, better with rest; stiffness lasts minutes","Joint fluid WBC: 600","Bony nodes at the DIP joints; MCPs spared","X-ray: joint space narrowing, osteophytes, subchondral sclerosis"]},
+ {g:"joints",c:"Rheumatoid arthritis",v:"A 42-year-old woman has painful, swollen hands.",k:["Morning stiffness for over an hour that improves with use","Symmetric MCP and wrist involvement; DIPs spared","Anti-CCP positive","X-ray: periarticular erosions and osteopenia"]},
+ {g:"joints",c:"Gout",v:"A 58-year-old man on hydrochlorothiazide wakes at night with excruciating foot pain.",k:["Sudden, severe single-joint attack","Joint: 1st metatarsophalangeal (podagra)","Fluid WBC 20,000; Gram stain negative","Needle-shaped, negatively birefringent crystals"]},
+ {g:"joints",c:"Pseudogout (CPPD)",v:"An 80-year-old with hemochromatosis has a suddenly swollen knee.",k:["Acute monoarthritis of the knee","Fluid WBC 18,000; Gram stain negative","X-ray: chondrocalcinosis","Rhomboid, weakly positively birefringent crystals"]},
+ {g:"joints",c:"Septic arthritis",v:"A sexually active 24-year-old has a hot, swollen knee and a fever of 39 °C.",k:["One hot joint, came on over a day","Joint fluid WBC: 95,000","No crystals seen","Gram stain shows organisms"]},
+ {g:"osteo",c:"Salmonella osteomyelitis",v:"A 12-year-old has fever and a painful, swollen thigh.",k:["X-ray: lytic lesion with periosteal reaction","Blood smear: sickled red cells","Known sickle cell disease","Culture: gram-negative rods"]},
+ {g:"osteo",c:"Tuberculous (Pott disease)",v:"A recent immigrant has months of back pain, fever, and night sweats.",k:["Spine involved, not a long bone","Vertebral body collapse","Psoas abscess on CT","Biopsy: caseating granulomas"]},
+ {g:"osteo",c:"Chronic osteomyelitis",v:"A man's shin wound from an open fracture months ago keeps draining.",k:["Infection has persisted for months","Draining sinus tract to the skin","Fragment of dead bone surrounded by a shell of new bone","Histology: sequestrum, involucrum, fibrosis"]},
+ {g:"osteo",c:"Pseudomonas osteomyelitis",v:"A 31-year-old with fever has a painful, tender spot over a bone.",k:["Acute onset, high ESR","Track marks on both arms","Injects drugs daily","Culture: oxidase-positive gram-negative rod"]},
+ {g:"osteo",c:"S aureus osteomyelitis",v:"A previously healthy 8-year-old has fever and won't bear weight on one leg.",k:["Tenderness at the distal femoral metaphysis","No sickle cell disease, no drug use","Acute, days old — no sinus tract","Culture: gram-positive cocci in clusters"]},
+ {g:"malig",c:"Osteosarcoma",v:"A 16-year-old boy has a painful, enlarging mass just above the knee.",k:["Age: teenager","Site: metaphysis of the distal femur","X-ray: Codman triangle and sunburst pattern","Biopsy: pleomorphic cells making osteoid"]},
+ {g:"malig",c:"Ewing sarcoma",v:"An 11-year-old has a warm, swollen thigh, fever, and leukocytosis.",k:["Blood cultures and aspirate are sterile","Site: diaphysis of the femur","X-ray: onion-skin periosteal reaction","Small round blue cells, CD99⁺, t(11;22)"]},
+ {g:"malig",c:"Chondrosarcoma",v:"A 62-year-old has deep, aching pelvic pain.",k:["Age: over 50","Site: pelvis","X-ray: lytic lesion with ring-and-arc calcifications","Biopsy: atypical chondrocytes permeating bone; IDH1 mutation"]},
+ {g:"malig",c:"Metastasis",v:"A 74-year-old man has back pain and several spine lesions.",k:["Age: older adult","Multiple lesions in the axial skeleton","Lesions are sclerotic (blastic)","Elevated PSA; biopsy shows carcinoma"]},
+ {g:"benign",c:"Giant cell tumor",v:"A 30-year-old woman has knee pain for three months.",k:["Age: 20–40, skeletally mature","Site: epiphysis of the distal femur, reaching subchondral bone","X-ray: eccentric lytic “soap bubble” lesion","Osteoclast-like giant cells; stromal cells make RANKL"]},
+ {g:"benign",c:"Osteoid osteoma",v:"A 19-year-old man has tibial pain that wakes him at night.",k:["Site: cortex of a long bone","Pain is relieved by aspirin or NSAIDs","X-ray: radiolucent nidus under 2 cm with a sclerotic rim","Histology: woven bone and osteoblasts"]},
+ {g:"benign",c:"Osteoblastoma",v:"A 22-year-old has persistent back pain.",k:["Site: posterior elements of a vertebra","Lesion is larger than 2 cm","NSAIDs don't relieve the pain","Same histology as osteoid osteoma"]},
+ {g:"benign",c:"Osteochondroma",v:"A 15-year-old notices a hard, painless lump near his knee.",k:["Site: metaphysis, growing away from the joint","Bony stalk continuous with the marrow cavity","Cartilage cap about 1 cm","Hereditary multiple form: EXT1/EXT2"]},
+ {g:"benign",c:"Enchondroma",v:"A 35-year-old jams a finger and an X-ray shows an incidental lesion.",k:["Site: small bone of the hand","Within the medulla","Well-circumscribed lucency with ring calcifications","Bland hyaline cartilage; multiple = Ollier/Maffucci"]},
+ {g:"benign",c:"Aneurysmal bone cyst",v:"A 14-year-old has a painful, expanding lesion in the tibia.",k:["Site: metaphysis, eccentric","Expansile, thin-walled","MRI: fluid–fluid levels","Blood-filled spaces with septa; USP6 rearrangement"]},
+ {g:"fibrous",c:"Nodular fasciitis",v:"A 28-year-old has a forearm lump that appeared over three weeks after an injury.",k:["Grew rapidly, 2 cm","Followed trauma","“Tissue culture” fibroblasts, microcysts, extravasated RBCs","Self-limited; MYH9-USP6"]},
+ {g:"fibrous",c:"Superficial fibromatosis (Dupuytren)",v:"A 60-year-old man can no longer straighten his ring and little fingers.",k:["Slow growth over years","Site: palmar fascia","Flexion contracture","Bland fibroblasts and dense collagen"]},
+ {g:"fibrous",c:"Desmoid (deep fibromatosis)",v:"A woman a year after pregnancy has a firm abdominal wall mass.",k:["Large and growing","Infiltrates skeletal muscle","Recurs after excision but never metastasizes","β-catenin (CTNNB1) or APC — linked to Gardner/FAP"]},
+ {g:"fatty",c:"Well-differentiated liposarcoma",v:"A 58-year-old has a large, deep fatty mass in the retroperitoneum.",k:["Deep, not subcutaneous","Retroperitoneal","Atypical stromal cells and lipoblasts","MDM2 amplification"]},
+ {g:"fatty",c:"Myxoid / round cell liposarcoma",v:"A 38-year-old has a deep thigh mass.",k:["Age: 30s–40s","Myxoid stroma","Delicate “chicken-wire” capillaries with lipoblasts","t(12;16) FUS-DDIT3"]},
+ {g:"fatty",c:"Angiolipoma",v:"A 24-year-old has several small, tender lumps on his forearms.",k:["Multiple lesions","Painful","Fat with small capillaries","Fibrin thrombi in the capillaries"]},
+ {g:"fatty",c:"Lipoma",v:"A 50-year-old has a soft, mobile lump on her back.",k:["Subcutaneous","Painless and mobile","Mature fat with a thin capsule","Cured by simple excision"]},
+ {g:"fatty",c:"Spindle / pleomorphic lipoma",v:"A 65-year-old man has a slow-growing lump on the back of his neck.",k:["Older man","Posterior neck / shoulder","Spindle cells in the fat","Floret giant cells"]},
+ {g:"rms",c:"Botryoid rhabdomyosarcoma",v:"A 3-year-old girl has a grape-like mass protruding from the vagina.",k:["Young child","Mucosa-lined hollow organ","Grape-like gross appearance","Subepithelial cambium layer; desmin⁺, myogenin⁺"]},
+ {g:"rms",c:"Alveolar rhabdomyosarcoma",v:"A 16-year-old has a deep forearm mass.",k:["Age: 10–25","Deep extremity","Round cells clustered around fibrous septa","t(2;13) PAX3-FOXO1"]},
+ {g:"rms",c:"Embryonal rhabdomyosarcoma",v:"A 6-year-old has a mass in the orbit.",k:["Child under 10","Head and neck","Primitive round to spindle “strap” cells","The most common subtype"]},
+ {g:"rms",c:"Pleomorphic rhabdomyosarcoma",v:"A 70-year-old man has a large thigh mass.",k:["Adult over 60","Thigh","Large, atypical eosinophilic cells","Desmin⁺ and myogenin⁺"]},
+ {g:"vasc",c:"Capillary hemangioma",v:"A 3-month-old has a bright red, raised lesion on her scalp.",k:["Appeared shortly after birth","Grew rapidly","Small capillary-sized vessels","Expected to involute on its own"]},
+ {g:"vasc",c:"Cavernous hemangioma",v:"A child has a deep, bluish soft mass with a low platelet count.",k:["Present since early childhood","Has not regressed","Large, dilated blood-filled vessels","Platelets consumed in the lesion"]},
+ {g:"vasc",c:"Angiosarcoma",v:"A woman treated for breast cancer has a purple nodule on her swollen arm.",k:["Chronic lymphedema after mastectomy","Prior radiation","Atypical endothelial cells forming irregular vessels","Stewart-Treves syndrome"]},
+ {g:"nerve",c:"Neurofibroma",v:"A teen with café-au-lait spots has soft skin nodules.",k:["Multiple lesions; NF1 features","Axons run through the tumor","Wavy “shredded carrot” spindle cells","Plexiform type is pathognomonic for NF1"]},
+ {g:"nerve",c:"Schwannoma",v:"A 45-year-old has hearing loss and tinnitus in one ear.",k:["Encapsulated, eccentric — nerve can be spared","Antoni A and Antoni B areas","Verocay bodies; S-100⁺","Bilateral form = NF2"]},
+ {g:"nerve",c:"MPNST",v:"A patient with NF1 has a deep plexiform tumor that suddenly grows and hurts.",k:["Known NF1","Arises from a plexiform neurofibroma","Atypical spindle cells in fascicles","Necrosis — malignant"]},
+ {g:"myo",c:"Polymyalgia rheumatica",v:"A 72-year-old woman can't lift her arms to comb her hair in the morning.",k:["Shoulder and hip girdle pain and stiffness","Strength is normal on exam","ESR markedly elevated; CK normal","Dramatic response to low-dose prednisone"]},
+ {g:"myo",c:"Dermatomyositis",v:"A 54-year-old has trouble climbing stairs and a new rash.",k:["Proximal, symmetric weakness","CK elevated","Violet eyelid rash and papules over the knuckles","Biopsy: perifascicular atrophy"]},
+ {g:"myo",c:"Polymyositis",v:"A 48-year-old has trouble rising from a chair.",k:["Proximal, symmetric weakness","CK 40× normal","No rash","Biopsy: endomysial CD8⁺ T cells invading fibers"]},
+ {g:"myo",c:"Glucocorticoid myopathy",v:"A patient on prednisone for a year has trouble climbing stairs.",k:["Proximal weakness, hips first","No pain or tenderness","CK and ESR both normal","Type 2 fiber atrophy"]},
+ {g:"myo",c:"Statin myopathy",v:"A man has diffuse muscle aches six weeks after starting a new drug.",k:["Proximal weakness with myalgias","CK elevated","ESR normal; no rash","Started atorvastatin; resolves on stopping"]},
+ {g:"dys",c:"Duchenne",v:"A 4-year-old boy uses his hands to climb up his legs to stand.",k:["X-linked recessive","Gowers sign and calf pseudohypertrophy","Dystrophin stain: absent","Frameshift deletion"]},
+ {g:"dys",c:"Becker",v:"A 15-year-old boy has calf enlargement and gradually worsening weakness.",k:["X-linked recessive","Milder, later onset","Dystrophin stain: reduced and patchy","In-frame deletion"]},
+ {g:"dys",c:"Myotonic dystrophy (DM1)",v:"A 30-year-old man can't let go after shaking hands.",k:["Autosomal dominant with anticipation","Distal weakness and myotonia","Cataracts and frontal balding","CTG repeat in DMPK"]},
+ {g:"nmj",c:"Myasthenia gravis",v:"A 30-year-old woman has drooping eyelids and double vision by evening.",k:["Weakness worsens with use","Ocular and bulbar muscles first","Reflexes normal","Anterior mediastinal mass on CT"]},
+ {g:"nmj",c:"Lambert-Eaton syndrome",v:"A 64-year-old smoker has trouble climbing stairs and a dry mouth.",k:["Proximal limb weakness","Strength improves with repeated effort","Reflexes reduced; autonomic symptoms","Lung mass: small cell carcinoma"]},
+ {g:"nmj",c:"Guillain-Barré syndrome",v:"A 28-year-old has weakness spreading up both legs two weeks after diarrhea.",k:["Symmetric, ascending weakness","Areflexia","Nerve conduction: slowed velocity, conduction block","CSF: high protein, normal cell count"]},
+ {g:"nmj",c:"Diabetic (axonal) neuropathy",v:"A 60-year-old with long-standing diabetes has burning, numb feet.",k:["Stocking-glove distribution","Slowly progressive over years","Nerve conduction: reduced amplitude, near-normal velocity","Biopsy: axon loss with myelin ovoids"]}
+];
+const LECS=[["MSK10","Metabolic bone"],["MSK11","Joints & infection"],["MSK14","Bone tumors"],["MSK16","Soft tissue"],["MSK19","Muscle & nerve"]];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const store=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}};
+
+let sel=new Set(LECS.map(l=>l[0])), roundLen=8, S=null;
+
+function renderMenu(){
+  $("lecs").innerHTML=LECS.map(([k,n])=>`<button class="chip" data-k="${k}" aria-pressed="${sel.has(k)}">${k} · ${n}</button>`).join("");
+  $("lecs").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(sel.has(k)){if(sel.size>1)sel.delete(k);}else sel.add(k);renderMenu();});
+  $("lens").innerHTML=[5,8,12].map(n=>`<button class="chip" data-n="${n}" aria-pressed="${roundLen===n}">${n} cases</button>`).join("");
+  $("lens").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{roundLen=+b.dataset.n;renderMenu();});
+  const best=store("ddxcase_best"); $("bestLine").textContent=best?`Best round: ${best}`:"";
+  hot();
+}
+function show(id){["menu","game","results"].forEach(s=>$(s).hidden=s!==id);window.scrollTo({top:0});}
+
+function start(){
+  const pool=shuffle(CASES.filter(c=>sel.has(GROUPS[c.g].lec)));
+  S={cases:pool.slice(0,Math.min(roundLen,pool.length)),i:0,score:0,log:[]};
+  show("game");open();
+}
+function open(){
+  const cs=S.cases[S.i],g=GROUPS[cs.g];
+  S.cur={shown:1,wrong:[],crossed:[],done:false,order:shuffle(Object.keys(g.suspects))};
+  $("hN").textContent=S.i+1;$("hT").textContent=S.cases.length;$("hS").textContent=S.score;
+  $("caseNo").textContent=`Case file ${String(S.i+1).padStart(2,"0")} · ${g.lec}`;
+  $("vig").textContent=cs.v;
+  $("grp").textContent=`Lineup: ${g.name}`;
+  $("after").hidden=true;$("msg").textContent="";
+  draw();hot();
+}
+function worth(){const c=S.cur;return Math.max(10,100-20*(c.shown-1)-25*c.wrong.length);}
+function draw(){
+  const cs=S.cases[S.i],g=GROUPS[cs.g],c=S.cur;
+  $("hP").textContent=c.done?"—":worth();
+  $("evidence").innerHTML=cs.k.slice(0,c.shown).map((t,i)=>`<div class="slip${i===c.fresh?" new":""}"><span class="n">CLUE ${i+1}</span><span>${esc(t)}</span></div>`).join("")+
+    (c.shown<cs.k.length&&!c.done?`<div class="locked">${cs.k.length-c.shown} more clue${cs.k.length-c.shown>1?"s":""} sealed in the file</div>`:"");
+  $("clueBtn").disabled=c.done||c.shown>=cs.k.length;
+  $("lineup").innerHTML=c.order.map((n,i)=>{
+    const wrong=c.wrong.includes(n),guilty=c.done&&n===cs.c,crossed=c.crossed.includes(n);
+    const cls=["suspect",wrong?"alibi":"",guilty?"guilty":"",crossed&&!wrong&&!c.done?"crossed":""].join(" ");
+    const showSig=wrong||c.done;
+    return `<div class="${cls}" ${wrong||c.done?"data-locked":""}>
+      ${wrong?'<span class="stamp no">ALIBI</span>':""}${guilty?'<span class="stamp yes">GUILTY</span>':""}
+      <div class="nm">${i<9?`<span style="font-family:var(--type);color:var(--muted);font-size:12px">${i+1} · </span>`:""}${esc(n)}</div>
+      ${showSig?`<div class="sig">${esc(g.suspects[n])}</div>`:""}
+      <div class="acts"><button class="acc" data-n="${esc(n)}">Accuse</button><button class="x" data-x="${esc(n)}" aria-pressed="${crossed}" aria-label="Cross off ${esc(n)}">✗</button></div>
+    </div>`;}).join("");
+  $("lineup").querySelectorAll(".acc").forEach(b=>b.onclick=()=>accuse(b.dataset.n));
+  $("lineup").querySelectorAll(".x").forEach(b=>b.onclick=()=>{const n=b.dataset.x,a=c.crossed;const i=a.indexOf(n);i>-1?a.splice(i,1):a.push(n);draw();hot();});
+}
+function clue(){const c=S.cur,cs=S.cases[S.i];if(c.done||c.shown>=cs.k.length)return;c.fresh=c.shown;c.shown++;draw();c.fresh=-1;hot();}
+function accuse(n){
+  const c=S.cur,cs=S.cases[S.i];if(c.done||c.wrong.includes(n))return;
+  if(n===cs.c){
+    const pts=worth();S.score+=pts;c.done=true;
+    S.log.push({c:cs.c,v:cs.v,pts,clues:c.shown,wrong:c.wrong.length});
+    $("verdict").className="verdict";
+    $("verdict").innerHTML=`<strong>Case closed · +${pts}</strong><span>${esc(cs.c)}: ${esc(GROUPS[cs.g].suspects[cs.c])}.</span><span style="color:var(--muted);font-size:14px">Solved with ${c.shown} clue${c.shown>1?"s":""}${c.wrong.length?` and ${c.wrong.length} wrong accusation${c.wrong.length>1?"s":""}`:""}. Every suspect's signature is now on its card.</span>`;
+    // reveal all clues
+    c.shown=cs.k.length;$("after").hidden=false;$("msg").textContent="";
+    $("nextBtn").textContent=S.i>=S.cases.length-1?"Close the round →":"Next case →";
+    draw();$("hS").textContent=S.score;$("nextBtn").focus({preventScroll:true});
+  } else {
+    c.wrong.push(n);
+    $("msg").textContent=`${n} has an alibi — read it on the card. −25`;
+    if(c.wrong.length>=c.order.length-1){accuse(cs.c);return;}
+    draw();
+  }
+  hot();
+}
+function next(){if(S.i>=S.cases.length-1)return finish();S.i++;open();}
+function finish(){
+  const max=S.cases.length*100,pct=Math.round(S.score/max*100);
+  $("rScore").textContent=S.score;
+  $("rLine").textContent=`${pct}% of a perfect ${max} · ${S.log.filter(l=>l.clues===1&&!l.wrong).length} solved on the first clue`;
+  $("rLog").innerHTML=S.log.map(l=>`<div><span>${esc(l.c)}<small>${esc(l.v)} · ${l.clues} clue${l.clues>1?"s":""}${l.wrong?`, ${l.wrong} wrong`:""}</small></span><b>${l.pts}</b></div>`).join("");
+  const prev=+store("ddxcase_best")||0;if(S.score>prev)store("ddxcase_best",String(S.score));
+  S.finished=true;show("results");hot();
+}
+$("startBtn").onclick=start;$("clueBtn").onclick=clue;$("nextBtn").onclick=next;
+$("againBtn").onclick=start;$("menuBtn").onclick=()=>{S=null;renderMenu();show("menu");};
+document.addEventListener("keydown",e=>{
+  if($("game").hidden||!S||!S.cur)return;
+  if(e.key==="c"||e.key==="C"){clue();}
+  else if(/^[1-9]$/.test(e.key)&&!S.cur.done){const n=S.cur.order[+e.key-1];if(n)accuse(n);}
+  else if(e.key==="Enter"&&S.cur.done){e.preventDefault();next();}
+});
+function hot(){try{window.claude?.hot?.snapshot?.({sel:[...sel],roundLen,S,view:["menu","game","results"].find(s=>!$(s).hidden)});}catch(e){}}
+function boot(st){
+  if(st&&st.sel){sel=new Set(st.sel);roundLen=st.roundLen||8;}
+  renderMenu();
+  if(st&&st.S&&st.view==="game"&&st.S.cur){S=st.S;show("game");const cs=S.cases[S.i],g=GROUPS[cs.g];
+    $("hN").textContent=S.i+1;$("hT").textContent=S.cases.length;$("hS").textContent=S.score;
+    $("caseNo").textContent=`Case file ${String(S.i+1).padStart(2,"0")} · ${g.lec}`;$("vig").textContent=cs.v;$("grp").textContent=`Lineup: ${g.name}`;
+    $("after").hidden=!S.cur.done;draw();}
+}
+try{window.claude?.hot?.ready?window.claude.hot.ready(boot):boot(window.claude?.hot?.data??{});}catch(e){boot({});}
+</script>
+</body></html>
