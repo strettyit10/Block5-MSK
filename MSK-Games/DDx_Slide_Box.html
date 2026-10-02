@@ -1,0 +1,354 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0">
+<title>DDx Slide Box</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: one centered "slide" card per question on a glass-tray ground; H&E palette (hematoxylin purple, eosin pink) */
+:root{
+  --bg:#f4f1f6; --surface:#ffffff; --frost:#ece6f1; --ink:#211a2e; --muted:#6a6178; --line:#ddd5e6;
+  --hema:#3f2d7a; --hema-soft:#e7e1f5; --eosin:#d6457a; --eosin-soft:#fbe3ec;
+  --ok:#1f7a4d; --ok-soft:#ddf3e6; --bad:#b3263e; --bad-soft:#fae0e4; --hy:#fff3c4; --hyb:#c9a200;
+  --display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif; --body:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15111d; --surface:#1f1a2a; --frost:#2a2338; --ink:#efeaf6; --muted:#a79dba; --line:#372f47;
+  --hema:#b6a4f2; --hema-soft:#2e2550; --eosin:#f27aa6; --eosin-soft:#3d1e2c;
+  --ok:#5fd39a; --ok-soft:#173326; --bad:#ff8094; --bad-soft:#3b1a22; --hy:#3a3112; --hyb:#c9a200; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15111d; --surface:#1f1a2a; --frost:#2a2338; --ink:#efeaf6; --muted:#a79dba; --line:#372f47;
+  --hema:#b6a4f2; --hema-soft:#2e2550; --eosin:#f27aa6; --eosin-soft:#3d1e2c;
+  --ok:#5fd39a; --ok-soft:#173326; --bad:#ff8094; --bad-soft:#3b1a22; --hy:#3a3112; --hyb:#c9a200; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding-inline:18px;padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
+header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--eosin);font-weight:600}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,5vw,40px);line-height:1.05;margin:2px 0 0;letter-spacing:-.01em;text-wrap:balance}
+h1 span{color:var(--hema)}
+.rev{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.lede{margin:0;color:var(--muted);max-width:62ch}
+/* slide card: frosted label strip on the left like a glass slide */
+.slide{background:var(--surface);border:1px solid var(--line);border-radius:6px;display:grid;grid-template-columns:44px 1fr;overflow:hidden}
+.slide .label{background:var(--frost);border-right:1px dashed var(--line);writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--hema);padding:10px 0;text-transform:uppercase}
+.slide .content{padding:18px 20px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.mode{all:unset;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;transition:border-color .15s, transform .15s}
+.mode:hover,.mode:focus-visible{border-color:var(--hema);transform:translateY(-1px)}
+.mode:focus-visible{outline:2px solid var(--hema);outline-offset:2px}
+.mode b{font-family:var(--display);font-size:18px}
+.mode small{color:var(--muted)}
+.mode .best{font-family:var(--mono);font-size:11px;color:var(--eosin)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chip{all:unset;cursor:pointer;font-family:var(--mono);font-size:12px;padding:5px 10px;border-radius:20px;border:1px solid var(--line);color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--hema);border-color:var(--hema);color:var(--surface)}
+.chip:focus-visible{outline:2px solid var(--hema);outline-offset:2px}
+.hud{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--muted);align-items:center}
+.hud b{color:var(--ink);font-variant-numeric:tabular-nums}
+.bar{height:4px;background:var(--frost);border-radius:2px;overflow:hidden;flex:1;min-width:120px}
+.bar i{display:block;height:100%;background:var(--eosin);width:0;transition:width .25s}
+.timer{height:3px;background:var(--frost);overflow:hidden}
+.timer i{display:block;height:100%;background:var(--hema);width:100%}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--eosin)}
+.q{font-family:var(--display);font-size:clamp(19px,3.2vw,23px);font-weight:600;line-height:1.3;margin:0;text-wrap:balance}
+.clue{background:var(--hema-soft);border-radius:4px;padding:10px 12px;display:grid;grid-template-columns:max-content 1fr;gap:4px 12px}
+.clue dt{font-family:var(--mono);font-size:12px;color:var(--hema);font-weight:600}
+.clue dd{margin:0}
+.opts{display:grid;gap:8px}
+.opt{all:unset;cursor:pointer;border:1px solid var(--line);border-radius:5px;padding:11px 14px;display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;background:var(--surface)}
+.opt .k{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px}
+.opt:hover:not([disabled]){border-color:var(--hema)}
+.opt:focus-visible{outline:2px solid var(--hema);outline-offset:2px}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt[disabled]{cursor:default}
+.fb{border-left:3px solid var(--hema);padding:4px 0 4px 12px;display:flex;flex-direction:column;gap:6px}
+.fb.good{border-color:var(--ok)} .fb.bad{border-color:var(--bad)}
+.fb strong{font-family:var(--display);font-size:17px}
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px;min-width:520px}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-align:left;color:var(--hema);border-bottom:2px solid var(--hema);padding:5px 6px}
+td{border-bottom:1px solid var(--line);padding:5px 6px;vertical-align:top}
+td:first-child{font-weight:600}
+tr.hl td{background:var(--hy)}
+td.hlc{outline:2px solid var(--hyb);outline-offset:-2px}
+.btn{all:unset;cursor:pointer;font-family:var(--display);font-weight:600;background:var(--hema);color:var(--surface);padding:10px 18px;border-radius:5px;text-align:center}
+.btn.ghost{background:transparent;color:var(--hema);border:1px solid var(--hema)}
+.btn:focus-visible{outline:2px solid var(--eosin);outline-offset:2px}
+.score{font-family:var(--display);font-size:56px;font-weight:700;line-height:1;color:var(--hema);font-variant-numeric:tabular-nums}
+.misses{display:flex;flex-direction:column;gap:8px}
+.miss{border-top:1px solid var(--line);padding-top:8px}
+.miss .m1{font-weight:600}
+.miss .m2{color:var(--muted);font-size:13.5px}
+.tag{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+footer{font-family:var(--mono);font-size:11px;color:var(--muted)}
+footer a{color:inherit}
+.hdr-r{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.pdflink{font-family:var(--display);font-weight:600;font-size:14px;color:var(--hema);border:1px solid var(--hema);border-radius:5px;padding:6px 12px;text-decoration:none}
+.pdflink:hover{background:var(--hema-soft)}
+.pdflink:focus-visible{outline:2px solid var(--eosin);outline-offset:2px}
+@media (max-width:520px){.hdr-r{align-items:flex-start}}
+@media (max-width:520px){.slide{grid-template-columns:28px 1fr}.slide .content{padding:14px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<style>
+[hidden]{display:none!important}
+.stack{display:flex;flex-direction:column;gap:14px}
+.sec{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 0 0}
+</style>
+<div class="wrap">
+<header class="top">
+  <div class="brand">HOYADOCS · MSK PATHOLOGY</div>
+  <h1>DDx <span>Slide Box</span></h1>
+  <div class="hdr-r"><div class="rev">Rev 1.1 · Updated Oct 2, 2026</div><a class="pdflink" href="HoyaDocs_MSK_Path_DDx_Charts_v1.1.pdf" target="_blank" rel="noopener">DDx charts (PDF) ↗</a></div>
+</header>
+
+<section id="menu" class="stack">
+  <div class="modes" id="modes"></div>
+  <div id="lecPick" class="stack">
+    <div class="sec">Lectures (for “By lecture”)</div>
+    <div class="row" id="chips"></div>
+  </div>
+  <div class="sec">Options</div>
+  <div class="row">
+    <button class="chip" id="timedChip" aria-pressed="false">⏱ Timed · 20 s per question</button>
+    <button class="chip" id="lenChip" aria-pressed="false">Round length: 12</button>
+  </div>
+</section>
+
+<section id="game" hidden class="stack">
+  <div class="hud"><span id="hudN">1 / 12</span><span id="hudS">Score 0</span><span id="hudStreak">Streak 0</span></div>
+  <div class="bar"><i id="barFill"></i></div>
+  <div class="timer" id="timerWrap" hidden><i id="timerFill"></i></div>
+  <div class="slide">
+    <div class="label" id="slideLabel"></div>
+    <div class="content stack">
+      <div class="eyebrow" id="eyebrow"></div>
+      <div class="q" id="qText"></div>
+      <dl class="clue" id="qClue" hidden></dl>
+      <div class="opts" id="opts"></div>
+      <div class="fb" id="fb" hidden></div>
+      <div class="tblwrap" id="review" hidden></div>
+      <div class="row" id="nextRow" hidden>
+        <button class="btn" id="nextBtn">Next →</button>
+        <button class="btn ghost" id="quitBtn">End round</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="results" hidden class="stack">
+  <div class="slide"><div class="label">RESULTS</div><div class="content stack">
+    <div class="score" id="rScore">0</div>
+    <div id="rLine"></div>
+    <div class="sec" id="rMissHead">Review your misses</div>
+    <div class="misses" id="rMisses"></div>
+    <div class="row">
+      <button class="btn" id="againBtn">Play again</button>
+      <button class="btn ghost" id="menuBtn">Menu</button>
+    </div>
+  </div></div>
+</section>
+
+<footer>HoyaDocs · MSK Pathology DDx · Rev 1.1 · Updated Oct 2, 2026 · Keys 1–4 to answer, Enter for next · <a href="HoyaDocs_MSK_Path_DDx_Charts_v1.1.pdf" target="_blank" rel="noopener">DDx charts PDF</a></footer>
+</div>
+
+<script>
+const DATA = {"tables": [{"key": "bone_labs", "title": "Bone disorders — lab values", "lec": "MSK10", "cols": ["Disorder", "Serum Ca²⁺", "Phosphate", "ALP", "PTH", "Key clue"], "rows": [["Osteoporosis", "Normal", "Normal", "Normal", "Normal", "↓ bone mass, normal mineralization; vertebral compression fractures"], ["Osteopetrosis", "Normal (↓ in severe infantile form)", "Normal", "Normal", "Normal", "Dense, brittle bone; carbonic anhydrase II; marrow failure"], ["Paget disease of bone", "Normal", "Normal", "↑↑", "Normal", "Isolated ↑ ALP; mosaic bone; ↑ hat size, hearing loss"], ["Osteomalacia / rickets", "↓", "↓", "↑", "↑", "Vitamin D deficiency → unmineralized osteoid"], ["1° hyperparathyroidism", "↑", "↓", "↑", "↑", "Adenoma; osteitis fibrosa cystica, brown tumors, stones"], ["2° hyperparathyroidism (CKD)", "↓", "↑", "↑", "↑", "Kidney can't excrete phosphate or make calcitriol"], ["Hypervitaminosis D", "↑", "↑", "Normal", "↓", "Excess vitamin D → abnormal calcification of soft tissues"], ["Sarcoidosis", "↑", "↑ / normal", "Normal", "↓", "Granuloma macrophages make 1α-hydroxylase → ↑ calcitriol"]], "feature": false}, {"key": "bone_morph", "title": "Metabolic bone disease — what you see", "lec": "MSK10", "cols": ["Disorder", "Mechanism", "Histology / X-ray", "Classic clinical clue"], "rows": [["Scurvy", "Vitamin C deficiency → defective collagen hydroxylation", "Defective osteoid; subperiosteal hemorrhage", "Bleeding gums, poor wound healing, corkscrew hairs"], ["Osteogenesis imperfecta", "COL1A1/COL1A2 → defective type I collagen", "Thin, fragile cortex; multiple fractures", "Blue sclerae, hearing loss, dentinogenesis imperfecta"], ["Osteomalacia / rickets", "↓ Vitamin D → defective mineralization", "Wide unmineralized osteoid seams; cupped, frayed metaphyses", "Bowed legs, rachitic rosary (children); bone pain (adults)"], ["Hyperparathyroidism", "↑ PTH → ↑ osteoclastic resorption", "Osteitis fibrosa cystica: tunneling resorption, marrow fibrosis, brown tumors (hemosiderin)", "Stones, bones, groans; ↑ Ca"], ["Osteoporosis", "Resorption > formation", "Thin, disconnected trabeculae; normal mineral", "Vertebral compression and hip fractures in older women"], ["Osteopetrosis", "Carbonic anhydrase II → osteoclasts can't acidify", "Persistent primary spongiosa, woven bone, no marrow; diffusely sclerotic X-ray", "Fractures, pancytopenia, cranial nerve palsies"], ["Paget disease", "Lytic → mixed → sclerotic remodeling", "Mosaic pattern of cement lines; thick, disorganized bone", "Skull enlargement, hearing loss, bowing; ↑ ALP; osteosarcoma risk"]], "feature": false}, {"key": "myopathy", "title": "Proximal weakness / pain — myopathy vs mimics", "lec": "MSK19", "cols": ["Condition", "Weakness", "Pain & tenderness", "ESR", "Creatine kinase", "Other features"], "rows": [["Glucocorticoid-induced myopathy", "Proximal (hips first)", "No", "Normal", "Normal", "On chronic steroids; type 2 fiber atrophy; improves when steroids are tapered"], ["Polymyalgia rheumatica", "None (pain and stiffness limit movement)", "Yes — shoulder and hip girdle, morning stiffness", "↑↑ (and CRP)", "Normal", "Age >50 (usually >60); associated with giant cell arteritis; dramatic response to low-dose prednisone"], ["Polymyositis", "Proximal, symmetric", "Mild or none", "Normal / ↑", "↑ (often up to 50×)", "Adults; endomysial CD8⁺ T cells invading fibers"], ["Dermatomyositis", "Proximal, symmetric", "Mild or none", "Normal / ↑", "Normal to ↑", "Heliotrope rash, Gottron papules; perifascicular atrophy; malignancy association; any age (peaks 5–15, 45–65)"], ["Statin-induced myopathy", "Proximal", "Yes — myalgias common", "Normal", "↑ (can reach rhabdomyolysis)", "Starts after a statin; resolves on stopping"]], "feature": false}, {"key": "inflam_myo", "title": "Polymyositis vs dermatomyositis — histology", "lec": "MSK19", "cols": ["Feature", "Polymyositis", "Dermatomyositis"], "rows": [["Age", "Adults (>18)", "Any age; peaks 5–15 and 45–65"], ["Serum CK", "Elevated (often up to 50×)", "Normal to elevated"], ["Inflammation location", "Endomysial (around individual fibers)", "Perimysial / perivascular"], ["Cells", "CD8⁺ cytotoxic T cells invading fibers", "B cells and CD4⁺ T cells"], ["Atrophy pattern", "Scattered necrosis and regeneration", "Perifascicular atrophy"], ["Pathogenesis", "T-cell–mediated", "Antibody/complement-mediated vasculopathy"], ["Extras", "—", "Skin rash; underlying malignancy"]], "feature": true}, {"key": "arth_cat", "title": "Joint pain — four categories", "lec": "MSK23", "cols": ["Category", "Examples", "Stiffness / pattern", "Joint fluid WBC", "Labs / X-ray"], "rows": [["Mechanical (non-inflammatory)", "Osteoarthritis, injury", "Brief \"gelling\" stiffness; worse with use, better with rest", "0 to a few hundred (≤1,000)", "Normal ESR/CRP, RF, ANA; X-ray: joint space narrowing, osteophytes"], ["Inflammatory (autoimmune)", "RA, SLE, spondyloarthropathies, PMR", "Prolonged morning stiffness; usually symmetric; fatigue", "2,000–50,000 (opaque fluid)", "RF, anti-CCP, ANA, ↑ ESR/CRP"], ["Crystalline", "Gout, pseudogout (CPPD)", "Acute, intermittent, severe attacks", "2,000–50,000 (sometimes higher)", "Crystals on arthrocentesis; ↑ uric acid in gout"], ["Infectious", "Bacterial (S aureus), gonococcal, Lyme", "Usually monoarticular, hot joint", ">75,000", "Gram stain / culture"]], "feature": false}, {"key": "oa_ra", "title": "Osteoarthritis vs rheumatoid arthritis", "lec": "MSK11", "cols": ["Feature", "Osteoarthritis", "Rheumatoid arthritis"], "rows": [["Mechanism", "Mechanical wear of articular cartilage", "Autoimmune synovitis → pannus"], ["Primary tissue", "Articular cartilage", "Synovial membrane"], ["Joints", "Weight-bearing joints, DIP, PIP, 1st CMC; asymmetric", "MCP, PIP, wrists; symmetric; spares DIP"], ["Stiffness / pain", "Worse with use, better with rest; brief stiffness", "Morning stiffness >1 h; improves with use"], ["Hand findings", "Heberden (DIP) and Bouchard (PIP) nodes = osteophytes", "Ulnar deviation, swan-neck, boutonniere; rheumatoid nodules (soft tissue)"], ["Labs", "Normal", "RF, anti-CCP (most specific), ↑ ESR/CRP"], ["X-ray", "Joint space narrowing, osteophytes, subchondral sclerosis and cysts", "Erosions, periarticular osteopenia"], ["Gross / histology", "Fibrillated cartilage, eburnation, joint mice", "Hyperplastic synovium, lymphoid aggregates, pannus"], ["Who", "Older age, obesity, prior injury", "Women > men; HLA-DR4"]], "feature": true}, {"key": "crystals", "title": "Gout vs pseudogout", "lec": "MSK11", "cols": ["Feature", "Gout", "Pseudogout (CPPD)"], "rows": [["Crystal", "Monosodium urate", "Calcium pyrophosphate dihydrate"], ["Shape", "Needle-shaped", "Rhomboid"], ["Birefringence", "Negative (yellow when parallel)", "Weakly positive (blue when parallel)"], ["Classic joint", "1st MTP (podagra)", "Knee"], ["Chronic lesion", "Tophi: urate aggregates ringed by foreign-body giant cells (ear, olecranon, Achilles)", "Basophilic deposits in cartilage; chondrocalcinosis on X-ray"], ["Associated", "Hyperuricemia; Lesch-Nyhan, tumor lysis, thiazide/loop diuretics; kidney disease", "Older age; cartilage degradation; hemochromatosis, hyperparathyroidism"]], "feature": true}, {"key": "osteomyelitis", "title": "Osteomyelitis — acute vs chronic vs tuberculous", "lec": "MSK11", "cols": ["Feature", "Acute pyogenic", "Chronic pyogenic", "Tuberculous"], "rows": [["Organism", "S aureus most common (Salmonella in sickle cell; Pseudomonas with IV drug use)", "S aureus; may be polymicrobial", "Mycobacterium tuberculosis (hematogenous from visceral TB)"], ["Site", "Children: metaphysis; adults: epiphysis/subchondral, vertebrae", "Same bone, persistent", "Spine in ~half (Pott disease)"], ["Histology", "Neutrophils, pus, bone necrosis", "Sequestrum (dead bone), involucrum (new bone), mononuclear cells, fibrosis", "Caseating granulomas; destructive"], ["Clinical", "Fever, localized pain, ↑ ESR", "Draining sinus; pathologic fracture; Brodie abscess", "Back pain, fever, night sweats; vertebral collapse, psoas abscess"]], "feature": true}, {"key": "bone_tumors", "title": "Bone tumors — site, age, imaging, histology", "lec": "MSK14", "cols": ["Tumor", "Typical age", "Site in bone", "Imaging", "Histology / genetics"], "rows": [["Osteochondroma", "Adolescents (multiple: childhood)", "Metaphysis, surface; grows away from joint", "Pedunculated bony stalk continuous with marrow", "Hyaline cartilage cap ~1–2 cm; EXT1/EXT2"], ["Osteoid osteoma", "Young adults (<25), men", "Cortex of long bones", "Radiolucent nidus <2 cm with sclerotic rim", "Woven bone + osteoblasts; night pain relieved by NSAIDs"], ["Osteoblastoma", "Young adults", "Vertebrae (posterior elements)", "Lucent lesion >2 cm", "Same histology as osteoid osteoma; pain not relieved by NSAIDs"], ["Enchondroma", "Adults 20–50", "Medulla of small bones of hands and feet", "Well-circumscribed lucency ± ring calcification", "Bland hyaline cartilage; multiple = Ollier/Maffucci"], ["Giant cell tumor", "Adults 20–40", "Epiphysis (extends to subchondral bone), distal femur/proximal tibia", "\"Soap bubble\" eccentric lytic lesion", "Osteoclast-like giant cells; neoplastic stromal cells express RANKL"], ["Aneurysmal bone cyst", "Adolescents", "Metaphysis, eccentric", "Expansile, fluid–fluid levels", "Blood-filled spaces with septa of giant cells, spindle cells; USP6"], ["Osteosarcoma", "Bimodal: teens; older adults (Paget, radiation)", "Metaphysis around the knee", "Mixed lytic/blastic; Codman triangle, sunburst", "Pleomorphic cells making osteoid; RB1, TP53"], ["Chondrosarcoma", "Adults >45–50", "Axial skeleton: pelvis, shoulder, proximal femur", "Lytic with ring/arc calcifications, cortical erosion", "Atypical chondrocytes permeating bone; IDH1/2; grade predicts behavior"], ["Ewing sarcoma", "Children/teens (<20)", "Diaphysis; pelvis", "Moth-eaten lytic lesion, \"onion skin\"", "Small round blue cells, CD99⁺; t(11;22) EWSR1-FLI1"], ["Metastasis", "Older adults", "Axial skeleton; often multiple", "Lytic (kidney, thyroid) or blastic (prostate)", "Carcinoma — most common bone malignancy overall"]], "feature": false}, {"key": "fibrous", "title": "Fibrous / myofibroblastic lesions", "lec": "MSK16", "cols": ["Lesion", "Nature", "Who / where", "Growth", "Histology", "Behavior"], "rows": [["Nodular fasciitis", "Reactive, self-limited (MYH9-USP6)", "Young adults (20–40); forearm, often after trauma", "Rapid (weeks), 1–3 cm", "\"Tissue culture\" fibroblasts, microcysts, extravasated RBCs", "Does not recur"], ["Superficial fibromatosis (Dupuytren)", "Benign proliferation", "Palm (ring and little fingers), sole, penis", "Slow", "Bland fibroblasts, dense collagen", "Contracture; may recur"], ["Desmoid (deep fibromatosis)", "Locally aggressive (β-catenin/APC)", "Shoulder, chest wall, thigh; abdominal wall after pregnancy; mesentery in Gardner/FAP", "Larger, faster", "Sweeping fascicles infiltrating muscle", "Recurs; never metastasizes"]], "feature": false}, {"key": "fatty", "title": "Fatty tumors", "lec": "MSK16", "cols": ["Tumor", "Who / where", "Key histology", "Genetics", "Behavior"], "rows": [["Lipoma", "40–60; subcutaneous back, neck; most common soft tissue tumor", "Mature fat, thin capsule", "—", "Cured by excision"], ["Angiolipoma", "Young adults; forearm; often multiple", "Fat + capillaries with fibrin thrombi", "—", "Painful"], ["Spindle / pleomorphic lipoma", "Older men; posterior neck / shoulder", "Floret giant cells, spindle cells", "—", "Benign"], ["Well-differentiated liposarcoma", "Middle-aged/older; deep thigh, retroperitoneum", "Atypical stromal cells, lipoblasts", "MDM2 amplification", "Recurs; can dedifferentiate"], ["Myxoid / round cell liposarcoma", "30s–40s; thigh", "Lipoblasts, \"chicken-wire\" capillaries, myxoid stroma; round cells = worse", "t(12;16) FUS-DDIT3", "Round-cell component = high grade"]], "feature": false}, {"key": "rms", "title": "Rhabdomyosarcoma subtypes", "lec": "MSK16", "cols": ["Subtype", "Age", "Site", "Histology", "Genetics"], "rows": [["Embryonal (most common)", "Children <10", "Head and neck, genitourinary", "Primitive round → spindle \"strap\" cells", "Heterogeneous"], ["Botryoid (embryonal variant)", "Young children", "Mucosa-lined hollow organs (bladder, vagina)", "Grape-like; subepithelial cambium layer", "—"], ["Alveolar", "10–25", "Deep extremities, head and neck", "Clusters of round cells around fibrous septa", "t(2;13) or t(1;13) PAX3/7-FOXO1"], ["Pleomorphic", "Adults >60, men", "Thigh", "Large, atypical eosinophilic cells", "Heterogeneous"]], "feature": false}, {"key": "vascular", "title": "Vascular tumors", "lec": "MSK16", "cols": ["Tumor", "Who / where", "Histology", "Course / complication"], "rows": [["Capillary hemangioma (\"strawberry\")", "Infants and young children; head and neck", "Small capillary-sized vessels", "Grows rapidly, then involutes"], ["Cavernous hemangioma", "Children; head and neck, deeper", "Large, dilated, blood-filled vessels", "Does not regress; can consume platelets → thrombocytopenia"], ["Angiosarcoma", "Older adults (scalp); after radiation (breast); chronic lymphedema (Stewart-Treves)", "Atypical endothelial cells forming irregular vessels; higher grade = solid sheets", "Aggressive; risks also vinyl chloride, arsenic (liver)"]], "feature": false}, {"key": "nerve_sheath", "title": "Nerve sheath tumors", "lec": "MSK16", "cols": ["Tumor", "Cells", "Relation to nerve", "Histology", "Syndrome / risk"], "rows": [["Neurofibroma", "Schwann cells, fibroblasts, perineurial cells", "Axons run through the tumor", "Wavy \"shredded carrot\" spindle cells in loose stroma", "NF1 (plexiform = pathognomonic; ~10% MPNST risk)"], ["Schwannoma", "Schwann cells only", "Eccentric, encapsulated — nerve can be spared", "Antoni A (palisading, Verocay bodies) and Antoni B (loose)", "Bilateral vestibular = NF2"], ["MPNST", "Malignant Schwann-lineage cells", "Arises from a nerve or neurofibroma", "Fascicles of atypical spindle cells, necrosis", "NF1 (deep plexiform neurofibroma)"]], "feature": false}, {"key": "translocations", "title": "Tumor genetics — translocations and amplifications", "lec": "MSK16 MSK14", "cols": ["Tumor", "Genetic change"], "rows": [["Ewing sarcoma", "t(11;22) EWSR1-FLI1"], ["Myxoid / round cell liposarcoma", "t(12;16) FUS-DDIT3"], ["Synovial sarcoma", "t(X;18) SS18-SSX"], ["Alveolar rhabdomyosarcoma", "t(2;13) / t(1;13) PAX3/7-FOXO1"], ["Well-differentiated liposarcoma", "MDM2 amplification"], ["Nodular fasciitis", "MYH9-USP6"], ["Desmoid", "CTNNB1 (β-catenin) or APC"], ["Osteochondroma (hereditary multiple)", "EXT1 / EXT2"]], "feature": false}, {"key": "dystrophies", "title": "Muscular dystrophies", "lec": "MSK19", "cols": ["Feature", "Duchenne", "Becker", "Myotonic (DM1)"], "rows": [["Inheritance", "X-linked recessive", "X-linked recessive", "Autosomal dominant (anticipation)"], ["Defect", "Frameshift/nonsense in dystrophin → absent dystrophin", "In-frame deletion → reduced, partly functional dystrophin", "CTG repeat expansion in DMPK"], ["Onset / course", "Early childhood; wheelchair by teens; death ~20s", "Later, milder", "Adolescence/adulthood (congenital form severe)"], ["Key findings", "Gowers sign, calf pseudohypertrophy, ↑↑ CK, cardiomyopathy", "Same features, milder", "Myotonia, distal weakness, cataracts, frontal balding, testicular atrophy, arrhythmia"], ["Dystrophin stain", "Absent", "Reduced / patchy", "Normal"]], "feature": true}, {"key": "nmj", "title": "Myasthenia gravis vs Lambert-Eaton", "lec": "MSK19", "cols": ["Feature", "Myasthenia gravis", "Lambert-Eaton"], "rows": [["Antibody target", "Postsynaptic nicotinic ACh receptor", "Presynaptic voltage-gated Ca²⁺ channel"], ["Weakness", "Ocular/bulbar first (ptosis, diplopia); worsens with use", "Proximal limbs; improves with use"], ["Reflexes / autonomic", "Normal reflexes", "Hyporeflexia; autonomic symptoms (dry mouth)"], ["Association", "Thymoma, thymic hyperplasia", "Small cell lung cancer"], ["AChE inhibitor", "Reverses symptoms", "Minimal effect"], ["Diagnosis", "Antibodies + EMG; muscle biopsy not needed", "Antibodies + EMG; muscle biopsy not needed"]], "feature": true}, {"key": "neuropathy", "title": "Neuropathy patterns", "lec": "MSK19", "cols": ["Feature", "Axonal degeneration", "Segmental demyelination"], "rows": [["Primary target", "Axon (neuron)", "Schwann cell / myelin"], ["Nerve conduction", "↓ amplitude, near-normal velocity", "Slowed velocity, conduction block"], ["Biopsy", "Degenerating axons, myelin ovoids; fiber loss", "Thinly myelinated or bare axons; onion bulbs if chronic"], ["Examples", "Diabetes, toxins/drugs, vasculitis, trauma", "Guillain-Barré (acute), CIDP (chronic), CMT1"], ["Recovery", "Slow (axon regrowth)", "Faster (remyelination)"]], "feature": true}], "pivots": [{"shared": "Elderly patient with bone pain and ↑ ALP", "wrong": "Bone metastasis", "right": "Osteitis deformans (Paget disease)", "clue": "Mosaic bone pattern, normal Ca²⁺/PO₄³⁻, risk of hearing loss", "lec": "MSK10"}, {"shared": "Elderly patient with brittle bones", "wrong": "Osteitis deformans", "right": "Osteopetrosis", "clue": "Dense, brittle bones; defective osteoclast resorption", "lec": "MSK10"}, {"shared": "Child with growth failure and rickets", "wrong": "Vitamin D deficiency", "right": "Fanconi syndrome (proximal tubulopathy)", "clue": "Multiple proximal tubule defects (acidosis, hypokalemia, hypovolemia from polyuria)", "lec": "MSK10"}, {"shared": "Sickle cell disease with fever and focal bone pain (osteomyelitis)", "wrong": "S aureus osteomyelitis", "right": "Salmonella osteomyelitis", "clue": "Salmonella is most common in sickle cell disease; S aureus most common overall", "lec": "MSK11"}, {"shared": "Elderly patient with joint pain and stiffness", "wrong": "Rheumatoid arthritis", "right": "Osteoarthritis", "clue": "Asymmetric, DIP ± PIP joints, improves with rest", "lec": "MSK11"}, {"shared": "Swollen, painful joint (acute monoarthritis) ± fever", "wrong": "Gout", "right": "Septic arthritis", "clue": "High fever, ↑ WBCs, positive Gram stain from joint aspiration", "lec": "MSK11"}, {"shared": "History of gout (acute attack)", "wrong": "Allopurinol", "right": "Colchicine / NSAID", "clue": "Used for acute attacks; allopurinol is only for prevention", "lec": "MSK11"}, {"shared": "Teen with a painful bone mass", "wrong": "Ewing sarcoma", "right": "Osteosarcoma", "clue": "Metaphyseal involvement, sunburst appearance on X-ray", "lec": "MSK14"}, {"shared": "Child with café-au-lait spots + tumors ± learning disabilities", "wrong": "NF2", "right": "NF1", "clue": "NF1 = neurofibromas, optic gliomas, Lisch nodules; NF2 = bilateral vestibular schwannomas", "lec": "MSK16"}, {"shared": "Ptosis / diplopia", "wrong": "Oculomotor palsy", "right": "Myasthenia gravis", "clue": "AChR antibodies; thymoma; weakness worsens with activity", "lec": "MSK19"}, {"shared": "Proximal weakness", "wrong": "Myasthenia gravis", "right": "Lambert-Eaton syndrome", "clue": "Caudal-to-cranial progression; ↓ presynaptic ACh release, improves with use; small cell lung cancer", "lec": "MSK19"}, {"shared": "Proximal muscle weakness + ↑ CK", "wrong": "Polymyositis", "right": "Dermatomyositis", "clue": "Skin findings (heliotrope rash, Gottron papules)", "lec": "MSK19"}, {"shared": "Acute-onset paralysis", "wrong": "Stroke", "right": "Guillain-Barré syndrome", "clue": "Symmetric, progressive; areflexia and albuminocytologic dissociation in CSF", "lec": "MSK19"}, {"shared": "Painful vesicular rash", "wrong": "HSV", "right": "Herpes zoster", "clue": "Dermatomal distribution, does not cross the midline", "lec": "MSK19"}]};
+const LECS = [["MSK10","Metabolic bone"],["MSK11","Joints (11/23)"],["MSK14","Bone tumors"],["MSK16","Soft tissue"],["MSK19","Nerve & muscle"]];
+const MODES = [
+  {id:"mixed", name:"Mixed round", desc:"Random questions from every table and exam pivot."},
+  {id:"lec", name:"By lecture", desc:"Only the lectures you tick below."},
+  {id:"pivot", name:"Exam pivots", desc:"Same presentation, two diagnoses — find the discriminator."},
+  {id:"sudden", name:"Sudden death", desc:"Mixed questions until your first miss."}
+];
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const blank = v => !v || /^[—–-]+$/.test(String(v).trim()) || /^n\/?a$/i.test(String(v).trim());
+const norm = v => String(v).trim().toLowerCase();
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){return null;} }
+
+let selLecs = new Set(LECS.map(l=>l[0]));
+let timed = false, roundLen = 12;
+let S = null; // game state
+
+function lecMatch(lec){ const toks = lec.split(/\s+/).map(t=>t==="MSK23"?"MSK11":t); return toks.some(t=>selLecs.has(t)); }
+
+/* ---------- question generators ---------- */
+function fromTable(t){
+  // normalise to entities (diseases) × attributes
+  let ents, attrs, val;
+  if(t.feature){ ents = t.cols.slice(1); attrs = t.rows.map(r=>r[0]); val = (e,a)=>t.rows[a][e+1]; }
+  else { ents = t.rows.map(r=>r[0]); attrs = t.cols.slice(1); val = (e,a)=>t.rows[e][a+1]; }
+  for(let tries=0; tries<30; tries++){
+    const e = Math.floor(Math.random()*ents.length), a = Math.floor(Math.random()*attrs.length);
+    const v = val(e,a); if(blank(v)) continue;
+    const others = ents.map((_,i)=>i).filter(i=>i!==e && !blank(val(i,a)));
+    const sameVal = others.filter(i=>norm(val(i,a))===norm(v));
+    const hl = t.feature ? {row:a, col:e+1} : {row:e, col:a+1};
+    if(Math.random()<0.5){
+      // which disease?
+      if(sameVal.length) continue;
+      const wrong = shuffle(ents.map((_,i)=>i).filter(i=>i!==e && norm(val(i,a)||"")!==norm(v))).slice(0,3);
+      if(wrong.length<1) continue;
+      return {kind:"Which diagnosis?", table:t, hl,
+        q:"Which entity fits this finding?",
+        clue:[[attrs[a], v]],
+        answer:ents[e], opts:shuffle([ents[e], ...wrong.map(i=>ents[i])]), explain:`${ents[e]} — ${attrs[a]}: ${v}`};
+    } else {
+      // which value?
+      const pool = [...new Set(others.map(i=>val(i,a)).filter(x=>norm(x)!==norm(v)))];
+      if(pool.length<1) continue;
+      const wrong = shuffle(pool).slice(0,3);
+      return {kind:"Which finding?", table:t, hl,
+        q:`<b>${esc(ents[e])}</b> — ${esc(attrs[a])}?`,
+        answer:v, opts:shuffle([v, ...wrong]), explain:`${ents[e]} — ${attrs[a]}: ${v}`};
+    }
+  }
+  return null;
+}
+function fromPivot(p){
+  const extras = shuffle(DATA.pivots.filter(x=>x!==p).map(x=>x.right).filter(r=>r!==p.right && r!==p.wrong));
+  const opts = shuffle([p.right, p.wrong, ...[...new Set(extras)].slice(0,2)]);
+  return {kind:"Exam pivot", pivot:p,
+    q:"Shared presentation — which diagnosis does the discriminator point to?",
+    clue:[["Shared", p.shared],["Discriminator", p.clue]],
+    answer:p.right, opts, explain:`${p.right}, not ${p.wrong}: ${p.clue}`};
+}
+function buildRound(mode){
+  const qs = [];
+  if(mode==="pivot"){ return shuffle(DATA.pivots).map(fromPivot); }
+  let tables = DATA.tables, pivots = DATA.pivots;
+  if(mode==="lec"){ tables = tables.filter(t=>lecMatch(t.lec)); pivots = pivots.filter(p=>lecMatch(p.lec)); }
+  const n = mode==="sudden" ? 60 : roundLen;
+  const seen = new Set(); let guard = 0;
+  while(qs.length<n && guard++<n*20){
+    const usePivot = pivots.length && Math.random() < (tables.length?0.18:1);
+    const q = usePivot ? fromPivot(pick(pivots)) : (tables.length ? fromTable(pick(tables)) : null);
+    if(!q) continue;
+    const key = q.kind+"|"+q.answer+"|"+(q.clue?q.clue.map(c=>c[1]).join():q.q);
+    if(seen.has(key)) continue; seen.add(key); qs.push(q);
+  }
+  return qs;
+}
+
+/* ---------- menu ---------- */
+function renderMenu(){
+  $("modes").innerHTML = MODES.map(m=>{
+    const b = store("ddxbest_"+m.id);
+    return `<button class="mode" data-mode="${m.id}"><b>${m.name}</b><small>${m.desc}</small>${b?`<span class="best">Best: ${esc(b)}</span>`:""}</button>`;
+  }).join("");
+  $("modes").querySelectorAll(".mode").forEach(el=>el.onclick=()=>start(el.dataset.mode));
+  $("chips").innerHTML = LECS.map(([k,n])=>`<button class="chip" data-lec="${k}" aria-pressed="${selLecs.has(k)}">${k} · ${n}</button>`).join("");
+  $("chips").querySelectorAll(".chip").forEach(el=>el.onclick=()=>{
+    const k=el.dataset.lec; if(selLecs.has(k)){ if(selLecs.size>1) selLecs.delete(k);} else selLecs.add(k);
+    renderMenu();
+  });
+}
+$("timedChip").onclick = e => { timed=!timed; e.currentTarget.setAttribute("aria-pressed",timed); };
+$("lenChip").onclick = e => { roundLen = roundLen===12?20:roundLen===20?6:12; e.currentTarget.textContent="Round length: "+roundLen; e.currentTarget.setAttribute("aria-pressed", roundLen!==12); };
+function show(id){ ["menu","game","results"].forEach(s=>$(s).hidden = s!==id); window.scrollTo({top:0}); }
+
+/* ---------- game ---------- */
+let tick=null;
+function start(mode){
+  const qs = buildRound(mode);
+  if(!qs.length) return;
+  S = {mode, qs, i:0, score:0, streak:0, best:0, misses:[], answered:false};
+  show("game"); ask();
+}
+function ask(){
+  const q = S.qs[S.i]; S.answered=false;
+  const total = S.mode==="sudden" ? "∞" : S.qs.length;
+  $("hudN").textContent = `${S.i+1} / ${total}`;
+  $("hudS").textContent = `Score ${S.score}`;
+  $("hudStreak").textContent = `Streak ${S.streak}`;
+  $("barFill").style.width = S.mode==="sudden" ? "100%" : (S.i/S.qs.length*100)+"%";
+  $("slideLabel").textContent = q.pivot ? `PIVOT · ${q.pivot.lec}` : `${q.table.lec} · ${q.table.title}`;
+  $("eyebrow").textContent = q.kind;
+  $("qText").innerHTML = q.q;
+  const clue = $("qClue");
+  if(q.clue){ clue.hidden=false; clue.innerHTML = q.clue.filter(c=>!(q.pivot && c[0]==="Discriminator")).map(c=>`<dt>${esc(c[0])}</dt><dd>${esc(c[1])}</dd>`).join(""); }
+  else clue.hidden=true;
+  // pivots: reveal discriminator only for the hard version? show it — the test is linking clue → diagnosis
+  if(q.pivot) clue.innerHTML += `<dt>Discriminator</dt><dd>${esc(q.pivot.clue)}</dd>`;
+  $("opts").innerHTML = q.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${k+1}</span><span>${esc(o)}</span></button>`).join("");
+  $("opts").querySelectorAll(".opt").forEach(el=>el.onclick=()=>answer(+el.dataset.k));
+  $("fb").hidden = true; $("review").hidden = true; $("nextRow").hidden = true;
+  clearInterval(tick);
+  if(timed){
+    $("timerWrap").hidden=false; const t0=Date.now(), dur=20000;
+    $("timerFill").style.width="100%";
+    tick=setInterval(()=>{ const left=Math.max(0,1-(Date.now()-t0)/dur); $("timerFill").style.width=(left*100)+"%"; if(left<=0){ clearInterval(tick); answer(-1);} },100);
+  } else $("timerWrap").hidden=true;
+  hotSave();
+}
+function answer(k){
+  if(S.answered) return; S.answered=true; clearInterval(tick);
+  const q = S.qs[S.i]; const chosen = k>=0 ? q.opts[k] : null; const ok = chosen===q.answer;
+  $("opts").querySelectorAll(".opt").forEach((el,i)=>{ el.disabled=true; if(q.opts[i]===q.answer) el.classList.add("right"); else if(i===k) el.classList.add("wrong"); });
+  if(ok){ S.score++; S.streak++; S.best=Math.max(S.best,S.streak); }
+  else { S.streak=0; S.misses.push({q, chosen}); }
+  $("hudS").textContent = `Score ${S.score}`; $("hudStreak").textContent = `Streak ${S.streak}`;
+  const fb=$("fb"); fb.hidden=false; fb.className="fb "+(ok?"good":"bad");
+  fb.innerHTML = (ok?"<b>Correct.</b> ":(k<0?"<b>Time's up.</b> ":"<b>Not quite.</b> ")) + esc(q.explain);
+  if(q.table){ $("review").hidden=false; $("review").innerHTML = tableHTML(q.table, q.hl); }
+  $("nextRow").hidden=false;
+  const last = S.mode==="sudden" ? !ok || S.i>=S.qs.length-1 : S.i>=S.qs.length-1;
+  $("nextBtn").textContent = last ? "See results →" : "Next →";
+  $("nextBtn").focus({preventScroll:true});
+  hotSave();
+}
+function tableHTML(t,hl){
+  let h = `<table><thead><tr>${t.cols.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>`;
+  t.rows.forEach((r,ri)=>{
+    h += `<tr class="${hl && t.feature===false && ri===hl.row?"hl":""}">` + r.map((c,ci)=>{
+      const on = hl && ri===hl.row && ci===hl.col;
+      const colHl = hl && t.feature && ci===hl.col;
+      return `<${ci===0?"th":"td"} class="${on?"hlc":""}"${colHl&&!on?' style="background:var(--hema-soft)"':""}>${esc(c)}</${ci===0?"th":"td"}>`;
+    }).join("") + "</tr>";
+  });
+  return h + "</tbody></table>";
+}
+function next(){
+  const q=S.qs[S.i]; const lastWrong = S.mode==="sudden" && S.misses.length;
+  if(lastWrong || S.i>=S.qs.length-1) return finish();
+  S.i++; ask();
+}
+function finish(){
+  clearInterval(tick);
+  const answered = S.mode==="sudden" ? S.i+1 : S.qs.length;
+  const pct = Math.round(S.score/answered*100);
+  $("rScore").textContent = S.mode==="sudden" ? S.score : `${pct}%`;
+  $("rLine").textContent = S.mode==="sudden" ? `${S.score} in a row before the first miss.` : `${S.score} of ${answered} correct · best streak ${S.best}`;
+  const label = S.mode==="sudden" ? String(S.score) : `${pct}%`;
+  const prev = store("ddxbest_"+S.mode);
+  const better = !prev || (S.mode==="sudden" ? S.score>+prev : pct>parseInt(prev));
+  if(better) store("ddxbest_"+S.mode, label);
+  $("rMissHead").hidden = !S.misses.length;
+  $("rMisses").innerHTML = S.misses.length ? S.misses.map(m=>`<div class="miss"><div class="tag">${esc(m.q.pivot?"Pivot · "+m.q.pivot.lec:m.q.table.lec+" · "+m.q.table.title)}</div><div class="m1">${esc(m.q.explain)}</div><div class="m2">You picked: ${esc(m.chosen??"(no answer)")}</div></div>`).join("") : "<div>No misses — clean round.</div>";
+  show("results"); S.done=true; hotSave();
+}
+$("nextBtn").onclick = next;
+$("quitBtn").onclick = finish;
+$("againBtn").onclick = () => start(S.mode);
+$("menuBtn").onclick = () => { S=null; renderMenu(); show("menu"); hotSave(); };
+document.addEventListener("keydown", e=>{
+  if($("game").hidden) return;
+  if(!S.answered && /^[1-4]$/.test(e.key)){ const k=+e.key-1; if(k<S.qs[S.i].opts.length) answer(k); }
+  else if(S.answered && e.key==="Enter"){ e.preventDefault(); next(); }
+});
+
+/* ---------- live-reload state hooks ---------- */
+function hotSave(){ try{ window.claude?.hot?.snapshot?.({S, timed, roundLen, sel:[...selLecs]}); }catch(e){} }
+renderMenu();
+try{
+  window.claude?.hot?.ready?.(st=>{
+    if(!st) return; timed=st.timed; roundLen=st.roundLen; selLecs=new Set(st.sel); renderMenu();
+  });
+}catch(e){}
+</script>
+
+</body></html>
