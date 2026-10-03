@@ -21,6 +21,7 @@
   --his:#B83B72; --his-ink:#8C1F55; --his-soft:#F8DDEA;
   --neu:#5B4BC4; --neu-ink:#3F2F9E; --neu-soft:#ECE9FA;
   --ddx:#B3263E; --ddx-ink:#8A1A2E; --ddx-soft:#FBE3E7;
+  --his:#B8641A; --his-ink:#8C4A10; --his-soft:#FBEBD9;
   --pat:#1F7F78; --pat-ink:#0F5F59; --pat-soft:#DCF1EE;
   --pha:#5B4BC4; --pha-ink:#3F2F9E; --pha-soft:#ECE9FA;
   --varsity:"Graduate","Rockwell","Georgia",serif;
@@ -40,6 +41,7 @@
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#BDB2F0; --neu-soft:#262043;
     --ddx:#FF8394; --ddx-ink:#FFADB8; --ddx-soft:#3A1820;
+    --his:#F0A65A; --his-ink:#F6C48D; --his-soft:#3A2814;
     --pat:#4FC1B6; --pat-ink:#7FD6CD; --pat-soft:#13332F;
     --pha:#9B8DE0; --pha-ink:#BDB2F0; --pha-soft:#262043;
   }
@@ -56,6 +58,7 @@
     --his:#E77BAA; --his-ink:#EE9BC0; --his-soft:#3A1A2A;
     --neu:#9B8DE0; --neu-ink:#BDB2F0; --neu-soft:#262043;
     --ddx:#FF8394; --ddx-ink:#FFADB8; --ddx-soft:#3A1820;
+    --his:#F0A65A; --his-ink:#F6C48D; --his-soft:#3A2814;
     --pat:#4FC1B6; --pat-ink:#7FD6CD; --pat-soft:#13332F;
     --pha:#9B8DE0; --pha-ink:#BDB2F0; --pha-soft:#262043;
 }
@@ -343,6 +346,14 @@ html{scroll-behavior:smooth}
           <a class="all showall" href="#games" data-d="pha">Show all Pharmacology games below &darr;</a>
         </div>
       </details>
+      <details class="dd" style="--c:var(--his)">
+        <summary class="btn sec"><i style="background:var(--his)"></i>Histology<svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="menu">
+          <div class="mh">Histology &middot; 1 game</div>
+          <a href="HoyaDocs_MSK_Histo_Builder.html"><span class="mt"><strong>MSK Histo Builder</strong><small>Structure Builder</small></span><span class="lec">MSK04 &middot; 07</span></a>
+          <a class="all showall" href="#games" data-d="his">Show all Histology games below &darr;</a>
+        </div>
+      </details>
     </nav>
   
   </section>
@@ -379,6 +390,13 @@ html{scroll-behavior:smooth}
         <div class="fmenu">
           <button type="button" data-d="pha" data-l="">All Pharmacology</button>
           <button type="button" data-d="pha" data-l="12"><b>MSK12</b>Treatment of Osteoporosis</button><button type="button" data-d="pha" data-l="22"><b>MSK22</b>DMARDs &amp; Biologics</button><button type="button" data-d="pha" data-l="24"><b>MSK24</b>Inflammation Conference</button>
+        </div>
+      </details>
+      <details class="fdd" data-d="his" style="--c:var(--his)">
+        <summary><i></i><span class="fl">Histology</span><svg class="chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+        <div class="fmenu">
+          <button type="button" data-d="his" data-l="">All Histology</button>
+          <button type="button" data-d="his" data-l="04"><b>MSK04</b>Cartilage</button><button type="button" data-d="his" data-l="07"><b>MSK07</b>Bone Development &amp; Histology</button>
         </div>
       </details>
     </div>
@@ -495,10 +513,18 @@ html{scroll-behavior:smooth}
       <span class="c-lec"><span><b>MSK12</b>Treatment of Osteoporosis</span><span><b>MSK22</b>DMARDs &amp; Biologics</span><span><b>MSK24</b>Inflammation Conference</span></span>
       <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
     </a>
+    <a class="row" href="HoyaDocs_MSK_Histo_Builder.html" data-d="his" data-l="04 07" style="--c:var(--his)">
+      <span class="c-name"><span class="disc-l"><i></i>Histology</span><strong>MSK Histo Builder</strong></span>
+      <span class="c-type"><span class="type tb">Structure Builder</span></span>
+      <span class="c-mode">Build + Drill &middot; slide IDs</span>
+      <span class="c-q"><b>77</b><small>Questions</small></span>
+      <span class="c-lec"><span><b>MSK04</b>Cartilage</span><span><b>MSK07</b>Bone Development &amp; Histology</span></span>
+      <span class="c-go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span>
+    </a>
   </div>
   <div class="pick" id="pick">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    <div><strong>Pick a subject or lecture</strong><span>Choose DDx, Pathology or Pharmacology above, or tap All to see every game.</span></div>
+    <div><strong>Pick a subject or lecture</strong><span>Choose DDx, Pathology, Pharmacology or Histology above, or tap All to see every game.</span></div>
   </div>
   <div class="empty" id="empty">No games match. Try another lecture or clear the search.</div>
 
@@ -523,7 +549,7 @@ html{scroll-behavior:smooth}
 
   <footer class="foot">
     <div class="rev">HoyaDocs &middot; Block 5 &middot; MSK &middot; MSK Games</div>
-    <div class="rev">Rev 6 &middot; Updated Oct 2, 2026</div>
+    <div class="rev">Rev 7 &middot; Updated Oct 3, 2026</div>
   </footer>
 
 </div>
@@ -550,7 +576,7 @@ html{scroll-behavior:smooth}
       dds=[].slice.call(document.querySelectorAll('.dd')), all=dds.concat(fdds),
       count=document.getElementById('count'), empty=document.getElementById('empty'),
       pick=document.getElementById('pick'), lhead=document.querySelector('.lhead');
-  var LABEL={ddx:'DDx',pat:'Pathology',pha:'Pharmacology'};
+  var LABEL={ddx:'DDx',pat:'Pathology',pha:'Pharmacology',his:'Histology'};
   var st={d:null,l:''};
   function apply(){
     var term=q.value.trim().toLowerCase(), n=0;
