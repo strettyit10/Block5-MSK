@@ -1,0 +1,325 @@
+<title>The Mesoderm Forge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Public+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: one dark arena. Title → boss map grid → battle (boss bar, player bar, question) → result.
+   Deliberately single dark theme, every color set explicitly. */
+:root{
+  --bg:#0d1016; --bg2:#151a23; --surface:#1b212c; --line:#2d3644; --ink:#e9edf2; --muted:#9aa5b3;
+  --acc:#8fc1f0; --acc2:#1f4f80; --gold:#e3b95c; --hp:#e2574c; --you:#5cc98a; --ok:#5cc98a; --ok-bg:#15301f; --bad:#f07b72; --bad-bg:#3a1a18;
+  --f-disp:"Cinzel", "Trajan Pro", Georgia, serif; --f-body:"Public Sans", Arial, sans-serif; --f-mono:"IBM Plex Mono", ui-monospace, monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:radial-gradient(1200px 600px at 50% -10%, color-mix(in srgb, var(--acc2) 35%, transparent), transparent 70%), var(--bg);color:var(--ink);font:15px/1.5 var(--f-body);margin:0;min-height:100vh}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:16px;padding-block:22px 48px;display:grid;gap:16px}
+h1,h2,h3{font-family:var(--f-disp);margin:0;letter-spacing:.04em;text-wrap:balance;line-height:1.15}
+.meta{font:500 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.btn{font:700 .9rem var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 16px;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.btn.primary{background:var(--acc);color:#0d1016;border-color:var(--acc)}
+.btn.gold{background:var(--gold);color:#1a1405;border-color:var(--gold)}
+.btn:focus-visible,.opt:focus-visible,.boss:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+[hidden]{display:none!important}
+
+/* title */
+.hero{display:grid;gap:14px;text-align:center;justify-items:center;padding-block:28px 8px}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800;color:var(--acc);text-shadow:0 0 24px color-mix(in srgb, var(--acc) 40%, transparent)}
+.hero p{max-width:60ch;color:var(--muted);margin:0}
+.counts{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.counts b{display:block;font:800 1.8rem var(--f-disp);color:var(--ink)}
+.counts span{font:500 .7rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;width:100%;max-width:640px}
+.mode{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:6px;text-align:left;cursor:pointer;color:var(--ink);font:inherit}
+.mode:hover{border-color:var(--acc)}
+.mode h3{font-size:1.1rem;color:var(--acc)}
+.mode p{margin:0;color:var(--muted);font-size:.88rem}
+.coop{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;max-width:420px;width:100%;text-align:left}
+.coop label{display:grid;gap:4px;font-size:.85rem;color:var(--muted)}
+.coop input{font:inherit;background:var(--bg2);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.legend-types{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:.82rem;color:var(--muted)}
+
+/* map */
+.maphead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:10px}
+.maphead h2{font-size:1.6rem;color:var(--acc)}
+.prog{height:8px;background:var(--bg2);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc))}
+.bossgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.boss{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:56px 1fr;gap:10px 12px;text-align:left;cursor:pointer;color:var(--ink);font:inherit;position:relative}
+.boss:hover:not([disabled]){border-color:var(--acc)}
+.boss[disabled]{opacity:.5;cursor:not-allowed}
+.boss .sig{grid-row:1/3;width:56px;height:56px}
+.boss h3{font-size:.98rem}
+.boss .ep{font-size:.78rem;color:var(--muted);line-height:1.3}
+.boss .lo{grid-column:1/3;font:500 .7rem var(--f-mono);color:var(--acc);letter-spacing:.04em}
+.boss .hpmini{grid-column:1/3;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+.boss .hpmini i{display:block;height:100%;background:var(--hp)}
+.boss.dead{border-color:var(--gold)}
+.boss.dead .hpmini i{background:var(--gold)}
+.boss .slain{position:absolute;top:-10px;right:12px;background:var(--bg);padding:1px 8px;border:1px solid var(--gold);border-radius:999px;font:700 .68rem var(--f-mono);letter-spacing:.08em;color:var(--gold)}
+.boss.final{grid-column:1/-1;border-color:color-mix(in srgb, var(--gold) 60%, var(--line))}
+.maptools{display:flex;gap:8px;flex-wrap:wrap}
+
+/* battle */
+.arena{display:grid;gap:12px}
+.bars{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px}
+@media (max-width:640px){ .bars{grid-template-columns:1fr} .vs{display:none} }
+.fighter{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;min-width:0}
+.fighter .sig{width:64px;height:64px}
+.fighter h3{font-size:1.05rem}
+.fighter .ep{font-size:.78rem;color:var(--muted)}
+.hpbar{height:12px;background:var(--bg2);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:6px}
+.hpbar i{display:block;height:100%;transition:width .35s ease}
+.hpbar.bh i{background:linear-gradient(90deg,#9b2d25,var(--hp))}
+.hpbar.you i{background:linear-gradient(90deg,#2a7a4d,var(--you))}
+.hptxt{font:500 .72rem var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.vs{font:800 1.2rem var(--f-disp);color:var(--gold)}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px;position:relative;overflow:hidden}
+.qtop{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font:500 .68rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.tag.t2{color:var(--gold);border-color:color-mix(in srgb, var(--gold) 50%, var(--line))}
+.tag.rc{color:#b9c4d2;border-color:color-mix(in srgb, #b9c4d2 45%, var(--line))}
+.tag.s1{color:var(--acc);border-color:color-mix(in srgb, var(--acc) 50%, var(--line))}
+.combo{font:800 .95rem var(--f-disp);color:var(--gold)}
+.turn{font:600 .85rem var(--f-body);color:var(--acc)}
+.stem{font:600 1.05rem/1.55 var(--f-body);margin:0}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--bg2);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.opt:hover:not([disabled]){border-color:var(--acc)}
+.opt .k{font:700 .8rem var(--f-mono);color:var(--acc);min-width:1.2em}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt[disabled]{cursor:default}
+.fb .ans{font-size:.95rem}
+.fbexp{display:grid;gap:8px}
+.fbexp p{margin:0;line-height:1.62;font-size:.95rem}
+.fbnotes{list-style:none;margin:2px 0 0;padding:0;display:grid;gap:6px}
+.fbnotes li{font-size:.875rem;line-height:1.5;color:var(--muted);padding-left:10px;border-left:2px solid var(--line)}
+.fbnotes li b{color:var(--ink);font-family:var(--f-mono);font-size:.78rem;margin-right:2px}
+.fbpearl{margin-top:2px;background:#3b3013;border:1px solid var(--gold);border-left-width:3px;border-radius:9px;padding:9px 12px;font-size:.9rem;line-height:1.55;color:#f6e6ac}
+.fbpearl b{display:block;font:800 .66rem var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.review .rexp{display:grid;gap:6px;margin:0;color:var(--muted);line-height:1.55}
+.review .rpearl{margin:6px 0 0;color:#f6e6ac;background:#3b3013;border:1px solid var(--gold);border-left-width:3px;border-radius:8px;padding:7px 10px;font-size:.86rem;line-height:1.5}
+.fb{border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.fb.ok{background:var(--ok-bg);border:1px solid color-mix(in srgb, var(--ok) 40%, transparent)}
+.fb.bad{background:var(--bad-bg);border:1px solid color-mix(in srgb, var(--bad) 40%, transparent)}
+.fb .v{font:800 1rem var(--f-disp);letter-spacing:.05em}
+.fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)}
+.row{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.hint{font-size:.8rem;color:var(--muted);margin:0}
+.flash{position:absolute;inset:0;pointer-events:none;display:grid;place-items:center;font:800 3rem var(--f-disp);letter-spacing:.1em;opacity:0}
+@media (prefers-reduced-motion: no-preference){
+  .shake{animation:shake .35s}
+  @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+  .flash.go{animation:fl .7s ease-out}
+  @keyframes fl{0%{opacity:0;transform:scale(.8)}25%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.15)}}
+}
+
+/* result */
+.result{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:14px}
+.result h2{font-size:2rem}
+.result.win h2{color:var(--gold)} .result.lose h2{color:var(--bad)}
+.review{display:grid;gap:10px}
+.review article{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:6px}
+.review .ans{color:var(--ok);font-weight:600}
+.scores{display:flex;gap:20px;flex-wrap:wrap}
+.scores b{display:block;font:800 1.4rem var(--f-disp)}
+.scores span{font:500 .7rem var(--f-mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:12px}
+</style>
+
+<div class="wrap">
+  <section id="scrTitle" class="hero">
+    <p class="meta">HoyaDocs · Block 5 · <span id="lecName"></span></p>
+    <h1 id="gTitle"></h1>
+    <p id="gTag"></p>
+    <div class="counts">
+      <div><b id="cQ">0</b><span>Questions</span></div>
+      <div><b id="cB">0</b><span>Bosses</span></div>
+      <div><b id="cL">0</b><span>Learning objectives</span></div>
+    </div>
+    <div class="legend-types"><span class="tag rc">Recall</span> fact check <span class="tag t2">2nd order</span> multi-step reasoning <span class="tag s1">Step 1</span> clinical vignette</div>
+    <div class="modes">
+      <button class="mode" type="button" id="soloBtn"><h3>Solo campaign</h3><p>Your HP, your record. Wrong answers return later in the fight.</p></button>
+      <button class="mode" type="button" id="coopBtn"><h3>Two-player co-op</h3><p>Alternate questions on one boss with a shared HP pool.</p></button>
+    </div>
+    <form class="coop" id="coopForm" hidden>
+      <p class="meta">Name your party</p>
+      <label for="p1">Player 1<input id="p1" value="Player 1" maxlength="20"></label>
+      <label for="p2">Player 2<input id="p2" value="Player 2" maxlength="20"></label>
+      <div class="row"><button class="btn" type="button" id="coopBack">Back</button><button class="btn primary" type="submit">Enter the fight</button></div>
+    </form>
+  </section>
+
+  <section id="scrMap" hidden>
+    <div class="maphead">
+      <div><p class="meta" id="mapMode">Solo campaign</p><h2>Boss map</h2><p class="hint" id="mapProg"></p></div>
+      <div class="maptools"><button class="btn" type="button" id="modeBtn">Change mode</button><button class="btn" type="button" id="resetBtn">Reset progress</button></div>
+    </div>
+    <div class="prog" style="margin:10px 0 16px"><i id="progBar" style="width:0%"></i></div>
+    <div class="bossgrid" id="bossGrid"></div>
+    <p class="hint" style="margin-top:12px">Progress is saved in this browser only. A boss is defeated only when every one of its questions has been answered correctly. The final boss unlocks when all others fall.</p>
+  </section>
+
+  <section id="scrBattle" class="arena" hidden>
+    <div class="row"><button class="btn" type="button" id="retreatBtn">← Retreat to map</button><span class="combo" id="combo"></span></div>
+    <div class="bars">
+      <div class="fighter"><div id="bSig"></div><div style="min-width:0"><h3 id="bName"></h3><div class="ep" id="bEp"></div><div class="hpbar bh"><i id="bHp"></i></div><div class="hptxt" id="bHpT"></div></div></div>
+      <div class="vs">VS</div>
+      <div class="fighter"><div id="ySig"></div><div style="min-width:0"><h3 id="yName">You</h3><div class="ep" id="yEp"></div><div class="hpbar you"><i id="yHp"></i></div><div class="hptxt" id="yHpT"></div></div></div>
+    </div>
+    <div class="qcard" id="qcard">
+      <div class="flash" id="flash"></div>
+      <div class="qtop"><div class="tags" id="qTags"></div><span class="turn" id="turn"></span></div>
+      <p class="stem" id="stem"></p>
+      <div class="opts" id="opts"></div>
+      <div id="fb"></div>
+      <div class="row"><span class="hint">Keys A–E or 1–5 · Enter for next</span><button class="btn primary" type="button" id="nextBtn" hidden>Next strike →</button></div>
+    </div>
+  </section>
+
+  <section id="scrResult" hidden></section>
+
+  <footer>HoyaDocs · <span id="fTitle"></span> · Updated October 4, 2026 · Revision 1.0. Questions span skeletal and limb development and reach somewhat past the MSK08 and MSK09 lectures (skull, limb vessels and plexus divisions).</footer>
+</div>
+
+<script>
+var G = {"key": "msk-emb", "title": "The Mesoderm Forge", "lecture": "MSK Embryology · MSK08 · MSK09", "accent": "#8fc1f0", "accent2": "#1f4f80", "tagline": "Five bosses guard the forge where mesoderm becomes skeleton, muscle and limb: the axial skeleton and skull, the tissues of the limb bud, the muscle condensations, limb rotation and its vessels, and the malformations when it all goes wrong.", "final": {"name": "The Primordial Smith", "epithet": "Hammers every somite and every bud", "n": 12}, "bosses": [{"lo": "08.X", "name": "The Rib Wraith", "epithet": "Haunts the extra rib and the open fontanelle", "los": "Development of ribs, vertebrae and skull; skeletal dysplasias", "q": [["R", "Accessory ribs are most commonly found attached to the", ["Cervical vertebrae", "Thoracic vertebrae", "Lumbar vertebrae", "Manubrium", "Sternebrae"], 2, "Accessory ribs form when the costal processes of vertebrae outside the thoracic region keep growing. They are most often attached to lumbar vertebrae.\n\nThe clinically important one is the cervical rib (incidence about 0.5–1%), usually on C7. It can compress the lower trunk of the brachial plexus and the subclavian vessels, causing thoracic outlet syndrome.", "08.1", ["A cervical rib (usually on C7) is the clinically important accessory rib, but lumbar accessory ribs are more common.", "Thoracic vertebrae carry the normal 12 pairs of ribs; an accessory rib by definition is outside that set.", "", "The manubrium articulates with ribs 1 and 2; it doesn’t bear accessory ribs.", "Sternebrae are the segments that fuse to form the sternal body; they don’t carry accessory ribs."], "Accessory ribs: most common on lumbar vertebrae. Cervical rib (C7) → thoracic outlet syndrome."], ["R", "The anterior fontanelle is usually closed by", ["Birth", "Age 6 months", "Age 18 months", "Age 2 years", "Age 5 years"], 3, "The anterior fontanelle, where the frontal and parietal bones meet, is the largest and last to close. The keyed answer is about age 2 years (the normal range is roughly 18–24 months). The posterior and sphenoid fontanelles close much earlier, by about 6 months.\n\nThe soft skull lets the head mold during birth and lets the brain grow quickly in infancy.", "08.X", ["All fontanelles are open at birth; that is what lets the skull mold during delivery.", "Six months is when the posterior and sphenoid fontanelles close.", "Eighteen months is the early end of the normal closure range (about 18–24 months); the best single answer is about 2 years.", "", "By 5 years the anterior fontanelle has long been closed; persistent opening suggests a problem such as hypothyroidism or raised pressure."], "Posterior and sphenoid fontanelles close by ~6 months; anterior fontanelle by ~2 years."], ["R", "The condition where the pedicles of the vertebral arches fail to fuse with the vertebral body is called", ["Block vertebrae", "Cleft vertebrae", "Hemivertebrae", "Spondylolisthesis", "Spina bifida occulta"], 3, "As keyed, failure of the pedicles to fuse with the vertebral body is spondylolisthesis. Without that bony link, the vertebral body can slip forward on the vertebra below while the arch stays behind, exaggerating the lumbar curve (lordosis).\n\nClinically, spondylolisthesis means forward slippage of one vertebra on the next, usually L5 on S1. It most often follows a defect in the pars interarticularis (spondylolysis).", "08.2", ["Block vertebrae are two or more vertebral bodies fused together from failed segmentation.", "Cleft (butterfly) vertebrae have a midline cleft in the body from failed fusion of its two halves.", "A hemivertebra forms when one half of the body fails to develop, causing a wedge and scoliosis.", "", "Spina bifida occulta is failure of the vertebral arch (laminae) to close dorsally, not a pedicle–body defect."], "Spondylolisthesis = vertebral body slips forward (classically L5 on S1)."], ["S1", "During an ultrasound examination, numerous fractures of the long bones of the fetus are observed. This condition is called", ["Achondroplasia", "Osteogenesis imperfecta", "Marfan syndrome", "Cretinism", "Acromegaly"], 1, "Multiple fractures before birth point to osteogenesis imperfecta, an inherited defect in type I collagen, the main organic component of bone matrix. Bones are brittle and fracture spontaneously, even in utero. Other features include blue sclerae, hearing loss and dental problems.", "08.X", ["Achondroplasia (FGFR3) shortens the long bones but doesn’t make them fracture.", "", "Marfan syndrome (fibrillin-1) gives long limbs, lens dislocation and aortic root dilation, not fractures.", "Cretinism (congenital hypothyroidism) delays growth and development; it doesn’t cause fetal fractures.", "Acromegaly is excess growth hormone after the growth plates close; it is not a fetal condition."], "Osteogenesis imperfecta: type I collagen defect → fractures (even in utero) + blue sclerae."], ["S1", "A female newborn presents with a square-shaped skull with a short occipital–frontal diameter. Premature closure of which of the following sutures is the most likely cause of this finding?", ["Sphenofrontal", "Sphenoparietal", "Lambdoidal", "Sagittal", "Coronal"], 4, "Premature fusion of a suture stops growth perpendicular to it, so the skull grows in the other directions. Early closure of the coronal sutures (bilaterally) stops front-to-back growth, giving a short, wide, square skull: brachycephaly.", "08.X", ["Sphenofrontal suture fusion isn’t a classic cause of a recognized skull shape.", "Sphenoparietal suture fusion isn’t a classic cause of a recognized skull shape.", "Early lambdoid fusion flattens the back of the head on one side (posterior plagiocephaly).", "Early sagittal fusion gives a long, narrow, boat-shaped skull (scaphocephaly), the most common craniosynostosis.", ""], "Sagittal → long, narrow (scaphocephaly). Coronal (bilateral) → short, wide (brachycephaly)."]]}, {"lo": "09.2", "name": "The Mesoderm Matriarch", "epithet": "Mother of bone, vessel and muscle", "los": "Limb bud timing and the tissues that build a limb", "q": [["S1", "A 22-year-old woman with known teratogen exposure presents for an obstetric visit at 26 weeks of gestation. Ultrasound reveals absence of the upper limbs of the fetus. Limb buds should have appeared in which of the following weeks of development?", ["Week 2", "Week 4", "Week 8", "Week 10", "Week 20"], 1, "Limb buds appear in week 4: the upper limb bud around day 24 and the lower around day 28. Limb morphogenesis then runs through week 8, so a teratogen must act during weeks 4–8 to cause a limb defect.", "09.1", ["At week 2 the embryo is still a bilaminar disc; there are no limb buds yet.", "", "Week 8 is when the limbs are finishing morphogenesis and rotating.", "Around week 10 the nails start to develop; the buds appeared long before.", "By week 20 the major limb structures have long since formed."], "4 weeks = 4 limbs (upper day 24, lower day 28). Limb teratogen window: weeks 4–8."], ["R", "The humerus develops from which of the following?", ["Somite mesoderm", "Lateral plate mesoderm", "Intermediate mesoderm", "Extraembryonic mesoderm", "Sclerotome mesoderm"], 1, "All bones of the limbs form from somatic lateral plate mesoderm that condenses along the central axis of the limb bud and then ossifies by endochondral ossification.", "09.2", ["Somite mesoderm supplies the limb muscles, not the bones.", "", "Intermediate mesoderm builds the urogenital system.", "Extraembryonic mesoderm builds the chorion, amnion and umbilical cord, not the embryo’s skeleton.", "Sclerotome builds the axial skeleton (vertebrae and ribs), not the limb bones."], "Limb bones = lateral plate mesoderm. Axial skeleton = sclerotome."], ["R", "The femur develops from which of the following?", ["Somite mesoderm", "Lateral plate mesoderm", "Intermediate mesoderm", "Extraembryonic mesoderm", "Sclerotome mesoderm"], 1, "The lower limb follows the same rule as the upper: the femur, like every limb bone, comes from somatic lateral plate mesoderm condensing in the core of the bud.", "09.2", ["Somite mesoderm gives the limb’s muscles, not the femur.", "", "Intermediate mesoderm forms kidneys and gonads.", "Extraembryonic mesoderm doesn’t form embryonic bone.", "Sclerotome forms vertebrae and ribs, not limb bones."], "Same answer for every limb bone: lateral plate mesoderm."], ["R", "Skeletal muscles of the limbs arise from which of the following sources?", ["Intermediate mesoderm", "Lateral plate mesoderm", "Neural crest cells", "Paraxial mesoderm", "Surface ectoderm"], 3, "Paraxial mesoderm segments into somites, and cells from the hypaxial (ventrolateral) part of the dermomyotome migrate into the limb buds to form all the limb skeletal muscles.\n\nSo bone and muscle in the same limb have different origins: bone from lateral plate, muscle from paraxial (somitic) mesoderm.", "09.2", ["Intermediate mesoderm builds the urogenital structures.", "Lateral plate mesoderm forms the limb’s bones, cartilage, connective tissue and blood vessels, not its muscle.", "Neural crest gives the limb’s sensory neurons, Schwann cells and melanocytes.", "", "Surface ectoderm covers the bud and forms the epidermis (and the AER)."], "Limb muscle = paraxial (somitic) mesoderm. Limb bone and vessels = lateral plate."], ["R", "Blood vessels of the limbs arise from which of the following sources?", ["Intermediate mesoderm", "Lateral plate mesoderm", "Neural crest cells", "Paraxial mesoderm", "Surface ectoderm"], 1, "Lateral plate mesoderm forms the core of the limb bud and gives rise to its blood vessels, as well as its connective tissue, cartilage and bone.", "09.2", ["Intermediate mesoderm builds the urogenital system.", "", "Neural crest gives sensory neurons and Schwann cells in the limb.", "Paraxial mesoderm supplies the limb’s skeletal muscle.", "Surface ectoderm forms the epidermis."], "Lateral plate: bones, cartilage, connective tissue AND vessels of the limb."]]}, {"lo": "09.6", "name": "The Twin Condensations", "epithet": "One flexes, one extends", "los": "Posterior vs anterior muscle condensations and their plexus divisions", "q": [["2", "The long head of the triceps muscle develops from which of the following?", ["Posterior condensation", "Anterior condensation", "Lateral plate mesoderm", "Extraembryonic mesoderm", "Sclerotome mesoderm"], 0, "Somitic mesoderm migrates into the limb bud and splits into two condensations. The posterior (dorsal) condensation of the upper limb forms the extensors, such as the triceps. Lateral rotation of 90° keeps them on the posterior side in the adult.", "09.6", ["", "The anterior (ventral) condensation forms the flexors, such as the biceps.", "Lateral plate mesoderm forms the limb’s bones and connective tissue, not its muscle.", "Extraembryonic mesoderm doesn’t form limb muscle.", "Sclerotome forms vertebrae and ribs."], "Upper limb: posterior condensation → extensors (triceps); anterior condensation → flexors (biceps)."], ["2", "The rectus femoris muscle develops from which of the following?", ["Posterior condensation", "Anterior condensation", "Lateral plate mesoderm", "Extraembryonic mesoderm", "Sclerotome mesoderm"], 0, "The rectus femoris is an extensor of the knee, so it comes from the posterior (dorsal) condensation, even though it sits on the front of the thigh in the adult. The lower limb’s medial rotation of 90° carried the extensors to the anterior side.", "09.6", ["", "The anterior condensation of the lower limb forms the flexors (hamstrings, calf), which end up posterior.", "Lateral plate mesoderm forms bone and connective tissue.", "Extraembryonic mesoderm doesn’t form limb muscle.", "Sclerotome forms vertebrae and ribs."], "Lower-limb extensors (quadriceps) come from the POSTERIOR condensation but end up anterior after medial rotation."], ["2", "Which of the following muscles will the lateral cord of the brachial plexus innervate?", ["Triceps", "Supinator", "Extensor carpi ulnaris", "Extensor digitorum", "Biceps brachii"], 4, "The lateral cord forms from anterior divisions, which supply muscles of the anterior (flexor) condensation. One of its branches is the musculocutaneous nerve, which supplies the biceps brachii, a flexor at the elbow.\n\nAnterior divisions → anterior condensation → flexors, all located anteriorly in the adult arm because of the 90° lateral rotation.", "09.6", ["Triceps is an extensor (posterior condensation), supplied by the radial nerve from the posterior cord.", "Supinator is a posterior-condensation muscle supplied by the radial nerve (posterior cord).", "Extensor carpi ulnaris is supplied by the radial nerve (posterior cord).", "Extensor digitorum is supplied by the radial nerve (posterior cord).", ""], "Brachial plexus: anterior divisions (lateral + medial cords) → flexors; posterior divisions (posterior cord) → extensors."], ["2", "Which of the following muscles will the posterior divisions of the lumbosacral plexus innervate?", ["Semitendinosus", "Semimembranosus", "Long head of biceps femoris", "Rectus femoris", "Gastrocnemius"], 3, "Posterior divisions of the lumbosacral plexus supply muscles of the posterior condensation, the extensors. The femoral nerve forms from posterior divisions and supplies the rectus femoris, an extensor at the knee. It lies anteriorly in the adult only because the lower limb rotated 90° medially.", "09.6", ["Semitendinosus is a hamstring (flexor, anterior condensation), supplied by the tibial part of the sciatic nerve from anterior divisions.", "Semimembranosus is a hamstring supplied by the tibial division (anterior divisions).", "The long head of biceps femoris is supplied by the tibial division (anterior divisions).", "", "Gastrocnemius is a flexor (plantarflexor) supplied by the tibial nerve (anterior divisions)."], "Lumbosacral plexus: posterior divisions (femoral, common fibular) → extensors; anterior divisions (obturator, tibial) → flexors/adductors."]]}, {"lo": "09.7", "name": "The Twisting Serpent", "epithet": "Coils the limb and drags its arteries along", "los": "Rotation of the upper and lower limbs; development of limb arteries", "q": [["R", "During weeks 6–8, the upper limb will rotate", ["Medially 90°", "Laterally 90°", "Medially 180°", "Laterally 180°", "No rotation occurs"], 1, "The upper limb rotates 90° laterally, so the elbow points posteriorly, the extensors lie posterior and the thumb ends up lateral.", "09.7", ["Medial 90° is the lower limb.", "", "No limb rotates 180°.", "No limb rotates 180°.", "Both limbs rotate; that rotation is what twists the dermatomes into a spiral."], "Upper limb: 90° lateral, elbow back. Lower limb: 90° medial, knee forward."], ["R", "During weeks 6–8, the lower limb bud will rotate", ["Medially 90°", "Laterally 90°", "Medially 180°", "Laterally 180°", "No rotation occurs"], 0, "The lower limb rotates 90° medially, so the knee points anteriorly, the extensors lie anterior and the big toe ends up medial.", "09.7", ["", "Lateral 90° is the upper limb.", "No limb rotates 180°.", "No limb rotates 180°.", "Both limbs rotate."], "Medial rotation is why the quadriceps (extensors) lie in front of the thigh."], ["2", "Initially in development, the femoral artery develops in a position lateral to the femoral vein. As the lower limb rotates, the femoral artery moves _____ to the femoral vein in the distal thigh.", ["Anterior", "Distal", "Lateral", "Medial", "Posterior"], 0, "The lower limb’s 90° medial rotation twists the femoral vessels. The artery enters the thigh lateral to the vein, but as the vessels descend, the twist carries the artery to an anterior position relative to the vein in the distal thigh.", "09.7", ["", "Distal doesn’t describe a position here; the two vessels run parallel down the thigh.", "The artery would stay lateral only if the limb didn’t rotate.", "Reaching a medial position would need about 180° of rotation.", "A posterior position would follow lateral rotation, but the lower limb rotates medially."], "Medial rotation twists the femoral artery from lateral to anterior relative to the vein."], ["R", "Which of the following arteries is one of the first branches to form from the axis artery of the upper limb?", ["Radial artery", "Ulnar artery", "Axillary artery", "Median artery", "Brachial artery"], 3, "The axis artery is the first main artery of the limb bud. One of its first branches is the median artery, which normally regresses to a small unnamed vessel in the adult. That is why the median nerve, unlike the ulnar and radial nerves, has no named companion artery.", "09.X", ["The radial artery is a later branch of the axis artery system.", "The ulnar artery is a later branch of the axis artery system.", "The axillary artery is a proximal part of the axis artery itself, not one of its first branches.", "", "The brachial artery is the persisting part of the axis artery in the arm, not a branch of it."], "Median artery: early axis-artery branch that regresses → no companion artery for the median nerve (a persistent median artery is a carpal tunnel variant)."], ["R", "Which of the following arteries gives rise to the axis artery of the lower limb?", ["External iliac artery", "Femoral artery", "Profunda femoris artery", "Umbilical artery", "Inferior gluteal artery"], 3, "Early in development the axis artery of the lower limb arises from the umbilical artery. Most of it later regresses as the femoral artery (from the external iliac) takes over. In the adult it persists only as the small artery accompanying the sciatic nerve, the popliteal artery and the distal part of the fibular artery.", "09.X", ["The external iliac artery later supplies the definitive femoral artery, but it doesn’t give rise to the axis artery.", "The femoral artery develops later and takes over the main supply.", "Profunda femoris is a branch of the femoral artery, a later development.", "", "The inferior gluteal artery comes off the internal iliac; the small artery to the sciatic nerve is an axis-artery remnant, but the axis artery itself arises from the umbilical artery."], "Lower-limb axis artery arises from the umbilical artery."]]}, {"lo": "09.8", "name": "The Dysplasia Hydra", "epithet": "Each severed limb grows a new malformation", "los": "Congenital limb and skeletal defects", "q": [["S1", "A newborn boy presents with a hand abnormality. The patient has a wedge-shaped hand with a central cleft and missing central digits. This defect most likely resulted from which of the following?", ["A defect in the apical ectodermal ridge", "Abnormal endochondral ossification", "Failure of apoptosis", "Oligohydramnios", "WNT3 gene mutation"], 0, "A wedge-shaped hand with a central cleft and missing central digits is ectrodactyly (split-hand, “lobster-claw” deformity). It arises from a genetic defect in the apical ectodermal ridge, which fails to maintain outgrowth of the central rays.", "09.8", ["", "Abnormal endochondral ossification causes short bones, such as achondroplasia, not a central cleft.", "Failure of interdigital apoptosis causes syndactyly (fused digits), the opposite of a cleft.", "Oligohydramnios compresses the fetus and raises the risk of clubfoot and other deformations.", "A WNT3 mutation causes tetra-amelia (absence of all four limbs)."], "Ectrodactyly (split hand) = AER defect. Syndactyly = failed apoptosis. Tetra-amelia = WNT3."], ["S1", "On a routine prenatal ultrasound, a fetus is determined to have an absence of all four limbs. This condition is described as which of the following?", ["Achondroplasia", "Meromelia", "Micromelia", "Phocomelia", "Tetra-amelia"], 4, "Absence of all four limbs is tetra-amelia. It is rare and caused by a mutation in the WNT3 gene, which is needed to start limb outgrowth.", "09.8", ["Achondroplasia is an FGFR3 mutation that shortens long bones; the limbs are present.", "Meromelia is absence of part of a limb.", "Micromelia is abnormal shortening of a limb segment.", "Phocomelia is hands or feet attached to the trunk by short, irregular limb bones.", ""], "Amelia = no limb. Tetra-amelia = no limbs at all (WNT3). Meromelia = part missing."], ["S1", "Genetic testing reveals that an individual has an underlying FGFR3 mutation. Which of the following developmental processes is most likely to be abnormal?", ["Anterior–posterior patterning", "Dorsal–ventral patterning", "Endochondral ossification", "Limb bud formation", "Limb rotation"], 2, "An FGFR3 mutation causes achondroplasia, the most common form of dwarfism. It impairs chondrocyte proliferation in the growth plates, so the long bones, which form by endochondral ossification, stay short.", "09.6", ["Anterior–posterior patterning (digit identity) depends on SHH from the ZPA.", "Dorsal–ventral patterning depends on WNT-7a and Lmx-1.", "", "Limb bud formation is normal in achondroplasia; the limbs are patterned correctly but short.", "Limb rotation isn’t affected by FGFR3."], "FGFR3 gain-of-function → achondroplasia (endochondral growth fails; skull vault and trunk relatively normal)."], ["S1", "In the 1960s, the drug thalidomide was widely prescribed to treat morning sickness in pregnant patients. Prescription of this drug was associated with a marked increase in which of the following congenital defects?", ["Anencephaly", "Anophthalmia", "Hypospadias", "Omphalocele", "Phocomelia"], 4, "Thalidomide is the classic limb teratogen. Taken during limb development (weeks 4–8), it caused phocomelia, in which the hands or feet are attached to the trunk by abnormally short limbs, along with other reduction defects.", "09.8", ["Anencephaly is a cranial neural tube defect, linked to folate deficiency.", "Anophthalmia is absence of an eye, an ocular defect.", "Hypospadias is a urethral opening on the ventral penis.", "Omphalocele is a membrane-covered sac of abdominal viscera outside the body wall.", ""], "Thalidomide (“tha-LIMB-domide”) → phocomelia and other limb reductions."]]}]};
+(function(){
+"use strict";
+var KEY="hd-boss-"+G.key+"-v1", L="ABCDE";
+var P={dead:{},best:{},mode:"solo",names:["Player 1","Player 2"]};
+try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j&&j.dead)P=Object.assign(P,j);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(P));}catch(e){}}
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function show(id){["scrTitle","scrMap","scrBattle","scrResult"].forEach(function(s){$(s).hidden=(s!==id);});window.scrollTo(0,0);}
+
+/* ids */
+var QS=[];G.bosses.forEach(function(b,bi){b.id="b"+bi;b.q.forEach(function(q,qi){QS.push({id:b.id+"."+qi,boss:b,lo:q[5]||b.lo,k:q[0],stem:q[1],o:q[2],a:q[3],e:q[4],n:q[6]||null,p:q[7]||""});});b.qs=QS.filter(function(x){return x.boss===b;});});
+var FINAL={id:"final",name:G.final.name,epithet:G.final.epithet,lo:"all",los:"Every learning objective in this lecture",final:true};
+var losSet={};G.bosses.forEach(function(b){losSet[b.lo]=1;});
+
+/* sigil: deterministic SVG emblem per boss */
+function sigil(seed,size,col){var s=0;for(var i=0;i<seed.length;i++)s=(s*31+seed.charCodeAt(i))>>>0;
+  function r(){s=(s*1103515245+12345)>>>0;return s/4294967296;}
+  var n=3+Math.floor(r()*5),rot=r()*360,parts='';
+  for(var k=0;k<3;k++){var rad=44-k*12,pts=[];for(var i=0;i<n;i++){var a=(rot+k*17+i*360/n)*Math.PI/180;pts.push((50+rad*Math.cos(a)).toFixed(1)+","+(50+rad*Math.sin(a)).toFixed(1));}
+    parts+='<polygon points="'+pts.join(" ")+'" fill="'+(k===2?col:"none")+'" fill-opacity="'+(k===2?".35":"0")+'" stroke="'+col+'" stroke-width="'+(3-k*.6)+'" stroke-opacity="'+(1-k*.25)+'"/>';}
+  parts+='<circle cx="50" cy="50" r="'+(6+r()*6).toFixed(1)+'" fill="'+col+'"/>';
+  return '<svg class="sig" viewBox="0 0 100 100" width="'+size+'" height="'+size+'" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#0d1016" stroke="#2d3644"/>'+parts+'</svg>';}
+
+/* title */
+$("lecName").textContent=G.lecture;$("gTitle").textContent=G.title;$("gTag").textContent=G.tagline;$("fTitle").textContent=G.title;
+$("cQ").textContent=QS.length;$("cB").textContent=G.bosses.length+1;$("cL").textContent=Object.keys(losSet).filter(function(k){return k.slice(-1)!=="X";}).length;
+$("soloBtn").onclick=function(){P.mode="solo";save();openMap();};
+$("coopBtn").onclick=function(){$("coopForm").hidden=false;$("p1").value=P.names[0];$("p2").value=P.names[1];$("p1").focus();};
+$("coopBack").onclick=function(){$("coopForm").hidden=true;};
+$("coopForm").onsubmit=function(e){e.preventDefault();P.mode="coop";P.names=[$("p1").value.trim()||"Player 1",$("p2").value.trim()||"Player 2"];save();openMap();};
+$("modeBtn").onclick=function(){show("scrTitle");};
+$("resetBtn").onclick=function(){var b=this;if(b.dataset.c){P.dead={};P.best={};save();delete b.dataset.c;b.textContent="Reset progress";openMap();return;}
+  b.dataset.c="1";b.textContent="Tap again to reset";setTimeout(function(){if(b.dataset.c){delete b.dataset.c;b.textContent="Reset progress";}},3000);};
+
+/* map */
+function openMap(){
+  $("mapMode").textContent=P.mode==="coop"?"Co-op · "+P.names.join(" & "):"Solo campaign";
+  var dead=G.bosses.filter(function(b){return P.dead[b.id];}).length,conq=G.bosses.filter(function(b){return P.dead[b.id];}).reduce(function(s,b){return s+b.qs.length;},0);
+  $("mapProg").textContent=dead+" of "+G.bosses.length+" bosses defeated · "+conq+" of "+QS.length+" questions conquered"+(P.dead.final?" · Final boss slain":"");
+  $("progBar").style.width=Math.round(100*(dead+(P.dead.final?1:0))/(G.bosses.length+1))+"%";
+  var h="";G.bosses.forEach(function(b){var d=P.dead[b.id];
+    h+='<button type="button" class="boss'+(d?" dead":"")+'" data-b="'+b.id+'">'+sigil(b.name,56,d?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim())+
+      '<h3>'+esc(b.name)+'</h3><span class="ep">'+esc(b.epithet)+'</span>'+(d?'<span class="slain">SLAIN</span>':'')+
+      '<span class="lo">'+(b.lo.slice(-1)==="X"?"EXTRA":"LO "+b.lo)+' · '+esc(b.los)+' · '+b.qs.length+' Q</span><span class="hpmini"><i style="width:'+(d?100:100)+'%"></i></span></button>';});
+  var allDead=G.bosses.every(function(b){return P.dead[b.id];});
+  h+='<button type="button" class="boss final'+(P.dead.final?" dead":"")+'" data-b="final"'+(allDead?'':' disabled')+'>'+sigil(FINAL.name,56,"#e3b95c")+
+    '<h3>Final boss · '+esc(FINAL.name)+'</h3><span class="ep">'+esc(FINAL.epithet)+(allDead?'':' — unlocks when every other boss falls')+'</span>'+(P.dead.final?'<span class="slain">SLAIN</span>':'')+
+    '<span class="lo">ALL LOs · '+G.final.n+' random questions from every boss</span><span class="hpmini"><i style="width:100%"></i></span></button>';
+  $("bossGrid").innerHTML=h;
+  $("bossGrid").querySelectorAll(".boss").forEach(function(el){el.onclick=function(){if(el.disabled)return;start(el.dataset.b==="final"?FINAL:G.bosses.filter(function(b){return b.id===el.dataset.b;})[0]);};});
+  show("scrMap");
+}
+
+/* battle */
+var B=null;
+function start(boss){
+  var pool=boss.final?shuffle(QS).slice(0,G.final.n):shuffle(boss.qs);
+  B={boss:boss,queue:pool.slice(),total:pool.length,left:pool.length,hp:100,combo:0,score:0,pscore:[0,0],turn:0,missed:[],cur:null,done:false,right:0,tries:0};
+  $("bSig").innerHTML=sigil(boss.name,64,boss.final?"#e3b95c":getComputedStyle(document.documentElement).getPropertyValue("--acc").trim());
+  $("ySig").innerHTML=sigil(P.mode==="coop"?P.names.join("&"):"you",64,"#5cc98a");
+  $("bName").textContent=boss.name;$("bEp").textContent=(boss.final?"Final boss · ":"")+boss.epithet;
+  $("yName").textContent=P.mode==="coop"?P.names.join(" & "):"You";$("yEp").textContent=P.mode==="coop"?"Shared HP":"Solo";
+  show("scrBattle");nextQ();
+}
+function bars(){
+  $("bHp").style.width=(100*B.left/B.total)+"%";$("bHpT").textContent=B.left+" / "+B.total+" questions standing";
+  $("yHp").style.width=B.hp+"%";$("yHpT").textContent=B.hp+" / 100 HP";
+  $("combo").textContent=B.combo>=3?"×2 combo · streak "+B.combo:(B.combo?"Streak "+B.combo:"");
+}
+function nextQ(){
+  bars();B.cur=B.queue.shift();var q=B.cur;
+  q._ord=shuffle([0,1,2,3,4]);
+  $("qTags").innerHTML='<span class="tag '+(q.k==="S1"?"s1":q.k==="R"?"rc":"t2")+'">'+(q.k==="S1"?"Step 1":q.k==="R"?"Recall":"2nd order")+'</span><span class="tag">'+(q.lo.slice(-1)==="X"?"Extra":"LO "+q.lo)+'</span>'+(B.boss.final?'<span class="tag">'+esc(q.boss.name)+'</span>':'');
+  $("turn").textContent=P.mode==="coop"?P.names[B.turn]+"'s turn":"";
+  $("stem").textContent=q.stem;
+  $("opts").innerHTML=q._ord.map(function(oi,i){return '<button type="button" class="opt" data-oi="'+oi+'"><span class="k">'+L[i]+'</span><span>'+esc(q.o[oi])+'</span></button>';}).join("");
+  $("fb").innerHTML="";$("nextBtn").hidden=true;B.answered=false;
+  $("opts").querySelectorAll(".opt").forEach(function(b){b.onclick=function(){answer(+b.dataset.oi);};});
+  var first=$("opts").querySelector(".opt");if(first)first.focus({preventScroll:true});
+}
+function flash(txt,col){var f=$("flash");f.textContent=txt;f.style.color=col;f.classList.remove("go");void f.offsetWidth;f.classList.add("go");}
+function answer(oi){
+  if(B.answered)return;B.answered=true;var q=B.cur,ok=oi===q.a;B.tries++;
+  $("opts").querySelectorAll(".opt").forEach(function(b){var x=+b.dataset.oi;b.disabled=true;if(x===q.a)b.classList.add("right");else if(x===oi)b.classList.add("wrong");});
+  if(ok){B.left--;B.right++;B.combo++;var pts=(B.combo>=3?20:10);B.score+=pts;B.pscore[B.turn]+=pts;flash(B.combo>=3?"CRITICAL":"HIT","#e3b95c");$("bSig").classList.remove("shake");void $("bSig").offsetWidth;$("bSig").classList.add("shake");}
+  else{B.combo=0;B.hp=Math.max(0,B.hp-25);B.queue.push(q);if(B.missed.indexOf(q)<0)B.missed.push(q);flash("OUCH","#f07b72");$("qcard").classList.remove("shake");void $("qcard").offsetWidth;$("qcard").classList.add("shake");}
+  var right=q.o[q.a],letter=L[q._ord.indexOf(q.a)];
+  var paras=String(q.e||"").split(/\n\n+/).filter(Boolean).map(function(t){return '<p>'+esc(t)+'</p>';}).join("");
+  var fnotes="";
+  if(q.n&&q.n.length){
+    var rows=q._ord.map(function(oi,i){
+      if(oi===q.a||!q.n[oi])return "";
+      return '<li><b>'+L[i]+'.</b> '+esc(q.o[oi])+' — '+esc(q.n[oi])+'</li>';
+    }).join("");
+    if(rows)fnotes='<ul class="fbnotes">'+rows+'</ul>';
+  }
+  $("fb").innerHTML='<div class="fb '+(ok?"ok":"bad")+'">'+
+    '<span class="v">'+(ok?"Direct hit":"The boss strikes back · −25 HP")+'</span>'+
+    '<span class="ans">Answer: <b>'+letter+'. '+esc(right)+'</b>'+(ok?'':'. This question will return.')+'</span>'+
+    '<div class="fbexp">'+paras+'</div>'+fnotes+
+    (q.p?'<div class="fbpearl"><b>High-yield</b>'+esc(q.p)+'</div>':'')+
+  '</div>';
+  bars();
+  var nb=$("nextBtn");nb.hidden=false;
+  if(B.left===0){nb.textContent="Claim victory →";}else if(B.hp===0){nb.textContent="You have fallen →";}else nb.textContent="Next strike →";
+  nb.focus({preventScroll:true});
+}
+$("nextBtn").onclick=function(){
+  if(B.left===0)return end(true);if(B.hp===0)return end(false);
+  if(P.mode==="coop")B.turn=1-B.turn;nextQ();};
+$("retreatBtn").onclick=openMap;
+
+function end(win){
+  var bo=B.boss;if(win){P.dead[bo.id]=true;P.best[bo.id]=Math.max(P.best[bo.id]||0,B.score);save();}
+  var acc=Math.round(100*B.right/Math.max(1,B.tries));
+  var h='<div class="result '+(win?"win":"lose")+'"><p class="meta">'+esc(bo.final?"Final boss":"LO "+bo.lo)+'</p><h2>'+(win?"Victory — "+esc(bo.name)+" is slain":"You have fallen to "+esc(bo.name))+'</h2>'+
+    '<div class="scores"><div><b>'+B.score+'</b><span>Score</span></div><div><b>'+acc+'%</b><span>First-strike accuracy</span></div><div><b>'+B.hp+'</b><span>HP left</span></div>'+
+    (P.mode==="coop"?'<div><b>'+B.pscore[0]+' · '+B.pscore[1]+'</b><span>'+esc(P.names[0])+' · '+esc(P.names[1])+'</span></div>':'')+'</div>';
+  if(!win)h+='<p class="hint">Four wrong answers end the fight. The boss heals fully; review the questions below and try again.</p>';
+  if(B.missed.length){h+='<h3 style="font-size:1.1rem;color:var(--gold)">Worth a second look</h3><div class="review">'+B.missed.map(function(q){return '<article><p class="meta">'+(q.k==="S1"?"Step 1":q.k==="R"?"Recall":"2nd order")+' · LO '+esc(q.lo)+'</p><p style="margin:0;font-weight:600">'+esc(q.stem)+'</p><p class="ans" style="margin:0">'+esc(q.o[q.a])+'</p>'+'<div class="rexp">'+String(q.e||"").split(/\n\n+/).filter(Boolean).map(function(t){return '<p style="margin:0">'+esc(t)+'</p>';}).join("")+'</div>'+(q.p?'<p class="rpearl">'+esc(q.p)+'</p>':'')+'</article>';}).join("")+'</div>';}
+  else if(win)h+='<p>Flawless — no misses.</p>';
+  h+='<div class="row"><button class="btn" type="button" id="againBtn">'+(win?"Fight again":"Retry")+'</button><button class="btn '+(win?"gold":"primary")+'" type="button" id="mapBtn">Return to map</button></div></div>';
+  $("scrResult").innerHTML=h;show("scrResult");
+  $("againBtn").onclick=function(){start(bo);};$("mapBtn").onclick=openMap;$("mapBtn").focus();
+}
+
+document.addEventListener("keydown",function(ev){
+  if($("scrBattle").hidden||ev.target.tagName==="INPUT"||ev.metaKey||ev.ctrlKey||ev.altKey)return;
+  if(ev.key==="Enter"){if(!$("nextBtn").hidden){ev.preventDefault();$("nextBtn").click();}return;}
+  var k=ev.key.toUpperCase(),i=L.indexOf(k);if(i<0){var n=parseInt(ev.key,10);if(n>=1&&n<=5)i=n-1;}
+  if(i>=0&&!B.answered){var b=$("opts").querySelectorAll(".opt")[i];if(b)b.click();}
+});
+})();
+</script>
